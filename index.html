@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>ZENTRIX // TERMINAL</title>
+<title>ZENTRIX // COMMAND CONSOLE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -40,6 +40,27 @@ body::after {
     0% { opacity: 0.985; }
     50% { opacity: 0.97; }
     100% { opacity: 1; }
+}
+
+/* HACKER BOOT SCREEN OVERLAY */
+#boot-screen{
+    position:fixed;
+    inset:0;
+    background:black;
+    color:#00ff66;
+    z-index:999999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1rem;
+    padding:20px;
+}
+
+#boot-text{
+    max-width:900px;
+    width: 100%;
+    white-space:pre-wrap;
+    line-height:1.6;
 }
 
 /* MATRIX CANVAS */
@@ -137,7 +158,43 @@ canvas {
     color: rgba(0, 255, 102, 0.5);
 }
 
-/* GLITCH TITLE */
+/* LIVE STATUS BAR CSS */
+.live-status{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    color:#7dffb3;
+    font-size:0.9rem;
+    letter-spacing:2px;
+}
+
+.pulse-dot{
+    width:10px;
+    height:10px;
+    background:#00ff66;
+    border-radius:50%;
+    box-shadow:0 0 10px #00ff66;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+    50%{
+        transform:scale(1.5);
+        opacity:0.5;
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* TITLE STYLE */
 h1 {
     font-size: 5rem;
     color: #00ff66;
@@ -145,6 +202,7 @@ h1 {
     text-shadow: 0 0 10px rgba(0,255,102,0.8);
     position: relative;
     margin-bottom: 10px;
+    margin-top: 15px;
 }
 
 /* TYPING SUBTEXT */
@@ -238,7 +296,7 @@ h1 {
     font-weight: bold;
 }
 
-/* PROJECTS TERMINAL WINDOW */
+/* PROJECTS TERMINAL CONSOLE */
 .project-terminal {
     margin-top: 40px;
     text-align: left;
@@ -264,7 +322,7 @@ h1 {
     color: #ffffff;
 }
 
-/* COMPACT TERMINAL BUTTONS FOR PROJECTS */
+/* COMPACT PROJECTS LINK BUTTONS */
 .btn-src {
     padding: 4px 12px;
     font-size: 0.85rem;
@@ -282,7 +340,50 @@ h1 {
     border-color: #00ff66;
 }
 
-/* SCANLINE (Slow sweeping refresh line) */
+/* FLOATING SKILL RADAR */
+.radar{
+    margin:50px auto 20px auto;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    border:2px solid rgba(0,255,102,0.2);
+    position:relative;
+    overflow:hidden;
+}
+
+.ring{
+    position:absolute;
+    inset:20px;
+    border:1px solid rgba(0,255,102,0.2);
+    border-radius:50%;
+}
+
+.ring:nth-child(2) {
+    inset: 50px;
+}
+
+.ring:nth-child(3) {
+    inset: 80px;
+}
+
+.sweep{
+    position:absolute;
+    width:50%;
+    height:2px;
+    background:#00ff66;
+    top:50%;
+    left:50%;
+    transform-origin:left center;
+    animation:radar 3s linear infinite;
+    box-shadow:0 0 15px #00ff66;
+}
+
+@keyframes radar{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+}
+
+/* SCANLINE */
 .scanline {
     position: fixed;
     width: 100%;
@@ -313,6 +414,10 @@ h1 {
 
 <body>
 
+<div id="boot-screen">
+    <pre id="boot-text"></pre>
+</div>
+
 <canvas id="matrix"></canvas>
 <div class="grid"></div>
 <div class="orb"></div>
@@ -322,6 +427,12 @@ h1 {
     <div class="card">
         <div class="sys-tag">SYS.STATUS: ARMED</div>
         <div class="sys-spec">NODE: ZENTRIX_MAIN</div>
+        
+        <div class="live-status">
+            <span id="clock"></span>
+            <span class="pulse-dot"></span>
+            SECURE LINK ESTABLISHED
+        </div>
 
         <h1>ZENTRIX</h1>
 
@@ -372,33 +483,86 @@ h1 {
             
             <div class="project-item">
                 <span class="project-info">🛡️ IP_MON &rarr; IP & Proxy Monitoring Tool</span>
-                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+                <a class="btn-src" href="https://github.com/Zentrix006/IP_MON" target="_blank">[ View Source ]</a>
             </div>
             
             <div class="project-item">
                 <span class="project-info">🕵️ Web Vulnerability Scanner</span>
-                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+                <a class="btn-src" href="https://github.com/Zentrix006/Web-Vulnerability-Scanner" target="_blank">[ View Source ]</a>
             </div>
             
             <div class="project-item">
                 <span class="project-info">📡 WIFI-JAM &rarr; Wireless Security Testing</span>
-                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+                <a class="btn-src" href="https://github.com/Zentrix006/WIFI-JAM" target="_blank">[ View Source ]</a>
             </div>
             
             <div class="project-item">
                 <span class="project-info">⚡ Real-time Threat Monitoring Systems</span>
-                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+                <a class="btn-src" href="https://github.com/Zentrix006/Real-time-Threat-Monitoring-Systems" target="_blank">[ View Source ]</a>
             </div>
             
             <br>
             <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# echo "System Armed"</p>
         </div>
 
+        <div class="radar">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="sweep"></div>
+        </div>
+
+        <p style="margin-top:30px; color:rgba(0,255,102,0.5); font-size:0.8rem; letter-spacing:2px;">
+            [ SYSTEM UPTIME: STABLE ] [ THREAT LEVEL: LOW ]
+        </p>
+
     </div>
 </div>
 
 <script>
-/* ADVANCED MATRIX RAIN ENGINE */
+/* BOOT SEQUENCE ANIMATION MODULE */
+const bootLines = [
+"[BOOT] Initializing ZENTRIX kernel...",
+"[OK] Loading cyber modules...",
+"[OK] Establishing encrypted tunnel...",
+"[OK] Threat detection online...",
+"[OK] Matrix renderer initialized...",
+"[OK] Root access granted...",
+"[SYSTEM] Welcome Arnoldo Felix R"
+];
+
+const bootText = document.getElementById("boot-text");
+const bootScreen = document.getElementById("boot-screen");
+
+let line = 0;
+
+function typeBoot(){
+    if(line < bootLines.length){
+        bootText.innerHTML += bootLines[line] + "\n";
+        line++;
+        setTimeout(typeBoot, 500);
+    }else{
+        setTimeout(()=>{
+            bootScreen.style.transition = "opacity 0.5s ease";
+            bootScreen.style.opacity = "0";
+            setTimeout(() => {
+                bootScreen.style.display = "none";
+            }, 500);
+        }, 1000);
+    }
+}
+
+typeBoot();
+
+/* REALTIME HUD CLOCK UPDATE LOGIC */
+function updateClock(){
+    const now = new Date();
+    document.getElementById("clock").innerHTML = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ADVANCED PERFORMANCE GRID MATRIX RAIN ENGINE */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -408,7 +572,7 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-const charset = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
+const charset = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZDoubleLineAlphaNumericHalfWidthKatanaString";
 const characters = charset.split("");
 
 const fontSize = 16;
