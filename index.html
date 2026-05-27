@@ -314,6 +314,7 @@ h1 {
     margin-top: 8px;
     border-radius: 3px;
     overflow-x: auto;
+    white-space: pre-wrap;
 }
 
 /* PROJECTS CONSOLE */
@@ -459,13 +460,13 @@ h1 {
 
 <div class="container">
     <div class="card">
-        <div class="sys-tag">SYS.STATUS: ARMED</div>
+        <div class="sys-tag">SYS.STATUS: SECURE</div>
         <div class="sys-spec">NODE: ZENTRIX_MAIN</div>
         
         <div class="live-status">
             <span id="clock"></span>
             <span class="pulse-dot"></span>
-            SECURE LINK ESTABLISHED
+            ENCRYPTED COMMS ACTIVE
         </div>
 
         <h1>ZENTRIX</h1>
@@ -517,8 +518,9 @@ h1 {
                     Bengaluru, Karnataka, IN
                 </div>
                 <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
-                    <span class="news-date" style="color: #ff3366;">VISITOR_DETECTION</span>
-                    <pre id="osInfo">Analyzing...</pre>
+                    <span class="news-date" style="color: #ff3366;">TARGET_IDENTIFICATION</span>
+                    <pre id="osInfo">[*] INITIATING DEEP SCAN...
+[*] RESOLVING IP & VULNERABILITIES...</pre>
                 </div>
             </div>
 
@@ -527,11 +529,6 @@ h1 {
         <div class="project-terminal">
             <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
             <br>
-            
-            <div class="project-item">
-                <span class="project-info">🛡️ AEGIS &rarr; Advanced Security Defense Framework</span>
-                <a class="btn-src" href="https://github.com/Zentrix006/Aegis" target="_blank">[ View Source ]</a>
-            </div>
             
             <div class="project-item">
                 <span class="project-info">📱 APK Threat Detection &rarr; Malware Analysis & C2 Infrastructure</span>
@@ -546,6 +543,15 @@ h1 {
             <div class="project-item">
                 <span class="project-info">🛡️ IP_MON &rarr; IP & Proxy Monitoring Tool</span>
                 <a class="btn-src" href="https://github.com/Zentrix006/IP_MON" target="_blank">[ View Source ]</a>
+            </div>
+
+            <br>
+            <p style="color:#00ff66; font-weight: bold; margin-top: 15px;">root@zentrix:~# cat working_presently_now.txt</p>
+            <br>
+
+            <div class="project-item">
+                <span class="project-info">🛡️ AEGIS &rarr; Advanced Security Defense Framework [ACTIVE R&D]</span>
+                <a class="btn-src" href="https://github.com/Zentrix006/Aegis" target="_blank">[ View Source ]</a>
             </div>
 
             <div id="term-output"></div>
@@ -611,33 +617,64 @@ function updateClock(){
 setInterval(updateClock, 1000);
 updateClock();
 
-/* --- TARGET OS DETECTION (REALITY CHECK SCRIPT) --- */
-function detectOS() {
+/* --- DEEP TARGET OS/IP DETECTION (REALITY CHECK SCRIPT) --- */
+async function runRealityCheck() {
     const userAgent = navigator.userAgent.toLowerCase();
-    let osInfo = {};
+    const osOutput = document.getElementById("osInfo");
+    
+    let fingerprint = {
+        os: "Unknown",
+        browser: "Unknown",
+        ip_address: "Fetching...",
+        location: "Fetching...",
+        vulnerability_risk: "Scanning..."
+    };
 
-    // Check user agent
+    // 1. Core OS & Browser Check
     if (userAgent.indexOf("win") !== -1) {
-        osInfo.os = "Windows";
+        fingerprint.os = "Windows";
+        fingerprint.vulnerability_risk = "HIGH - Potential Privilege Escalation (CVE-2026-X)";
     } else if (userAgent.indexOf("mac") !== -1) {
-        osInfo.os = "macOS";
+        fingerprint.os = "macOS";
+        fingerprint.vulnerability_risk = "MODERATE - Gatekeeper Bypass Possible";
     } else if (userAgent.indexOf("linux") !== -1) {
-        osInfo.os = "Linux";
-    } else {
-        osInfo.os = "Unknown";
+        fingerprint.os = "Linux";
+        fingerprint.vulnerability_risk = "LOW - Kernel Hardened";
     }
 
-    // Additional heuristic checks (limited value)
-    if (window.chrome && window.chrome.webstore) {
-        osInfo.chrome = true;
+    if (window.chrome) {
+        fingerprint.browser = "Chrome/Chromium";
+    } else if (userAgent.indexOf("firefox") !== -1) {
+        fingerprint.browser = "Firefox";
+    } else if (userAgent.indexOf("safari") !== -1) {
+        fingerprint.browser = "Safari";
     }
 
-    // Display results in the DOM
-    document.getElementById("osInfo").textContent = JSON.stringify(osInfo, null, 2);
+    // 2. Network IP & Location Fetching (Using public API)
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        if (data.ip) {
+            fingerprint.ip_address = data.ip;
+            fingerprint.location = `${data.city}, ${data.region}, ${data.country_name}`;
+        }
+    } catch (error) {
+        fingerprint.ip_address = "PROXY/VPN DETECTED";
+        fingerprint.location = "UNTRACEABLE";
+    }
+
+    // Add a slight delay to simulate a deep scan
+    setTimeout(() => {
+        osOutput.textContent = JSON.stringify(fingerprint, null, 2);
+        osOutput.style.color = "#00ff66"; // Switch text color to green upon completion
+        osOutput.style.borderColor = "rgba(0, 255, 102, 0.4)";
+    }, 1800);
 }
-// Execute on load
-detectOS();
-/* -------------------------------------------------- */
+
+// Execute scan on load
+runRealityCheck();
+/* ---------------------------------------------------------- */
 
 
 /* INTERACTIVE TERMINAL LOGIC */
@@ -664,7 +701,7 @@ termInput.addEventListener('keypress', function (e) {
                 response = 'Starting Nmap 7.93 ( https://nmap.org )\nHost is up (0.00013s latency).\nAll 1000 scanned ports on localhost (127.0.0.1) are in ignored states.\nNmap done: 1 IP address (1 host up) scanned in 0.04 seconds';
                 break;
             case 'projects':
-                response = 'Execute ./projects.bin or scroll up to view active repositories:\n- Aegis\n- APK Threat Detection\n- Side Key\n- IP_MON';
+                response = 'Execute ./projects.bin or scroll up to view active repositories:\n- APK Threat Detection\n- Side Key\n- IP_MON\n\n[WORKING PRESENTLY NOW]\n- Aegis';
                 break;
             case 'skills':
                 response = '[+] CTF Player\n[+] Web Exploitation\n[+] OSINT / Recon\n[+] Embedded Security (IOT)';
