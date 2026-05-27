@@ -306,15 +306,17 @@ h1 {
 /* REALITY CHECK PRE TAG */
 #osInfo {
     background: rgba(0, 0, 0, 0.6);
-    padding: 10px;
-    border: 1px dotted rgba(0, 255, 102, 0.4);
+    padding: 15px;
+    border: 1px solid rgba(255, 51, 102, 0.4);
     color: #ff3366;
     font-family: monospace;
     font-size: 0.85rem;
     margin-top: 8px;
     border-radius: 3px;
     overflow-x: auto;
-    white-space: pre-wrap;
+    white-space: pre;
+    line-height: 1.5;
+    position: relative;
 }
 
 /* PROJECTS CONSOLE */
@@ -411,28 +413,51 @@ h1 {
     margin-top: 20px;
 }
 
+/* REDESIGNED PROJECT CARDS */
 .project-card {
-    border: 1px solid rgba(0, 255, 102, 0.3);
-    background: rgba(0, 255, 102, 0.03);
+    border: 1px solid rgba(0, 255, 102, 0.2);
+    background: linear-gradient(145deg, rgba(0, 255, 102, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
     padding: 20px;
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
+    border-left: 3px solid #00ff66;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
+    position: relative;
+    text-align: left;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    border-top: 2px solid rgba(0, 255, 102, 0.5);
+    border-right: 2px solid rgba(0, 255, 102, 0.5);
 }
 
 .project-card:hover {
     border-color: rgba(0, 255, 102, 0.6);
-    background: rgba(0, 255, 102, 0.08);
+    background: linear-gradient(145deg, rgba(0, 255, 102, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%);
     box-shadow: 0 0 25px rgba(0, 255, 102, 0.15);
     transform: translateY(-5px);
 }
 
 .project-card-title {
     font-size: 1.1rem;
-    color: #00ff66;
+    color: #ffffff;
     margin-bottom: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-card-title::before {
+    content: '>';
+    color: #00ff66;
     font-weight: bold;
 }
 
@@ -450,7 +475,7 @@ h1 {
     align-items: center;
     margin-top: auto;
     padding-top: 15px;
-    border-top: 1px solid rgba(0, 255, 102, 0.1);
+    border-top: 1px dashed rgba(0, 255, 102, 0.2);
 }
 
 .project-language {
@@ -461,30 +486,36 @@ h1 {
     font-size: 0.75rem;
     color: #00ff66;
     border-radius: 2px;
+    letter-spacing: 1px;
 }
 
 .project-stats {
     display: flex;
-    gap: 12px;
-    font-size: 0.8rem;
-    color: rgba(0, 255, 102, 0.7);
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: rgba(0, 255, 102, 0.6);
 }
 
 .project-card-link {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 6px 10px;
-    border: 1px solid rgba(0, 255, 102, 0.5);
+    display: block;
+    margin-top: 15px;
+    padding: 8px;
+    background: rgba(0, 255, 102, 0.05);
+    border: 1px solid rgba(0, 255, 102, 0.4);
     color: #00ff66;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     transition: all 0.2s ease;
     text-align: center;
+    letter-spacing: 2px;
 }
 
 .project-card-link:hover {
-    background: rgba(0, 255, 102, 0.2);
-    border-color: #00ff66;
+    background: #00ff66;
+    color: #010a04;
+    font-weight: bold;
 }
 
 .loading {
@@ -693,7 +724,7 @@ h1 {
                 </div>
                 <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
                     <span class="news-date" style="color: #ff3366;">ENV_SYNC</span>
-                    May 27, 2026<br>
+                    May 28, 2026<br>
                     Bengaluru, Karnataka, IN
                 </div>
                 <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
@@ -705,7 +736,6 @@ h1 {
 
         </div>
 
-        <!-- FEATURED PROJECTS SECTION -->
         <div class="project-terminal">
             <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
             <br>
@@ -741,7 +771,6 @@ h1 {
             </div>
         </div>
 
-        <!-- GITHUB PROJECTS SECTION -->
         <div class="github-projects-section">
             <div class="section-title">> GITHUB_REPOSITORIES_SCAN [LIVE API FETCH]</div>
             
@@ -853,7 +882,7 @@ async function runRealityCheck() {
     // 1. Core OS & Browser Check
     if (userAgent.indexOf("win") !== -1) {
         fingerprint.os = "Windows";
-        fingerprint.vulnerability_risk = "HIGH - Potential Privilege Escalation (CVE-2026-X)";
+        fingerprint.vulnerability_risk = "HIGH - Privilege Escalation (CVE-2026-X)";
     } else if (userAgent.indexOf("mac") !== -1) {
         fingerprint.os = "macOS";
         fingerprint.vulnerability_risk = "MODERATE - Gatekeeper Bypass Possible";
@@ -877,16 +906,23 @@ async function runRealityCheck() {
         
         if (data.ip) {
             fingerprint.ip_address = data.ip;
-            fingerprint.location = `${data.city}, ${data.region}, ${data.country_name}`;
+            fingerprint.location = `${data.city}, ${data.country}`;
         }
     } catch (error) {
         fingerprint.ip_address = "PROXY/VPN DETECTED";
         fingerprint.location = "UNTRACEABLE";
     }
 
-    // Add a slight delay to simulate a deep scan
+    // Presentable Terminal Format
     setTimeout(() => {
-        osOutput.textContent = JSON.stringify(fingerprint, null, 2);
+        const formattedScan = 
+`[+] OS_SYS      : ${fingerprint.os}
+[+] BROWSER     : ${fingerprint.browser}
+[+] IP_ADDR     : ${fingerprint.ip_address}
+[+] LOCATION    : ${fingerprint.location}
+[!] THREAT_EVAL : ${fingerprint.vulnerability_risk}`;
+
+        osOutput.textContent = formattedScan;
         osOutput.style.color = "#00ff66"; // Switch text color to green upon completion
         osOutput.style.borderColor = "rgba(0, 255, 102, 0.4)";
     }, 1800);
@@ -945,21 +981,23 @@ function renderProjects(filterLang) {
     projectsContainer.innerHTML = filtered.map(repo => {
         const description = repo.description || '[No description provided]';
         const language = repo.language || 'Unknown';
+        const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         
         return `
             <div class="project-card">
                 <div class="project-card-title">${repo.name}</div>
                 <div class="project-card-desc">${description}</div>
                 <div class="project-card-meta">
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span class="project-language">${language}</span>
-                    </div>
+                    <span class="project-language">${language}</span>
                     <div class="project-stats">
-                        ${repo.stargazers_count > 0 ? `<span>⭐ ${repo.stargazers_count}</span>` : ''}
-                        ${repo.forks_count > 0 ? `<span>🍴 ${repo.forks_count}</span>` : ''}
+                        <span>UPDATED: ${updatedDate}</span>
+                        <div>
+                            ${repo.stargazers_count > 0 ? `<span>⭐ ${repo.stargazers_count}</span>` : ''}
+                            ${repo.forks_count > 0 ? `<span style="margin-left: 5px;">🍴 ${repo.forks_count}</span>` : ''}
+                        </div>
                     </div>
                 </div>
-                <a href="${repo.html_url}" target="_blank" class="project-card-link">[ VIEW REPOSITORY ]</a>
+                <a href="${repo.html_url}" target="_blank" class="project-card-link">./execute_repo.sh</a>
             </div>
         `;
     }).join('');
