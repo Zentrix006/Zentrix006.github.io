@@ -18,7 +18,7 @@
 
 body {
     background: #010a04;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: 'Share Tech Mono', monospace;
     color: #00ff66;
     position: relative;
@@ -69,7 +69,7 @@ canvas {
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: 0.15;
+    opacity: 0.12;
     width: 500px;
     height: 500px;
     background: #00ff66;
@@ -82,14 +82,14 @@ canvas {
 /* MAIN CONTAINER */
 .container {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: relative;
     z-index: 10;
-    padding: 20px;
+    padding: 40px 20px;
     animation: crt-flicker 0.15s infinite;
 }
 
@@ -99,7 +99,7 @@ canvas {
     max-width: 850px;
     padding: 40px;
     border: 1px solid rgba(0, 255, 102, 0.3);
-    background: rgba(1, 10, 4, 0.75);
+    background: rgba(1, 10, 4, 0.85);
     backdrop-filter: blur(10px);
     box-shadow: 
         0 0 30px rgba(0, 255, 102, 0.1),
@@ -108,7 +108,7 @@ canvas {
     position: relative;
 }
 
-/* Terminal corner bracket styling for mainframe aesthetic */
+/* Terminal corner bracket styling */
 .card::before, .card::after {
     content: "";
     position: absolute;
@@ -150,7 +150,7 @@ h1 {
 /* TYPING SUBTEXT */
 .typing {
     margin: 20px auto 0 auto;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #a3ffc2;
     border-right: 3px solid #00ff66;
     white-space: nowrap;
@@ -158,13 +158,13 @@ h1 {
     width: 0;
     max-width: max-content;
     animation: 
-        typing 5s steps(45, end) infinite,
+        typing 6s steps(55, end) infinite,
         blink 0.75s step-end infinite;
 }
 
 @keyframes typing {
     0%, 100% { width: 0 }
-    50%, 80% { width: 100% }
+    50%, 85% { width: 100% }
 }
 
 @keyframes blink {
@@ -177,66 +177,109 @@ h1 {
     margin-top: 40px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
 .stat {
-    background: rgba(0, 255, 102, 0.03);
-    padding: 20px;
-    min-width: 180px;
+    background: rgba(0, 255, 102, 0.02);
+    padding: 15px;
+    flex: 1;
+    min-width: 170px;
     border: 1px solid rgba(0, 255, 102, 0.2);
-    position: relative;
     transition: all 0.25s ease;
 }
 
 .stat:hover {
-    background: rgba(0, 255, 102, 0.1);
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+    background: rgba(0, 255, 102, 0.08);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
     transform: translateY(-3px);
 }
 
 .stat h2 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: #ffffff;
     text-shadow: 0 0 5px #00ff66;
     margin-bottom: 5px;
 }
 
 .stat p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(0, 255, 102, 0.7);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* BUTTONS */
+/* NAVIGATION BUTTONS */
 .buttons {
     margin-top: 40px;
     display: flex;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .btn {
-    padding: 12px 30px;
+    padding: 12px 24px;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 1.1rem;
+    font-size: 1rem;
     background: transparent;
     border: 1px solid #00ff66;
     color: #00ff66;
     text-decoration: none;
-    position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 .btn:hover {
     background: #00ff66;
     color: #010a04;
-    box-shadow: 0 0 20px rgba(0, 255, 102, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.5);
     font-weight: bold;
+}
+
+/* PROJECTS TERMINAL WINDOW */
+.project-terminal {
+    margin-top: 40px;
+    text-align: left;
+    border: 1px solid rgba(0, 255, 102, 0.25);
+    padding: 25px;
+    background: rgba(0, 255, 102, 0.02);
+    box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.03);
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(0, 255, 102, 0.1);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.project-info {
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+
+/* COMPACT TERMINAL BUTTONS FOR PROJECTS */
+.btn-src {
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid rgba(0, 255, 102, 0.5);
+    color: #00ff66;
+    text-decoration: none;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-src:hover {
+    background: rgba(0, 255, 102, 0.15);
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+    border-color: #00ff66;
 }
 
 /* SCANLINE (Slow sweeping refresh line) */
@@ -244,9 +287,9 @@ h1 {
     position: fixed;
     width: 100%;
     height: 4px;
-    background: rgba(0, 255, 102, 0.12);
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
-    animation: scan 6s linear infinite;
+    background: rgba(0, 255, 102, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+    animation: scan 7s linear infinite;
     z-index: 999;
     pointer-events: none;
 }
@@ -256,12 +299,14 @@ h1 {
     100% { top: 105%; }
 }
 
-/* RESPONSIVE SUB-LAYER */
+/* RESPONSIVE LAYOUTS */
 @media(max-width:768px){
-    h1 { font-size: 2.8rem; letter-spacing: 3px; }
-    .typing { font-size: 0.9rem; }
+    h1 { font-size: 3rem; letter-spacing: 3px; }
+    .typing { font-size: 0.85rem; }
     .card { padding: 30px 15px; }
     .stat { min-width: 100%; }
+    .project-item { flex-direction: column; align-items: flex-start; }
+    .btn-src { width: 100%; text-align: center; margin-top: 5px; }
 }
 </style>
 </head>
@@ -275,29 +320,31 @@ h1 {
 
 <div class="container">
     <div class="card">
-        <div class="sys-tag">SYS.STATUS: ACTIVE</div>
-        <div class="sys-spec">LOC: SEC_NODE_066</div>
+        <div class="sys-tag">SYS.STATUS: ARMED</div>
+        <div class="sys-spec">NODE: ZENTRIX_MAIN</div>
 
         <h1>ZENTRIX</h1>
 
         <div class="typing">
-            [+] Cybersecurity • CTF • Red Team • Open Source • Linux
+            [+] Cybersecurity • CTF • OSINT • Red Team • Linux • IOT • Open Source
         </div>
 
         <div class="stats">
             <div class="stat">
                 <h2>&lt;CTF&gt;</h2>
-                <p>Root Operator</p>
+                <p>TryHackMe Player</p>
             </div>
-
             <div class="stat">
-                <h2>&lt;LINUX&gt;</h2>
-                <p>Kernel Level</p>
+                <h2>&lt;REDTEAM&gt;</h2>
+                <p>Web Exploitation</p>
             </div>
-
             <div class="stat">
-                <h2>&lt;CYBER&gt;</h2>
-                <p>Threat Hunter</p>
+                <h2>&lt;OSINT&gt;</h2>
+                <p>Recon Specialist</p>
+            </div>
+            <div class="stat">
+                <h2>&lt;IOT&gt;</h2>
+                <p>Embedded Security</p>
             </div>
         </div>
 
@@ -305,13 +352,48 @@ h1 {
             <a class="btn" href="https://github.com/Zentrix006" target="_blank">
                 ./github.sh
             </a>
-            <a class="btn" href="#">
+            <a class="btn" href="https://github.com/Zentrix006?tab=repositories" target="_blank">
                 ./projects.bin
             </a>
-            <a class="btn" href="#">
+            <a class="btn" href="https://www.linkedin.com/in/arnoldo-felix-r-30123b313/" target="_blank">
+                ./linkedin.net
+            </a>
+            <a class="btn" href="https://tryhackme.com/" target="_blank">
+                ./tryhackme.sys
+            </a>
+            <a class="btn" href="mailto:arnoldofelix146@gmail.com">
                 ./contact.cfg
             </a>
         </div>
+
+        <div class="project-terminal">
+            <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
+            <br>
+            
+            <div class="project-item">
+                <span class="project-info">🛡️ IP_MON &rarr; IP & Proxy Monitoring Tool</span>
+                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
+                <span class="project-info">🕵️ Web Vulnerability Scanner</span>
+                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
+                <span class="project-info">📡 WIFI-JAM &rarr; Wireless Security Testing</span>
+                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
+                <span class="project-info">⚡ Real-time Threat Monitoring Systems</span>
+                <a class="btn-src" href="https://github.com/Zentrix006" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <br>
+            <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# echo "System Armed"</p>
+        </div>
+
     </div>
 </div>
 
@@ -326,7 +408,6 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-// Classic matrix characters mixed with binary
 const charset = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
 const characters = charset.split("");
 
@@ -338,13 +419,12 @@ function initDrops() {
     columns = canvas.width / fontSize;
     drops = [];
     for(let x = 0; x < columns; x++) {
-        drops[x] = Math.random() * -100; // Stagger start positions offscreen
+        drops[x] = Math.random() * -100;
     }
 }
 initDrops();
 
 function draw() {
-    // Controls trail length opacity
     ctx.fillStyle = "rgba(1, 10, 4, 0.06)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -355,16 +435,14 @@ function draw() {
         const xCoord = i * fontSize;
         const yCoord = drops[i] * fontSize;
 
-        // Brightest highlight character right at the head of the drop sequence
         if (Math.random() > 0.98) {
-            ctx.fillStyle = "#ffffff"; // Bright flash white head
+            ctx.fillStyle = "#ffffff"; 
         } else {
-            ctx.fillStyle = "#00ff66"; // Standard radioactive matrix green
+            ctx.fillStyle = "#00ff66"; 
         }
 
         ctx.fillText(text, xCoord, yCoord);
 
-        // Reset string back to top with randomized intervals once it clears the viewport
         if(yCoord > canvas.height && Math.random() > 0.985) {
             drops[i] = 0;
         }
@@ -372,7 +450,6 @@ function draw() {
     }
 }
 
-// Window resizing adjustments
 window.addEventListener('resize', () => {
     resizeCanvas();
     initDrops();
