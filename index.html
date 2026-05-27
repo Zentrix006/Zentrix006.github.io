@@ -205,6 +205,15 @@ h1 {
         blink 0.75s step-end infinite;
 }
 
+@keyframes typing {
+    0%, 100% { width: 0 }
+    50%, 85% { width: 100% }
+}
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #00ff66; }
+}
+
 /* MISSION BRIEFING (ABOUT SECTION) */
 .about-box {
     margin-top: 30px;
@@ -221,15 +230,6 @@ h1 {
     color: #ffffff;
     font-weight: bold;
     letter-spacing: 1px;
-}
-
-@keyframes typing {
-    0%, 100% { width: 0 }
-    50%, 85% { width: 100% }
-}
-@keyframes blink {
-    from, to { border-color: transparent }
-    50% { border-color: #00ff66; }
 }
 
 /* NAVIGATION BUTTONS */
@@ -258,7 +258,7 @@ h1 {
     font-weight: bold;
 }
 
-/* DASHBOARD GRID FOR NEWS & LINKEDIN */
+/* DASHBOARD GRID FOR NEWS & INFO */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -286,7 +286,7 @@ h1 {
     justify-content: space-between;
 }
 
-/* NEWS FEED STYLES */
+/* NEWS / INFO ITEM STYLES */
 .news-item {
     font-size: 0.85rem;
     color: #a3ffc2;
@@ -300,24 +300,7 @@ h1 {
     font-size: 0.75rem;
     display: block;
     margin-bottom: 3px;
-}
-
-/* LINKEDIN EMBED STYLES */
-.linkedin-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px dotted rgba(0, 255, 102, 0.2);
-}
-/* This iframe is configured to blend into the dark theme */
-.linkedin-container iframe {
-    width: 100%;
-    height: 300px;
-    border: none;
-    border-radius: 4px;
+    font-weight: bold;
 }
 
 /* PROJECTS CONSOLE */
@@ -357,6 +340,35 @@ h1 {
     background: rgba(0, 255, 102, 0.15);
     box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
     border-color: #00ff66;
+}
+
+/* INTERACTIVE TERMINAL INPUT */
+.interactive-shell {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px dotted rgba(0,255,102,0.2);
+    padding-top: 15px;
+}
+.shell-prefix {
+    color: #00ff66;
+    font-weight: bold;
+}
+#term-input {
+    background: transparent;
+    border: none;
+    color: #a3ffc2;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.05rem;
+    width: 100%;
+    outline: none;
+}
+#term-output {
+    margin-top: 10px;
+    color: #a3ffc2;
+    white-space: pre-wrap;
+    line-height: 1.5;
 }
 
 /* FLOATING SKILL RADAR */
@@ -451,14 +463,13 @@ h1 {
 
         <div class="about-box">
             <span>[ MISSION BRIEF ]</span><br><br>
-            Welcome to the ZENTRIX Command Console. This system serves as a central hub for my cybersecurity operations, offensive security research, and vulnerability assessments. Browse the intelligence feeds, inspect live projects, or review network broadcasts below. Operate securely.
+            Welcome to the ZENTRIX Command Console. This system serves as a central hub for my cybersecurity operations, offensive security research, and vulnerability assessments. Browse the intelligence feeds, inspect live projects, or run commands in the terminal below. Operate securely.
         </div>
 
         <div class="buttons">
             <a class="btn" href="https://github.com/Zentrix006" target="_blank">./github.sh</a>
             <a class="btn" href="https://github.com/Zentrix006?tab=repositories" target="_blank">./projects.bin</a>
-            <a class="btn" href="https://www.linkedin.com/in/arnoldo-felix-r-30123b313/" target="_blank">./linkedin.net</a>
-            <a class="btn" href="https://tryhackme.com/" target="_blank">./tryhackme.sys</a>
+            <a class="btn" href="https://tryhackme.com/p/thevulnman" target="_blank">./tryhackme.sys</a>
         </div>
 
         <div class="dashboard-grid">
@@ -484,11 +495,20 @@ h1 {
 
             <div class="panel">
                 <div class="panel-header">
-                    <span>> LINKEDIN_TRANSMISSIONS</span>
-                    <span style="color: #00ff66; font-size: 0.8rem;">[SYNCED]</span>
+                    <span>> SYSTEM_INFO</span>
+                    <span style="color: #00ff66; font-size: 0.8rem;">[ACTIVE]</span>
                 </div>
-                <div class="linkedin-container">
-                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7164923067160768512" title="Embedded LinkedIn Post" allowfullscreen="true"></iframe>
+                <div class="news-item">
+                    <span class="news-date">CURRENT DATE</span>
+                    May 27, 2026
+                </div>
+                <div class="news-item">
+                    <span class="news-date">LOCATION</span>
+                    Bengaluru, Karnataka, IN
+                </div>
+                <div class="news-item">
+                    <span class="news-date">DIAGNOSTICS</span>
+                    All critical modules initialized. Traffic routed through secure tunneling protocols. Ready to engage.
                 </div>
             </div>
 
@@ -499,23 +519,29 @@ h1 {
             <br>
             
             <div class="project-item">
+                <span class="project-info">🛡️ AEGIS &rarr; Advanced Security Defense Framework</span>
+                <a class="btn-src" href="https://github.com/Zentrix006/Aegis" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
+                <span class="project-info">📱 APK Threat Detection &rarr; Malware Analysis & C2 Infrastructure</span>
+                <a class="btn-src" href="https://github.com/Zentrix006/APK-Threat-Detection" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
+                <span class="project-info">🔑 Side Key &rarr; Hardware/Cryptographic Interface Testing</span>
+                <a class="btn-src" href="https://github.com/Zentrix006/Side-Key" target="_blank">[ View Source ]</a>
+            </div>
+            
+            <div class="project-item">
                 <span class="project-info">🛡️ IP_MON &rarr; IP & Proxy Monitoring Tool</span>
                 <a class="btn-src" href="https://github.com/Zentrix006/IP_MON" target="_blank">[ View Source ]</a>
             </div>
-            
-            <div class="project-item">
-                <span class="project-info">🕵️ Web Vulnerability Scanner</span>
-                <a class="btn-src" href="https://github.com/Zentrix006/Web-Vulnerability-Scanner" target="_blank">[ View Source ]</a>
-            </div>
-            
-            <div class="project-item">
-                <span class="project-info">📡 WIFI-JAM &rarr; Wireless Security Testing</span>
-                <a class="btn-src" href="https://github.com/Zentrix006/WIFI-JAM" target="_blank">[ View Source ]</a>
-            </div>
-            
-            <div class="project-item">
-                <span class="project-info">⚡ Real-time Threat Monitoring Systems</span>
-                <a class="btn-src" href="https://github.com/Zentrix006/Real-time-Threat-Monitoring-Systems" target="_blank">[ View Source ]</a>
+
+            <div id="term-output"></div>
+            <div class="interactive-shell">
+                <span class="shell-prefix">root@zentrix:~#</span>
+                <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="Type 'help' to see commands...">
             </div>
         </div>
 
@@ -574,6 +600,54 @@ function updateClock(){
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+/* INTERACTIVE TERMINAL LOGIC */
+const termInput = document.getElementById('term-input');
+const termOutput = document.getElementById('term-output');
+
+termInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        const command = termInput.value.trim().toLowerCase();
+        let response = '';
+
+        switch(command) {
+            case 'help':
+                response = 'AVAILABLE COMMANDS:\n- whoami\n- projects\n- skills\n- clear';
+                break;
+            case 'whoami':
+                response = 'guest_user\n\n[HINT: Try gaining root access...]';
+                break;
+            case 'sudo su':
+                response = '[!] ACCESS DENIED. This incident will be reported.';
+                break;
+            case 'nmap':
+            case 'nmap localhost':
+                response = 'Starting Nmap 7.93 ( https://nmap.org )\nHost is up (0.00013s latency).\nAll 1000 scanned ports on localhost (127.0.0.1) are in ignored states.\nNmap done: 1 IP address (1 host up) scanned in 0.04 seconds';
+                break;
+            case 'projects':
+                response = 'Execute ./projects.bin or scroll up to view active repositories:\n- Aegis\n- APK Threat Detection\n- Side Key\n- IP_MON';
+                break;
+            case 'skills':
+                response = '[+] CTF Player\n[+] Web Exploitation\n[+] OSINT / Recon\n[+] Embedded Security (IOT)';
+                break;
+            case 'clear':
+                termOutput.innerHTML = '';
+                termInput.value = '';
+                return;
+            case '':
+                break;
+            default:
+                response = `bash: ${command}: command not found`;
+        }
+
+        if (command !== '') {
+            termOutput.innerHTML += `<div style="margin-bottom: 5px;"><span style="color:#00ff66;">root@zentrix:~#</span> ${command}\n${response}\n</div>`;
+        }
+        
+        termInput.value = '';
+        termOutput.parentElement.scrollTop = termOutput.parentElement.scrollHeight;
+    }
+});
 
 /* BACKGROUND MATRIX ENGINE */
 const canvas = document.getElementById("matrix");
