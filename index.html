@@ -303,6 +303,19 @@ h1 {
     font-weight: bold;
 }
 
+/* REALITY CHECK PRE TAG */
+#osInfo {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border: 1px dotted rgba(0, 255, 102, 0.4);
+    color: #ff3366;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    border-radius: 3px;
+    overflow-x: auto;
+}
+
 /* PROJECTS CONSOLE */
 .project-terminal {
     margin-top: 20px;
@@ -493,22 +506,19 @@ h1 {
                 </div>
             </div>
 
-            <div class="panel">
-                <div class="panel-header">
-                    <span>> SYSTEM_INFO</span>
-                    <span style="color: #00ff66; font-size: 0.8rem;">[ACTIVE]</span>
+            <div class="panel" style="border-color: rgba(255,51,102,0.3); box-shadow: inset 0 0 15px rgba(255,51,102,0.05);">
+                <div class="panel-header" style="border-bottom-color: rgba(255,51,102,0.3);">
+                    <span>> REALITY_CHECK</span>
+                    <span style="color: #ff3366; font-size: 0.8rem;">[FINGERPRINTING]</span>
                 </div>
-                <div class="news-item">
-                    <span class="news-date">CURRENT DATE</span>
-                    May 27, 2026
-                </div>
-                <div class="news-item">
-                    <span class="news-date">LOCATION</span>
+                <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
+                    <span class="news-date" style="color: #ff3366;">ENV_SYNC</span>
+                    May 27, 2026<br>
                     Bengaluru, Karnataka, IN
                 </div>
-                <div class="news-item">
-                    <span class="news-date">DIAGNOSTICS</span>
-                    All critical modules initialized. Traffic routed through secure tunneling protocols. Ready to engage.
+                <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
+                    <span class="news-date" style="color: #ff3366;">VISITOR_DETECTION</span>
+                    <pre id="osInfo">Analyzing...</pre>
                 </div>
             </div>
 
@@ -600,6 +610,35 @@ function updateClock(){
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+/* --- TARGET OS DETECTION (REALITY CHECK SCRIPT) --- */
+function detectOS() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    let osInfo = {};
+
+    // Check user agent
+    if (userAgent.indexOf("win") !== -1) {
+        osInfo.os = "Windows";
+    } else if (userAgent.indexOf("mac") !== -1) {
+        osInfo.os = "macOS";
+    } else if (userAgent.indexOf("linux") !== -1) {
+        osInfo.os = "Linux";
+    } else {
+        osInfo.os = "Unknown";
+    }
+
+    // Additional heuristic checks (limited value)
+    if (window.chrome && window.chrome.webstore) {
+        osInfo.chrome = true;
+    }
+
+    // Display results in the DOM
+    document.getElementById("osInfo").textContent = JSON.stringify(osInfo, null, 2);
+}
+// Execute on load
+detectOS();
+/* -------------------------------------------------- */
+
 
 /* INTERACTIVE TERMINAL LOGIC */
 const termInput = document.getElementById('term-input');
