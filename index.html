@@ -119,7 +119,7 @@ canvas {
 /* TERMINAL CARD */
 .card {
     width: 100%;
-    max-width: 850px;
+    max-width: 950px;
     padding: 40px;
     border: 1px solid rgba(0, 255, 102, 0.3);
     background: rgba(1, 10, 4, 0.85);
@@ -192,7 +192,7 @@ h1 {
 
 /* TYPING SUBTEXT */
 .typing {
-    margin: 20px auto 0 auto;
+    margin: 0 auto;
     font-size: 1.1rem;
     color: #a3ffc2;
     border-right: 3px solid #00ff66;
@@ -205,6 +205,24 @@ h1 {
         blink 0.75s step-end infinite;
 }
 
+/* MISSION BRIEFING (ABOUT SECTION) */
+.about-box {
+    margin-top: 30px;
+    padding: 20px;
+    border-left: 4px solid #00ff66;
+    background: rgba(0, 255, 102, 0.05);
+    color: #d1ffdf;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    box-shadow: inset 0 0 10px rgba(0, 255, 102, 0.02);
+}
+.about-box span {
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
 @keyframes typing {
     0%, 100% { width: 0 }
     50%, 85% { width: 100% }
@@ -214,38 +232,18 @@ h1 {
     50% { border-color: #00ff66; }
 }
 
-/* STATS MATRIX & GITHUB API */
-.stats {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-.github-stats img {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 255, 102, 0.2);
-    transition: all 0.25s ease;
-}
-.github-stats img:hover {
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
-    transform: translateY(-3px);
-}
-
 /* NAVIGATION BUTTONS */
 .buttons {
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
 }
 .btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
+    font-size: 0.9rem;
     background: transparent;
     border: 1px solid #00ff66;
     color: #00ff66;
@@ -260,9 +258,71 @@ h1 {
     font-weight: bold;
 }
 
-/* PROJECTS TERMINAL CONSOLE */
+/* DASHBOARD GRID FOR NEWS & LINKEDIN */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 35px;
+    width: 100%;
+}
+
+.panel {
+    border: 1px solid rgba(0, 255, 102, 0.25);
+    background: rgba(0, 255, 102, 0.02);
+    padding: 20px;
+    text-align: left;
+    box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.03);
+    min-height: 250px;
+}
+
+.panel-header {
+    font-size: 1.1rem;
+    color: #ffffff;
+    border-bottom: 1px dashed rgba(0, 255, 102, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* NEWS FEED STYLES */
+.news-item {
+    font-size: 0.85rem;
+    color: #a3ffc2;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    padding-left: 10px;
+    border-left: 2px solid rgba(0, 255, 102, 0.3);
+}
+.news-date {
+    color: #00ff66;
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 3px;
+}
+
+/* LINKEDIN EMBED STYLES */
+.linkedin-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dotted rgba(0, 255, 102, 0.2);
+}
+/* This iframe is configured to blend into the dark theme */
+.linkedin-container iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 4px;
+}
+
+/* PROJECTS CONSOLE */
 .project-terminal {
-    margin-top: 40px;
+    margin-top: 20px;
     text-align: left;
     border: 1px solid rgba(0, 255, 102, 0.25);
     padding: 25px;
@@ -299,38 +359,11 @@ h1 {
     border-color: #00ff66;
 }
 
-/* INTERACTIVE TERMINAL INPUT */
-.interactive-shell {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.shell-prefix {
-    color: #00ff66;
-    font-weight: bold;
-}
-#term-input {
-    background: transparent;
-    border: none;
-    color: #a3ffc2;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1.05rem;
-    width: 100%;
-    outline: none;
-}
-#term-output {
-    margin-top: 10px;
-    color: #a3ffc2;
-    white-space: pre-wrap;
-    line-height: 1.5;
-}
-
 /* FLOATING SKILL RADAR */
 .radar {
-    margin: 50px auto 20px auto;
-    width: 220px;
-    height: 220px;
+    margin: 40px auto 10px auto;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     border: 2px solid rgba(0,255,102,0.2);
     position: relative;
@@ -338,12 +371,12 @@ h1 {
 }
 .ring {
     position: absolute;
-    inset: 20px;
+    inset: 15px;
     border: 1px solid rgba(0,255,102,0.2);
     border-radius: 50%;
 }
-.ring:nth-child(2) { inset: 50px; }
-.ring:nth-child(3) { inset: 80px; }
+.ring:nth-child(2) { inset: 40px; }
+.ring:nth-child(3) { inset: 65px; }
 .sweep {
     position: absolute;
     width: 50%;
@@ -381,6 +414,7 @@ h1 {
     h1 { font-size: 3rem; letter-spacing: 3px; }
     .typing { font-size: 0.85rem; }
     .card { padding: 30px 15px; }
+    .dashboard-grid { grid-template-columns: 1fr; }
     .project-item { flex-direction: column; align-items: flex-start; }
     .btn-src { width: 100%; text-align: center; margin-top: 5px; }
 }
@@ -412,12 +446,12 @@ h1 {
         <h1>ZENTRIX</h1>
 
         <div class="typing">
-            [+] Cybersecurity • CTF • OSINT • Red Team • Linux • IOT • Open Source
+            [+] Cybersecurity • CTF • OSINT • Red Team • Linux • IOT
         </div>
 
-        <div class="stats github-stats">
-            <img src="https://github-readme-stats.vercel.app/api?username=Zentrix006&show_icons=true&theme=chartreuse-dark&hide_border=true&bg_color=010a04" alt="GitHub Stats">
-            <img src="https://github-readme-streak-stats.herokuapp.com/?user=Zentrix006&theme=chartreuse-dark&hide_border=true&background=010a04" alt="GitHub Streak">
+        <div class="about-box">
+            <span>[ MISSION BRIEF ]</span><br><br>
+            Welcome to the ZENTRIX Command Console. This system serves as a central hub for my cybersecurity operations, offensive security research, and vulnerability assessments. Browse the intelligence feeds, inspect live projects, or review network broadcasts below. Operate securely.
         </div>
 
         <div class="buttons">
@@ -425,7 +459,39 @@ h1 {
             <a class="btn" href="https://github.com/Zentrix006?tab=repositories" target="_blank">./projects.bin</a>
             <a class="btn" href="https://www.linkedin.com/in/arnoldo-felix-r-30123b313/" target="_blank">./linkedin.net</a>
             <a class="btn" href="https://tryhackme.com/" target="_blank">./tryhackme.sys</a>
-            <a class="btn" href="mailto:arnoldofelix146@gmail.com">./contact.cfg</a>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <span>> INTELLIGENCE_FEED</span>
+                    <span style="color: #00ff66; font-size: 0.8rem;">[LIVE]</span>
+                </div>
+                <div class="news-item">
+                    <span class="news-date">SYSTEM_LOG // JUST NOW</span>
+                    ZENTRIX perimeter security updated. New payload delivery methodologies analyzed in secure sandbox environment.
+                </div>
+                <div class="news-item">
+                    <span class="news-date">GLOBAL_INTEL // 2 HOURS AGO</span>
+                    Critical zero-day vulnerability reported in enterprise gateway firmware. Monitoring CVSS telemetry.
+                </div>
+                <div class="news-item">
+                    <span class="news-date">OSINT_SCAN // 12 HOURS AGO</span>
+                    Dark web reconnaissance completed. No active compromised credentials detected for target domain.
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span>> LINKEDIN_TRANSMISSIONS</span>
+                    <span style="color: #00ff66; font-size: 0.8rem;">[SYNCED]</span>
+                </div>
+                <div class="linkedin-container">
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7164923067160768512" title="Embedded LinkedIn Post" allowfullscreen="true"></iframe>
+                </div>
+            </div>
+
         </div>
 
         <div class="project-terminal">
@@ -451,14 +517,6 @@ h1 {
                 <span class="project-info">⚡ Real-time Threat Monitoring Systems</span>
                 <a class="btn-src" href="https://github.com/Zentrix006/Real-time-Threat-Monitoring-Systems" target="_blank">[ View Source ]</a>
             </div>
-            
-            <br>
-            
-            <div id="term-output"></div>
-            <div class="interactive-shell">
-                <span class="shell-prefix">root@zentrix:~#</span>
-                <input type="text" id="term-input" autocomplete="off" spellcheck="false" autofocus>
-            </div>
         </div>
 
         <div class="radar">
@@ -468,7 +526,7 @@ h1 {
             <div class="sweep"></div>
         </div>
 
-        <p style="margin-top:30px; color:rgba(0,255,102,0.5); font-size:0.8rem; letter-spacing:2px;">
+        <p style="margin-top:20px; color:rgba(0,255,102,0.5); font-size:0.8rem; letter-spacing:2px;">
             [ SYSTEM UPTIME: STABLE ] [ THREAT LEVEL: LOW ]
         </p>
 
@@ -496,14 +554,13 @@ function typeBoot(){
     if(line < bootLines.length){
         bootText.innerHTML += bootLines[line] + "\n";
         line++;
-        setTimeout(typeBoot, 400);
+        setTimeout(typeBoot, 300);
     }else{
         setTimeout(()=>{
             bootScreen.style.transition = "opacity 0.5s ease";
             bootScreen.style.opacity = "0";
             setTimeout(() => {
                 bootScreen.style.display = "none";
-                document.getElementById('term-input').focus();
             }, 500);
         }, 800);
     }
@@ -517,54 +574,6 @@ function updateClock(){
 }
 setInterval(updateClock, 1000);
 updateClock();
-
-/* INTERACTIVE TERMINAL LOGIC */
-const termInput = document.getElementById('term-input');
-const termOutput = document.getElementById('term-output');
-
-termInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        const command = termInput.value.trim().toLowerCase();
-        let response = '';
-
-        switch(command) {
-            case 'help':
-                response = 'AVAILABLE COMMANDS:\n- whoami\n- projects\n- skills\n- clear';
-                break;
-            case 'whoami':
-                response = 'guest_user\n\n[HINT: Try gaining root access...]';
-                break;
-            case 'sudo su':
-                response = '[!] ACCESS DENIED. This incident will be reported.';
-                break;
-            case 'nmap':
-            case 'nmap localhost':
-                response = 'Starting Nmap 7.93 ( https://nmap.org )\nHost is up (0.00013s latency).\nAll 1000 scanned ports on localhost (127.0.0.1) are in ignored states.\nNmap done: 1 IP address (1 host up) scanned in 0.04 seconds';
-                break;
-            case 'projects':
-                response = 'Execute ./projects.bin or scroll up to view active repositories.';
-                break;
-            case 'skills':
-                response = '[+] CTF Player\n[+] Web Exploitation\n[+] OSINT / Recon\n[+] Embedded Security (IOT)';
-                break;
-            case 'clear':
-                termOutput.innerHTML = '';
-                termInput.value = '';
-                return;
-            case '':
-                break;
-            default:
-                response = `bash: ${command}: command not found`;
-        }
-
-        if (command !== '') {
-            termOutput.innerHTML += `<div style="margin-bottom: 5px;"><span style="color:#00ff66;">root@zentrix:~#</span> ${command}\n${response}\n</div>`;
-        }
-        
-        termInput.value = '';
-        termOutput.scrollTop = termOutput.scrollHeight;
-    }
-});
 
 /* BACKGROUND MATRIX ENGINE */
 const canvas = document.getElementById("matrix");
