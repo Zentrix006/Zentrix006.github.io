@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>ZENTRIX // TERMINAL</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #010a04;
+    overflow: hidden;
+    font-family: 'Share Tech Mono', monospace;
+    color: #00ff66;
+    position: relative;
+}
+
+/* CRT SCREEN FLICKER EFFECTS */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 99999;
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+}
+
+@keyframes crt-flicker {
+    0% { opacity: 0.985; }
+    50% { opacity: 0.97; }
+    100% { opacity: 1; }
+}
+
+/* MATRIX CANVAS */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+}
+
+/* CYBER GRID */
+.grid {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background:
+    linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+}
+
+/* GREEN GLOW ORB */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    width: 500px;
+    height: 500px;
+    background: #00ff66;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* MAIN CONTAINER */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    padding: 20px;
+    animation: crt-flicker 0.15s infinite;
+}
+
+/* TERMINAL CARD */
+.card {
+    width: 100%;
+    max-width: 850px;
+    padding: 40px;
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    background: rgba(1, 10, 4, 0.75);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 102, 0.1),
+        inset 0 0 20px rgba(0, 255, 102, 0.05);
+    text-align: center;
+    position: relative;
+}
+
+/* Terminal corner bracket styling for mainframe aesthetic */
+.card::before, .card::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #00ff66;
+}
+.card::before { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
+.card::after { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
+
+/* DECORATIVE SYSTEM TAGS */
+.sys-tag {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: rgba(0, 255, 102, 0.5);
+}
+
+.sys-spec {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 0.75rem;
+    color: rgba(0, 255, 102, 0.5);
+}
+
+/* GLITCH TITLE */
+h1 {
+    font-size: 5rem;
+    color: #00ff66;
+    letter-spacing: 6px;
+    text-shadow: 0 0 10px rgba(0,255,102,0.8);
+    position: relative;
+    margin-bottom: 10px;
+}
+
+/* TYPING SUBTEXT */
+.typing {
+    margin: 20px auto 0 auto;
+    font-size: 1.2rem;
+    color: #a3ffc2;
+    border-right: 3px solid #00ff66;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    max-width: max-content;
+    animation: 
+        typing 5s steps(45, end) infinite,
+        blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    0%, 100% { width: 0 }
+    50%, 80% { width: 100% }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #00ff66; }
+}
+
+/* STATS MATRIX */
+.stats {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    background: rgba(0, 255, 102, 0.03);
+    padding: 20px;
+    min-width: 180px;
+    border: 1px solid rgba(0, 255, 102, 0.2);
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.stat:hover {
+    background: rgba(0, 255, 102, 0.1);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+    transform: translateY(-3px);
+}
+
+.stat h2 {
+    font-size: 1.6rem;
+    color: #ffffff;
+    text-shadow: 0 0 5px #00ff66;
+    margin-bottom: 5px;
+}
+
+.stat p {
+    font-size: 0.9rem;
+    color: rgba(0, 255, 102, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* BUTTONS */
+.buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 30px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    background: transparent;
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #00ff66;
+    color: #010a04;
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.6);
+    font-weight: bold;
+}
+
+/* SCANLINE (Slow sweeping refresh line) */
+.scanline {
+    position: fixed;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 255, 102, 0.12);
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+    animation: scan 6s linear infinite;
+    z-index: 999;
+    pointer-events: none;
+}
+
+@keyframes scan {
+    0% { top: -5%; }
+    100% { top: 105%; }
+}
+
+/* RESPONSIVE SUB-LAYER */
+@media(max-width:768px){
+    h1 { font-size: 2.8rem; letter-spacing: 3px; }
+    .typing { font-size: 0.9rem; }
+    .card { padding: 30px 15px; }
+    .stat { min-width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="grid"></div>
+<div class="orb"></div>
+<div class="scanline"></div>
+
+<div class="container">
+    <div class="card">
+        <div class="sys-tag">SYS.STATUS: ACTIVE</div>
+        <div class="sys-spec">LOC: SEC_NODE_066</div>
+
+        <h1>ZENTRIX</h1>
+
+        <div class="typing">
+            [+] Cybersecurity • CTF • Red Team • Open Source • Linux
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <h2>&lt;CTF&gt;</h2>
+                <p>Root Operator</p>
+            </div>
+
+            <div class="stat">
+                <h2>&lt;LINUX&gt;</h2>
+                <p>Kernel Level</p>
+            </div>
+
+            <div class="stat">
+                <h2>&lt;CYBER&gt;</h2>
+                <p>Threat Hunter</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a class="btn" href="https://github.com/Zentrix006" target="_blank">
+                ./github.sh
+            </a>
+            <a class="btn" href="#">
+                ./projects.bin
+            </a>
+            <a class="btn" href="#">
+                ./contact.cfg
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ADVANCED MATRIX RAIN ENGINE */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+
+// Classic matrix characters mixed with binary
+const charset = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
+const characters = charset.split("");
+
+const fontSize = 16;
+let columns = canvas.width / fontSize;
+let drops = [];
+
+function initDrops() {
+    columns = canvas.width / fontSize;
+    drops = [];
+    for(let x = 0; x < columns; x++) {
+        drops[x] = Math.random() * -100; // Stagger start positions offscreen
+    }
+}
+initDrops();
+
+function draw() {
+    // Controls trail length opacity
+    ctx.fillStyle = "rgba(1, 10, 4, 0.06)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "700 " + fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++) {
+        const text = characters[Math.floor(Math.random() * characters.length)];
+        const xCoord = i * fontSize;
+        const yCoord = drops[i] * fontSize;
+
+        // Brightest highlight character right at the head of the drop sequence
+        if (Math.random() > 0.98) {
+            ctx.fillStyle = "#ffffff"; // Bright flash white head
+        } else {
+            ctx.fillStyle = "#00ff66"; // Standard radioactive matrix green
+        }
+
+        ctx.fillText(text, xCoord, yCoord);
+
+        // Reset string back to top with randomized intervals once it clears the viewport
+        if(yCoord > canvas.height && Math.random() > 0.985) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+// Window resizing adjustments
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    initDrops();
+});
+
+setInterval(draw, 33);
+</script>
+
+</body>
+</html>
