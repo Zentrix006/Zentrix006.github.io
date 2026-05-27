@@ -326,6 +326,7 @@ h1 {
     background: rgba(0, 255, 102, 0.02);
     box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.03);
 }
+
 .project-item {
     display: flex;
     justify-content: space-between;
@@ -336,10 +337,12 @@ h1 {
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .project-info {
     font-size: 1.05rem;
     color: #ffffff;
 }
+
 .btn-src {
     padding: 4px 12px;
     font-size: 0.85rem;
@@ -350,10 +353,184 @@ h1 {
     background: transparent;
     transition: all 0.2s ease;
 }
+
 .btn-src:hover {
     background: rgba(0, 255, 102, 0.15);
     box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
     border-color: #00ff66;
+}
+
+/* GITHUB PROJECTS GRID */
+.github-projects-section {
+    margin-top: 40px;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color: #00ff66;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(0, 255, 102, 0.3);
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.filters-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    border: 1px solid rgba(0, 255, 102, 0.5);
+    background: transparent;
+    color: #a3ffc2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+}
+
+.filter-btn.active {
+    background: rgba(0, 255, 102, 0.3);
+    color: #00ff66;
+    border-color: #00ff66;
+}
+
+.filter-btn:hover {
+    background: rgba(0, 255, 102, 0.15);
+    border-color: #00ff66;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.project-card {
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    background: rgba(0, 255, 102, 0.03);
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    border-color: rgba(0, 255, 102, 0.6);
+    background: rgba(0, 255, 102, 0.08);
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.15);
+    transform: translateY(-5px);
+}
+
+.project-card-title {
+    font-size: 1.1rem;
+    color: #00ff66;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.project-card-desc {
+    font-size: 0.85rem;
+    color: #a3ffc2;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    line-height: 1.5;
+}
+
+.project-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 255, 102, 0.1);
+}
+
+.project-language {
+    display: inline-block;
+    padding: 4px 8px;
+    background: rgba(0, 255, 102, 0.1);
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    font-size: 0.75rem;
+    color: #00ff66;
+    border-radius: 2px;
+}
+
+.project-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: rgba(0, 255, 102, 0.7);
+}
+
+.project-card-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 255, 102, 0.5);
+    color: #00ff66;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.project-card-link:hover {
+    background: rgba(0, 255, 102, 0.2);
+    border-color: #00ff66;
+}
+
+.loading {
+    text-align: center;
+    color: #a3ffc2;
+    padding: 20px;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 255, 102, 0.3);
+    border-top: 2px solid #00ff66;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.stats-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    border: 1px solid rgba(0, 255, 102, 0.2);
+    padding: 15px;
+    text-align: center;
+    background: rgba(0, 255, 102, 0.02);
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    color: #00ff66;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(0, 255, 102, 0.7);
+    margin-top: 5px;
 }
 
 /* INTERACTIVE TERMINAL INPUT */
@@ -443,6 +620,8 @@ h1 {
     .dashboard-grid { grid-template-columns: 1fr; }
     .project-item { flex-direction: column; align-items: flex-start; }
     .btn-src { width: 100%; text-align: center; margin-top: 5px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .filters-bar { flex-direction: column; }
 }
 </style>
 </head>
@@ -526,6 +705,7 @@ h1 {
 
         </div>
 
+        <!-- FEATURED PROJECTS SECTION -->
         <div class="project-terminal">
             <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
             <br>
@@ -558,6 +738,46 @@ h1 {
             <div class="interactive-shell">
                 <span class="shell-prefix">root@zentrix:~#</span>
                 <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="Type 'help' to see commands...">
+            </div>
+        </div>
+
+        <!-- GITHUB PROJECTS SECTION -->
+        <div class="github-projects-section">
+            <div class="section-title">> GITHUB_REPOSITORIES_SCAN [LIVE API FETCH]</div>
+            
+            <div class="stats-display" id="statsDisplay">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalRepos">-</div>
+                    <div class="stat-label">TOTAL_REPOS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="totalStars">-</div>
+                    <div class="stat-label">TOTAL_STARS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="languageCount">-</div>
+                    <div class="stat-label">LANGUAGES</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="forksTotal">-</div>
+                    <div class="stat-label">FORKS</div>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="Python">PYTHON</button>
+                <button class="filter-btn" data-filter="JavaScript">JAVASCRIPT</button>
+                <button class="filter-btn" data-filter="Shell">SHELL</button>
+                <button class="filter-btn" data-filter="HTML">HTML</button>
+                <button class="filter-btn" data-filter="TypeScript">TYPESCRIPT</button>
+            </div>
+
+            <div id="projectsContainer" class="projects-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 10px;">SCANNING REPOSITORIES...</p>
+                </div>
             </div>
         </div>
 
@@ -674,10 +894,94 @@ async function runRealityCheck() {
 
 // Execute scan on load
 runRealityCheck();
-/* ---------------------------------------------------------- */
 
+/* ===== GITHUB PROJECTS FETCHING & DISPLAY ===== */
+let allProjects = [];
+const projectsContainer = document.getElementById('projectsContainer');
 
-/* INTERACTIVE TERMINAL LOGIC */
+async function fetchGitHubProjects() {
+    try {
+        const response = await fetch('https://api.github.com/users/Zentrix006/repos?per_page=100&sort=updated');
+        const repos = await response.json();
+        
+        if (!Array.isArray(repos)) {
+            throw new Error('Failed to fetch repositories');
+        }
+
+        allProjects = repos;
+        updateStats();
+        renderProjects('all');
+        setupFilters();
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        projectsContainer.innerHTML = '<div class="loading" style="color: #ff3366;">[ERROR] Failed to fetch repositories. Retry later.</div>';
+    }
+}
+
+function updateStats() {
+    const totalRepos = allProjects.length;
+    const totalStars = allProjects.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+    const uniqueLanguages = new Set(allProjects.map(repo => repo.language).filter(lang => lang !== null)).size;
+    const totalForks = allProjects.reduce((sum, repo) => sum + repo.forks_count, 0);
+
+    document.getElementById('totalRepos').textContent = totalRepos;
+    document.getElementById('totalStars').textContent = totalStars;
+    document.getElementById('languageCount').textContent = uniqueLanguages;
+    document.getElementById('forksTotal').textContent = totalForks;
+}
+
+function renderProjects(filterLang) {
+    let filtered = allProjects;
+    
+    if (filterLang !== 'all') {
+        filtered = allProjects.filter(repo => repo.language === filterLang);
+    }
+
+    if (filtered.length === 0) {
+        projectsContainer.innerHTML = '<div class="loading">[*] No repositories found for this filter.</div>';
+        return;
+    }
+
+    projectsContainer.innerHTML = filtered.map(repo => {
+        const description = repo.description || '[No description provided]';
+        const language = repo.language || 'Unknown';
+        
+        return `
+            <div class="project-card">
+                <div class="project-card-title">${repo.name}</div>
+                <div class="project-card-desc">${description}</div>
+                <div class="project-card-meta">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="project-language">${language}</span>
+                    </div>
+                    <div class="project-stats">
+                        ${repo.stargazers_count > 0 ? `<span>⭐ ${repo.stargazers_count}</span>` : ''}
+                        ${repo.forks_count > 0 ? `<span>🍴 ${repo.forks_count}</span>` : ''}
+                    </div>
+                </div>
+                <a href="${repo.html_url}" target="_blank" class="project-card-link">[ VIEW REPOSITORY ]</a>
+            </div>
+        `;
+    }).join('');
+}
+
+function setupFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-filter');
+            renderProjects(filter);
+        });
+    });
+}
+
+// Load projects on page load
+fetchGitHubProjects();
+
+/* ===== INTERACTIVE TERMINAL LOGIC ===== */
 const termInput = document.getElementById('term-input');
 const termOutput = document.getElementById('term-output');
 
@@ -688,7 +992,7 @@ termInput.addEventListener('keypress', function (e) {
 
         switch(command) {
             case 'help':
-                response = 'AVAILABLE COMMANDS:\n- whoami\n- projects\n- skills\n- clear';
+                response = 'AVAILABLE COMMANDS:\n- whoami\n- projects\n- skills\n- clear\n- github';
                 break;
             case 'whoami':
                 response = 'guest_user\n\n[HINT: Try gaining root access...]';
@@ -701,10 +1005,13 @@ termInput.addEventListener('keypress', function (e) {
                 response = 'Starting Nmap 7.93 ( https://nmap.org )\nHost is up (0.00013s latency).\nAll 1000 scanned ports on localhost (127.0.0.1) are in ignored states.\nNmap done: 1 IP address (1 host up) scanned in 0.04 seconds';
                 break;
             case 'projects':
-                response = 'Execute ./projects.bin or scroll up to view active repositories:\n- APK Threat Detection\n- Side Key\n- IP_MON\n\n[WORKING PRESENTLY NOW]\n- Aegis';
+                response = `${allProjects.length} repositories found.\nTotal stars: ${allProjects.reduce((sum, repo) => sum + repo.stargazers_count, 0)}\n\nScroll down to browse all projects or use filters.`;
+                break;
+            case 'github':
+                response = 'Github: https://github.com/Zentrix006\nRepositories: https://github.com/Zentrix006?tab=repositories';
                 break;
             case 'skills':
-                response = '[+] CTF Player\n[+] Web Exploitation\n[+] OSINT / Recon\n[+] Embedded Security (IOT)';
+                response = '[+] CTF Player\n[+] Web Exploitation\n[+] OSINT / Recon\n[+] Embedded Security (IOT)\n[+] Malware Analysis\n[+] Python, Shell, JavaScript';
                 break;
             case 'clear':
                 termOutput.innerHTML = '';
