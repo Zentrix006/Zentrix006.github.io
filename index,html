@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zentrix</title>
+
+<style>
+body{
+    margin:0;
+    background:#050816;
+    color:#00ffcc;
+    font-family:Consolas;
+    overflow:hidden;
+}
+
+.container{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+h1{
+    font-size:5rem;
+    text-shadow:0 0 20px #00ffcc;
+}
+
+p{
+    font-size:1.3rem;
+    color:white;
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px 25px;
+    border:1px solid #00ffcc;
+    color:#00ffcc;
+    text-decoration:none;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#00ffcc;
+    color:black;
+    box-shadow:0 0 20px #00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>ZENTRIX</h1>
+
+    <p>Cybersecurity • CTF • Open Source • Linux</p>
+
+    <a class="btn" href="https://github.com/Zentrix006">
+        Visit GitHub
+    </a>
+</div>
+
+</body>
+</html>
