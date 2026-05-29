@@ -3,13 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Arnoldo Felix R - Cybersecurity Researcher and CTF Player">
+<meta name="description" content="Arnoldo Felix R (Zentrix) — Cybersecurity Researcher, CTF Player, Malware Analyst. Offensive security portfolio and command console.">
+<meta name="author" content="Arnoldo Felix R">
+<meta name="keywords" content="cybersecurity, CTF, pentesting, OSINT, malware analysis, Zentrix">
+<meta property="og:title" content="ZENTRIX // Cybersecurity Command Console">
+<meta property="og:description" content="Professional portfolio of Arnoldo Felix R — offensive security research, CTF, and vulnerability assessment.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zentrix006.github.io">
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
 
 <title>ZENTRIX // COMMAND CONSOLE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 /* ============ THEME VARIABLES SYSTEM ============ */
@@ -832,21 +838,491 @@ h1 {
     100% { top: 105%; }
 }
 
+/* ============ CUSTOM CURSOR & MOUSE GLOW ============ */
+#cursor-glow {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    mix-blend-mode: screen;
+}
+
+#cursor-dot, #cursor-ring {
+    position: fixed;
+    pointer-events: none;
+    z-index: 100002;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+#cursor-ring {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--primary-color);
+    opacity: 0.5;
+    transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+}
+
+body.cursor-hover #cursor-ring {
+    width: 48px;
+    height: 48px;
+    opacity: 0.8;
+    border-color: var(--accent-color);
+}
+
+#particle-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    pointer-events: none;
+}
+
+/* ============ NAVIGATION ============ */
+#main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid transparent;
+    letter-spacing: 2px;
+    transition: all 0.25s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-color);
+    border-color: var(--border-color);
+    box-shadow: 0 0 12px rgba(0, 255, 102, 0.15);
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
+body.theme-light #main-nav {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* ============ PROFILE HERO ============ */
+.profile-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.avatar-ring {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 25px var(--primary-color), inset 0 0 20px rgba(0, 255, 102, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    position: relative;
+    animation: avatar-pulse 3s ease-in-out infinite;
+}
+
+.avatar-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px dashed var(--border-color);
+    animation: spin 8s linear infinite;
+}
+
+@keyframes avatar-pulse {
+    0%, 100% { box-shadow: 0 0 25px var(--primary-color); }
+    50% { box-shadow: 0 0 40px var(--primary-color), 0 0 60px rgba(0, 255, 102, 0.2); }
+}
+
+.profile-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    letter-spacing: 4px;
+    opacity: 0.9;
+}
+
+.profile-title {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ============ GLITCH TITLE ============ */
+h1.glitch {
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+}
+
+h1.glitch::before, h1.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+h1.glitch::before {
+    color: var(--accent-color);
+    animation: glitch-1 2.5s infinite linear alternate-reverse;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+h1.glitch::after {
+    color: #00ffff;
+    animation: glitch-2 2s infinite linear alternate-reverse;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-1 {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 2px); }
+    40% { transform: translate(3px, -2px); }
+    60% { transform: translate(-2px, 1px); }
+    80% { transform: translate(2px, -1px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+    0% { transform: translate(0); }
+    25% { transform: translate(2px, -1px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(1px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* ============ SECTION BLOCKS ============ */
+.section-block {
+    margin-top: 45px;
+    width: 100%;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section-block.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-header {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-color);
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header::before {
+    content: '//';
+    opacity: 0.5;
+}
+
+/* ============ SKILLS GRID ============ */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.skill-category {
+    border: 1px solid var(--border-color);
+    background: var(--panel-bg);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.skill-category:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.1);
+    transform: translateY(-3px);
+}
+
+.skill-cat-title {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skill-cat-title span.icon {
+    color: var(--primary-color);
+}
+
+.skill-bar-row {
+    margin-bottom: 14px;
+}
+
+.skill-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.skill-track {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+    box-shadow: 0 0 10px var(--primary-color);
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-category.revealed .skill-fill {
+    width: var(--level);
+}
+
+/* ============ CERT / PLATFORM CARDS ============ */
+.certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.cert-card {
+    border: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--panel-bg), rgba(0, 0, 0, 0.3));
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.cert-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 25px var(--primary-color);
+}
+
+.cert-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.cert-name {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.cert-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    opacity: 0.7;
+}
+
+/* ============ CONTACT SECTION ============ */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.contact-item {
+    border: 1px solid var(--border-color);
+    padding: 18px;
+    background: var(--panel-bg);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.contact-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+    transform: translateX(5px);
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+}
+
+.contact-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+
+.contact-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+/* ============ CARD 3D TILT ============ */
+.card.tilt-enabled {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+.card.tilt-enabled:hover {
+    box-shadow:
+        0 0 40px rgba(0, 255, 102, 0.15),
+        inset 0 0 30px rgba(0, 255, 102, 0.05);
+}
+
+/* ============ HEX DECORATIONS ============ */
+.hex-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.hex-badge {
+    padding: 6px 14px;
+    border: 1px solid var(--border-color);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+    background: var(--panel-bg);
+    transition: all 0.25s ease;
+    cursor: default;
+}
+
+.hex-badge:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 12px var(--primary-color);
+}
+
+/* ============ FOOTER ============ */
+.site-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    letter-spacing: 2px;
+}
+
+/* ============ THEME SWITCHER REPOSITION ============ */
+#theme-switcher {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    flex-direction: column;
+}
+
+.container {
+    padding-top: 80px;
+}
+
 /* RESPONSIVE LAYOUTS */
 @media(max-width:768px) {
     h1 { font-size: 3rem; letter-spacing: 3px; }
-    .typing { font-size: 0.85rem; }
+    .typing { font-size: 0.85rem; white-space: normal; animation: none; width: 100%; border-right: none; }
     .card { padding: 30px 15px; }
     .dashboard-grid { grid-template-columns: 1fr; }
     .project-item { flex-direction: column; align-items: flex-start; }
     .btn-src { width: 100%; text-align: center; margin-top: 5px; }
     .projects-grid { grid-template-columns: 1fr; }
     .filters-bar { flex-direction: column; }
+    #cursor-dot, #cursor-ring, #cursor-glow { display: none; }
+    body { cursor: auto; }
+    .nav-link { font-size: 0.65rem; padding: 5px 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    #cursor-dot, #cursor-ring { display: none; }
 }
 </style>
 </head>
 
 <body>
+
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="particle-canvas"></canvas>
+
+<nav id="main-nav">
+    <a class="nav-link active" href="#home">HOME</a>
+    <a class="nav-link" href="#skills">SKILLS</a>
+    <a class="nav-link" href="#intel">INTEL</a>
+    <a class="nav-link" href="#projects">PROJECTS</a>
+    <a class="nav-link" href="#terminal">TERMINAL</a>
+    <a class="nav-link" href="#contact">CONTACT</a>
+</nav>
 
 <!-- Theme Switcher Widget -->
 <div id="theme-switcher">
@@ -866,9 +1342,15 @@ h1 {
 <div class="scanline"></div>
 
 <div class="container">
-    <div class="card">
+    <div class="card tilt-enabled" id="home">
         <div class="sys-tag">SYS.STATUS: SECURE</div>
         <div class="sys-spec">NODE: ZENTRIX_MAIN</div>
+
+        <div class="profile-hero">
+            <div class="avatar-ring">AF</div>
+            <div class="profile-name">ARNOLDO FELIX R</div>
+            <div class="profile-title">Cybersecurity Researcher · CTF Operator</div>
+        </div>
         
         <div class="live-status">
             <span id="clock"></span>
@@ -876,24 +1358,126 @@ h1 {
             ENCRYPTED COMMS ACTIVE
         </div>
 
-        <h1>ZENTRIX</h1>
+        <h1 class="glitch" data-text="ZENTRIX">ZENTRIX</h1>
 
         <div class="typing">
-            [+] Cybersecurity • CTF • OSINT • Red Team • Linux • IOT
+            [+] Cybersecurity • CTF • OSINT • Red Team • Linux • IoT
+        </div>
+
+        <div class="hex-row">
+            <span class="hex-badge">PENTEST</span>
+            <span class="hex-badge">MALWARE</span>
+            <span class="hex-badge">OSINT</span>
+            <span class="hex-badge">REVERSE ENG</span>
+            <span class="hex-badge">IOT SEC</span>
         </div>
 
         <div class="about-box">
             <span>[ MISSION BRIEF ]</span><br><br>
-            Welcome to the ZENTRIX Command Console. This system serves as a central hub for my cybersecurity operations, offensive security research, and vulnerability assessments. Browse the intelligence feeds, inspect live projects, or run commands in the terminal below. Operate securely.
+            Offensive security researcher specializing in vulnerability assessment, malware analysis, and CTF operations. This console serves as my operational hub — browse intelligence feeds, inspect live GitHub repositories, or interact with the embedded terminal below. All systems encrypted. Operate securely.
         </div>
 
         <div class="buttons">
-            <a class="btn" href="https://github.com/Zentrix006" target="_blank">./github.sh</a>
-            <a class="btn" href="https://github.com/Zentrix006?tab=repositories" target="_blank">./projects.bin</a>
-            <a class="btn" href="https://tryhackme.com/p/thevulnman" target="_blank">./tryhackme.sys</a>
+            <a class="btn" href="https://github.com/Zentrix006" target="_blank" rel="noopener">./github.sh</a>
+            <a class="btn" href="https://github.com/Zentrix006?tab=repositories" target="_blank" rel="noopener">./projects.bin</a>
+            <a class="btn" href="https://tryhackme.com/p/thevulnman" target="_blank" rel="noopener">./tryhackme.sys</a>
         </div>
 
-        <div class="dashboard-grid">
+        <!-- SKILLS SECTION -->
+        <div class="section-block" id="skills">
+            <div class="section-header">SKILL_MATRIX</div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-cat-title"><span class="icon">⚔</span> OFFENSIVE SECURITY</div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Web Exploitation</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 90%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Privilege Escalation</span><span>85%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 85%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Network Pentesting</span><span>80%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 80%"></div></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-cat-title"><span class="icon">🔬</span> ANALYSIS & RESEARCH</div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Malware Analysis</span><span>88%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 88%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Reverse Engineering</span><span>75%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 75%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>OSINT / Recon</span><span>92%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 92%"></div></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-cat-title"><span class="icon">🛠</span> TOOLS & STACK</div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Python / Scripting</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 90%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Linux / Kali</span><span>95%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 95%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>Burp / Nmap / Ghidra</span><span>85%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 85%"></div></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-cat-title"><span class="icon">📡</span> SPECIALIZED DOMAINS</div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>IoT / Embedded</span><span>78%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 78%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>APK / Mobile Security</span><span>82%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 82%"></div></div>
+                    </div>
+                    <div class="skill-bar-row">
+                        <div class="skill-label"><span>CTF Operations</span><span>88%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="--level: 88%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLATFORMS / CERTS -->
+        <div class="section-block" id="platforms">
+            <div class="section-header">OPERATIONAL_PLATFORMS</div>
+            <div class="certs-grid">
+                <a class="cert-card" href="https://tryhackme.com/p/thevulnman" target="_blank" rel="noopener">
+                    <div class="cert-icon">🎯</div>
+                    <div class="cert-name">TRYHACKME</div>
+                    <div class="cert-desc">Offensive security labs & rooms</div>
+                </a>
+                <a class="cert-card" href="https://github.com/Zentrix006" target="_blank" rel="noopener">
+                    <div class="cert-icon">💻</div>
+                    <div class="cert-name">GITHUB</div>
+                    <div class="cert-desc">Open-source security tooling</div>
+                </a>
+                <a class="cert-card" href="https://github.com/Zentrix006/APK-Threat-Detection" target="_blank" rel="noopener">
+                    <div class="cert-icon">📱</div>
+                    <div class="cert-name">APK THREAT DETECTION</div>
+                    <div class="cert-desc">Malware & C2 analysis framework</div>
+                </a>
+                <a class="cert-card" href="https://github.com/Zentrix006/Aegis" target="_blank" rel="noopener">
+                    <div class="cert-icon">🛡</div>
+                    <div class="cert-name">JUDY AI / AEGIS</div>
+                    <div class="cert-desc">Active defense R&D project</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="dashboard-grid" id="intel">
             
             <div class="panel">
                 <div class="panel-header">
@@ -933,7 +1517,7 @@ h1 {
 
         </div>
 
-        <div class="project-terminal">
+        <div class="project-terminal" id="terminal">
             <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
             <br>
             
@@ -965,7 +1549,7 @@ h1 {
             </div>
         </div>
 
-        <div class="github-projects-section">
+        <div class="github-projects-section" id="projects">
             <div class="section-title">> GITHUB_REPOSITORIES_SCAN [LIVE API FETCH]</div>
             
             <div class="stats-display" id="statsDisplay">
@@ -1011,9 +1595,38 @@ h1 {
             <div class="sweep"></div>
         </div>
 
-        <p style="margin-top:20px; color:rgba(0,255,102,0.5); font-size:0.8rem; letter-spacing:2px;">
-            [ SYSTEM UPTIME: STABLE ] [ THREAT LEVEL: LOW ]
-        </p>
+        <!-- CONTACT -->
+        <div class="section-block" id="contact">
+            <div class="section-header">SECURE_COMMS</div>
+            <div class="contact-grid">
+                <a class="contact-item" href="https://github.com/Zentrix006" target="_blank" rel="noopener">
+                    <div class="contact-icon">GH</div>
+                    <div>
+                        <div class="contact-label">GITHUB</div>
+                        <div class="contact-value">@Zentrix006</div>
+                    </div>
+                </a>
+                <a class="contact-item" href="https://tryhackme.com/p/thevulnman" target="_blank" rel="noopener">
+                    <div class="contact-icon">TH</div>
+                    <div>
+                        <div class="contact-label">TRYHACKME</div>
+                        <div class="contact-value">thevulnman</div>
+                    </div>
+                </a>
+                <a class="contact-item" href="mailto:contact@zentrix.dev" onclick="return false;" title="Update with your email">
+                    <div class="contact-icon">@</div>
+                    <div>
+                        <div class="contact-label">ENCRYPTED MAIL</div>
+                        <div class="contact-value">Available on request</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            [ ZENTRIX // v2.0 ] [ UPTIME: STABLE ] [ THREAT LEVEL: LOW ]<br>
+            &copy; 2026 Arnoldo Felix R — Built with zero trust in mind.
+        </footer>
 
     </div>
 </div>
@@ -1032,7 +1645,7 @@ h1 {
     }
     
     // Apply theme to document
-    function applyTheme(themeName) {
+    window.applyThemeGlobal = function(themeName) {
         document.body.classList.remove('theme-dark-blue', 'theme-cyber-purple', 'theme-light');
         
         if (themeName !== 'hacker-green') {
@@ -1040,7 +1653,11 @@ h1 {
         }
         
         localStorage.setItem(THEME_KEY, themeName);
-        console.log('[THEME] Applied theme:', themeName);
+        updateThemeButtons(themeName);
+    };
+    
+    function applyTheme(themeName) {
+        window.applyThemeGlobal(themeName);
     }
     
     // Update button states
@@ -1279,10 +1896,16 @@ termInput.addEventListener('keypress', function (e) {
 
         switch(command) {
             case 'help':
-                response = 'AVAILABLE COMMANDS:\n- whoami\n- projects\n- skills\n- clear\n- github';
+                response = 'AVAILABLE COMMANDS:\n- whoami\n- about\n- projects\n- skills\n- contact\n- nmap\n- clear\n- github\n- theme [green|blue|purple|light]';
                 break;
             case 'whoami':
-                response = 'guest_user\n\n[HINT: Try gaining root access...]';
+                response = 'Arnoldo Felix R\nCybersecurity Researcher | CTF Operator\nHandle: Zentrix006\n\n[HINT: Try "about" for full dossier]';
+                break;
+            case 'about':
+                response = '[ DOSSIER // CLASSIFIED ]\nName: Arnoldo Felix R\nRole: Offensive Security Researcher\nFocus: CTF, OSINT, Malware Analysis, IoT\nLocation: Bengaluru, IN\nStatus: ACTIVE';
+                break;
+            case 'contact':
+                response = 'GitHub: https://github.com/Zentrix006\nTryHackMe: https://tryhackme.com/p/thevulnman\n\n[+] Encrypted mail available on request.';
                 break;
             case 'sudo su':
                 response = '[!] ACCESS DENIED. This incident will be reported.';
@@ -1304,6 +1927,25 @@ termInput.addEventListener('keypress', function (e) {
                 termOutput.innerHTML = '';
                 termInput.value = '';
                 return;
+            case 'theme green':
+            case 'theme hacker-green':
+                applyThemeGlobal('hacker-green');
+                response = '[OK] Theme switched to Hacker Green';
+                break;
+            case 'theme blue':
+            case 'theme dark-blue':
+                applyThemeGlobal('dark-blue');
+                response = '[OK] Theme switched to Dark Blue';
+                break;
+            case 'theme purple':
+            case 'theme cyber-purple':
+                applyThemeGlobal('cyber-purple');
+                response = '[OK] Theme switched to Cyber Purple';
+                break;
+            case 'theme light':
+                applyThemeGlobal('light');
+                response = '[OK] Theme switched to Light Mode';
+                break;
             case '':
                 break;
             default:
@@ -1320,11 +1962,11 @@ termInput.addEventListener('keypress', function (e) {
     }
 });
 
-/* BACKGROUND MATRIX ENGINE */
+/* BACKGROUND MATRIX ENGINE (mouse-reactive) */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
+let mouseX = -1000, mouseY = -1000;
 
-// Helper function to get CSS variable values
 function getCSSVariable(varName) {
     return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
 }
@@ -1337,15 +1979,14 @@ resizeCanvas();
 
 const charset = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
 const characters = charset.split("");
-
 const fontSize = 16;
 let columns = canvas.width / fontSize;
 let drops = [];
 
 function initDrops() {
-    columns = canvas.width / fontSize;
+    columns = Math.floor(canvas.width / fontSize);
     drops = [];
-    for(let x = 0; x < columns; x++) {
+    for (let x = 0; x < columns; x++) {
         drops[x] = Math.random() * -100;
     }
 }
@@ -1354,23 +1995,36 @@ initDrops();
 function draw() {
     const primaryColor = getCSSVariable('--primary-color');
     const primaryDark = getCSSVariable('--primary-dark');
-    ctx.fillStyle = "rgba(1, 10, 4, 0.06)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = "700 " + fontSize + "px monospace";
 
-    for(let i = 0; i < drops.length; i++) {
+    for (let i = 0; i < drops.length; i++) {
         const text = characters[Math.floor(Math.random() * characters.length)];
         const xCoord = i * fontSize;
         const yCoord = drops[i] * fontSize;
 
-        ctx.fillStyle = (Math.random() > 0.98) ? "#ffffff" : primaryColor;
+        const dist = Math.hypot(xCoord - mouseX, yCoord - mouseY);
+        const nearMouse = dist < 120;
+
+        if (nearMouse) {
+            ctx.fillStyle = "#ffffff";
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = primaryColor;
+            drops[i] += 2;
+        } else {
+            ctx.fillStyle = (Math.random() > 0.98) ? "#ffffff" : primaryColor;
+            ctx.shadowBlur = 0;
+        }
+
         ctx.fillText(text, xCoord, yCoord);
 
-        if(yCoord > canvas.height && Math.random() > 0.985) {
+        if (yCoord > canvas.height && Math.random() > 0.985) {
             drops[i] = 0;
         }
-        drops[i]++;
+        if (!nearMouse) drops[i]++;
     }
+    ctx.shadowBlur = 0;
 }
 
 window.addEventListener('resize', () => {
@@ -1379,6 +2033,171 @@ window.addEventListener('resize', () => {
 });
 
 setInterval(draw, 33);
+
+/* ============ MOUSE INTERACTION SYSTEM ============ */
+(function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth <= 768) return;
+
+    document.body.style.cursor = 'none';
+
+    const glow = document.getElementById('cursor-glow');
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    const orb = document.querySelector('.orb');
+    const grid = document.querySelector('.grid');
+    let ringX = 0, ringY = 0;
+    let mouseClientX = 0, mouseClientY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        mouseClientX = e.clientX;
+        mouseClientY = e.clientY;
+
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+
+        if (orb) {
+            const px = (e.clientX / window.innerWidth - 0.5) * 40;
+            const py = (e.clientY / window.innerHeight - 0.5) * 40;
+            orb.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px))`;
+        }
+        if (grid) {
+            const gx = (e.clientX / window.innerWidth - 0.5) * 20;
+            const gy = (e.clientY / window.innerHeight - 0.5) * 20;
+            grid.style.transform = `translate(${gx}px, ${gy}px)`;
+        }
+    });
+
+    function animateRing() {
+        ringX += (mouseClientX - ringX) * 0.15;
+        ringY += (mouseClientY - ringY) * 0.15;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    const hoverTargets = 'a, button, input, .cert-card, .project-card, .contact-item, .hex-badge, .skill-category';
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(hoverTargets)) {
+            document.body.classList.add('cursor-hover');
+        }
+    });
+    document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(hoverTargets)) {
+            document.body.classList.remove('cursor-hover');
+        }
+    });
+})();
+
+/* ============ CLICK PARTICLE BURST ============ */
+(function() {
+    const pCanvas = document.getElementById('particle-canvas');
+    const pCtx = pCanvas.getContext('2d');
+    let particles = [];
+
+    function resizePCanvas() {
+        pCanvas.width = window.innerWidth;
+        pCanvas.height = window.innerHeight;
+    }
+    resizePCanvas();
+    window.addEventListener('resize', resizePCanvas);
+
+    document.addEventListener('click', (e) => {
+        const color = getCSSVariable('--primary-color');
+        for (let i = 0; i < 12; i++) {
+            const angle = (Math.PI * 2 * i) / 12;
+            const speed = 2 + Math.random() * 3;
+            particles.push({
+                x: e.clientX, y: e.clientY,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                life: 1,
+                color: color
+            });
+        }
+    });
+
+    function animateParticles() {
+        pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 0.03;
+            pCtx.globalAlpha = p.life;
+            pCtx.fillStyle = p.color;
+            pCtx.fillRect(p.x, p.y, 3, 3);
+        });
+        pCtx.globalAlpha = 1;
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+})();
+
+/* ============ CARD 3D TILT ============ */
+(function() {
+    const card = document.querySelector('.card.tilt-enabled');
+    if (!card || window.innerWidth <= 768) return;
+
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(1000px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+    });
+})();
+
+/* ============ SCROLL REVEAL & NAV SPY ============ */
+(function() {
+    const sections = document.querySelectorAll('.section-block, .skill-category');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    sections.forEach(el => revealObserver.observe(el));
+
+    const sectionIds = ['home', 'skills', 'intel', 'projects', 'terminal', 'contact'];
+    const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) spyObserver.observe(el);
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+})();
 </script>
 
 </body>
