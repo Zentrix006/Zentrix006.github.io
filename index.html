@@ -230,7 +230,6 @@ body::after {
     position: relative;
     z-index: 10;
     padding: 40px 20px;
-    animation: crt-flicker 0.15s infinite;
 }
 
 /* TERMINAL CARD */
@@ -1200,35 +1199,80 @@ body.theme-light #main-nav {
     margin-bottom: 10px;
 }
 
-.avatar-ring {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid var(--primary-color);
-    box-shadow: 0 0 25px var(--primary-color), inset 0 0 20px rgba(0, 255, 102, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--primary-color);
-    position: relative;
-    animation: avatar-pulse 3s ease-in-out infinite;
+/* ASCII profile frame — limited tilt only on this element, not the card */
+.avatar-ascii-wrap {
+    perspective: 800px;
+    margin-bottom: 4px;
 }
 
-.avatar-ring::before {
+.avatar-ascii-frame {
+    width: 148px;
+    height: 168px;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow:
+        0 0 25px rgba(0, 255, 102, 0.2),
+        inset 0 0 30px rgba(0, 255, 102, 0.05);
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.avatar-ascii-frame::before {
+    content: 'ID://ZENTRIX';
+    position: absolute;
+    top: 4px; left: 6px;
+    font-size: 0.45rem;
+    letter-spacing: 1px;
+    color: var(--primary-color);
+    opacity: 0.5;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.avatar-ascii-frame::after {
     content: '';
     position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 1px dashed var(--border-color);
-    animation: spin 8s linear infinite;
+    inset: 0;
+    border: 1px solid var(--border-color);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.avatar-ascii {
+    margin: 0;
+    padding: 8px 4px 4px;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    font-size: 3.2px;
+    line-height: 1.05;
+    letter-spacing: 0;
+    color: var(--primary-color);
+    text-shadow: 0 0 6px var(--primary-color);
+    white-space: pre;
+    overflow: hidden;
+    user-select: none;
+    display: block;
+    text-align: center;
+    min-height: 100%;
+}
+
+.avatar-ascii.loading {
+    font-size: 0.65rem;
+    line-height: 1.6;
+    padding-top: 70px;
+    opacity: 0.6;
 }
 
 @keyframes avatar-pulse {
-    0%, 100% { box-shadow: 0 0 25px var(--primary-color); }
-    50% { box-shadow: 0 0 40px var(--primary-color), 0 0 60px rgba(0, 255, 102, 0.2); }
+    0%, 100% { box-shadow: 0 0 25px rgba(0, 255, 102, 0.2), inset 0 0 30px rgba(0, 255, 102, 0.05); }
+    50% { box-shadow: 0 0 35px var(--primary-color), inset 0 0 20px rgba(0, 255, 102, 0.08); }
+}
+
+.avatar-ascii-frame {
+    animation: avatar-pulse 3s ease-in-out infinite;
 }
 
 .profile-name {
@@ -1481,16 +1525,10 @@ h1.glitch::after {
     margin-top: 2px;
 }
 
-/* ============ CARD 3D TILT ============ */
-.card.tilt-enabled {
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-}
-
-.card.tilt-enabled:hover {
-    box-shadow:
-        0 0 40px rgba(0, 255, 102, 0.15),
-        inset 0 0 30px rgba(0, 255, 102, 0.05);
+/* Main card panel stays fixed — no mouse tilt */
+.card#home {
+    transform: none !important;
+    will-change: auto;
 }
 
 /* ============ HEX DECORATIONS ============ */
@@ -1676,12 +1714,17 @@ h1.glitch::after {
 <div class="scanline"></div>
 
 <div class="container">
-    <div class="card tilt-enabled" id="home">
+    <div class="card" id="home">
         <div class="sys-tag">SYS.STATUS: SECURE</div>
         <div class="sys-spec">NODE: ZENTRIX_MAIN</div>
 
         <div class="profile-hero">
-            <div class="avatar-ring">AF</div>
+            <div class="avatar-ascii-wrap">
+                <div class="avatar-ascii-frame" id="avatarFrame">
+                    <pre class="avatar-ascii loading" id="asciiAvatar" aria-label="Arnoldo Felix R — ASCII portrait">[SCANNING
+BIOMETRICS]</pre>
+                </div>
+            </div>
             <div class="profile-name">ARNOLDO FELIX R</div>
             <div class="profile-title">Cybersecurity Researcher · Penetration Tester · Malware Analyst</div>
             <div class="resume-tags" style="justify-content:center;margin-top:8px;">
@@ -2690,20 +2733,29 @@ let activeConnections = 0;
     window.networkBackground = { particles: function() { return particles; } };
 })();
 
-/* ============ MOUSE INTERACTION SYSTEM ============ */
+/* ============ MOUSE — BACKGROUND TRACKING + LIMITED AVATAR TILT ============ */
 (function() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.innerWidth <= 768) return;
 
-    document.body.style.cursor = 'none';
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) document.body.style.cursor = 'none';
 
     const glow = document.getElementById('cursor-glow');
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
     const orb = document.querySelector('.orb');
     const grid = document.querySelector('.grid');
+    const avatarFrame = document.getElementById('avatarFrame');
+
     let ringX = 0, ringY = 0;
     let mouseClientX = 0, mouseClientY = 0;
+    let targetNormX = 0, targetNormY = 0;
+    let smoothNormX = 0, smoothNormY = 0;
+    let orbX = 0, orbY = 0, gridX = 0, gridY = 0;
+    let avatarRotY = 0, avatarRotX = 0;
+
+    const MAX_AVATAR_Y = 5;
+    const MAX_AVATAR_X = 2.5;
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -2711,31 +2763,55 @@ let activeConnections = 0;
         mouseClientX = e.clientX;
         mouseClientY = e.clientY;
 
-        dot.style.left = e.clientX + 'px';
-        dot.style.top = e.clientY + 'px';
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
+        targetNormX = (e.clientX / window.innerWidth - 0.5) * 2;
+        targetNormY = (e.clientY / window.innerHeight - 0.5) * 2;
 
-        if (orb) {
-            const px = (e.clientX / window.innerWidth - 0.5) * 40;
-            const py = (e.clientY / window.innerHeight - 0.5) * 40;
-            orb.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px))`;
-        }
-        if (grid) {
-            const gx = (e.clientX / window.innerWidth - 0.5) * 20;
-            const gy = (e.clientY / window.innerHeight - 0.5) * 20;
-            grid.style.transform = `translate(${gx}px, ${gy}px)`;
+        if (!isMobile && dot && glow) {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
         }
     });
 
-    function animateRing() {
-        ringX += (mouseClientX - ringX) * 0.15;
-        ringY += (mouseClientY - ringY) * 0.15;
-        ring.style.left = ringX + 'px';
-        ring.style.top = ringY + 'px';
-        requestAnimationFrame(animateRing);
+    function animateMouseEffects() {
+        smoothNormX += (targetNormX - smoothNormX) * 0.06;
+        smoothNormY += (targetNormY - smoothNormY) * 0.06;
+
+        if (orb) {
+            const tox = smoothNormX * 50;
+            const toy = smoothNormY * 50;
+            orbX += (tox - orbX) * 0.05;
+            orbY += (toy - orbY) * 0.05;
+            orb.style.transform = `translate(calc(-50% + ${orbX}px), calc(-50% + ${orbY}px))`;
+        }
+        if (grid) {
+            const tgx = smoothNormX * 28;
+            const tgy = smoothNormY * 28;
+            gridX += (tgx - gridX) * 0.05;
+            gridY += (tgy - gridY) * 0.05;
+            grid.style.transform = `translate(${gridX}px, ${gridY}px)`;
+        }
+
+        if (avatarFrame && !isMobile) {
+            const tRotY = smoothNormX * MAX_AVATAR_Y;
+            const tRotX = -smoothNormY * MAX_AVATAR_X;
+            avatarRotY += (tRotY - avatarRotY) * 0.08;
+            avatarRotX += (tRotX - avatarRotX) * 0.08;
+            avatarFrame.style.transform =
+                `rotateY(${avatarRotY.toFixed(2)}deg) rotateX(${avatarRotX.toFixed(2)}deg)`;
+        }
+
+        if (!isMobile && ring) {
+            ringX += (mouseClientX - ringX) * 0.15;
+            ringY += (mouseClientY - ringY) * 0.15;
+            ring.style.left = ringX + 'px';
+            ring.style.top = ringY + 'px';
+        }
+
+        requestAnimationFrame(animateMouseEffects);
     }
-    animateRing();
+    animateMouseEffects();
 
     const hoverTargets = 'a, button, input, .cert-card, .project-card, .contact-item, .hex-badge, .skill-category';
     document.addEventListener('mouseover', (e) => {
@@ -2795,21 +2871,45 @@ let activeConnections = 0;
     animateParticles();
 })();
 
-/* ============ CARD 3D TILT ============ */
-(function() {
-    const card = document.querySelector('.card.tilt-enabled');
-    if (!card || window.innerWidth <= 768) return;
+/* ============ ASCII PROFILE PORTRAIT ============ */
+(function loadAsciiPortrait() {
+    const pre = document.getElementById('asciiAvatar');
+    if (!pre) return;
 
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(1000px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
-    });
+    const chars = ' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@';
+    const cols = 56;
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+        const aspect = img.height / img.width;
+        const rows = Math.max(18, Math.round(cols * aspect * 0.45));
+        const canvas = document.createElement('canvas');
+        canvas.width = cols;
+        canvas.height = rows;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, cols, rows);
+        const data = ctx.getImageData(0, 0, cols, rows).data;
+        let ascii = '';
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                const i = (y * cols + x) * 4;
+                const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                const idx = Math.min(chars.length - 1, Math.floor((lum / 255) * chars.length));
+                ascii += chars[chars.length - 1 - idx];
+            }
+            ascii += '\n';
+        }
+        pre.textContent = ascii;
+        pre.classList.remove('loading');
+        const fs = Math.max(2.4, Math.min(3.8, 148 / cols));
+        pre.style.fontSize = fs + 'px';
+    };
+    img.onerror = function() {
+        pre.textContent = '[@ZENTRIX]';
+        pre.classList.remove('loading');
+        pre.style.fontSize = '0.55rem';
+    };
+    img.src = 'assets/profile.png';
 })();
 
 /* ============ SCROLL REVEAL & NAV SPY ============ */
