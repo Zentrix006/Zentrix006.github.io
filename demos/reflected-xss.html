@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 10 — Reflected XSS | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 10 — Reflected XSS Simulation | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 10 / REFLECTED XSS</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">REFLECTED XSS SIMULATION</h1>
+    <span class="lab-tag">QUERY PARAM · UNSANITIZED ECHO</span>
+    <p class="lab-desc">
+        Simulates server echoing ?search= parameter into HTML without encoding.
+        Attacker crafts malicious URL; victim clicks and script executes in their session.
+    </p>
+
+    <div class="lab-stage" style="padding:24px;">
+        <span class="lab-stage-label">[ SEARCH RESULTS ]</span>
+        <form id="searchForm" style="margin-bottom:16px;">
+            <input class="lab-input" name="search" id="searchInput" placeholder="Search..." style="max-width:100%">
+            <button type="submit" class="lab-btn" style="margin-top:8px">Search</button>
+        </form>
+        <div id="results" style="padding:16px;border:1px solid var(--lab-border);min-height:80px;"></div>
+    </div>
+
+    <p style="color:var(--lab-text);font-size:0.78rem;margin-top:12px;">Sample payload:</p>
+    <code style="color:var(--lab-accent);font-size:0.75rem;word-break:break-all">&lt;script&gt;alert('XSS')&lt;/script&gt;</code>
+    <div class="lab-log" id="log">[*] Enter search term or use URL ?search= parameter...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Fix:</strong> HTML-encode output (OWASP ESAPI), Content-Security-Policy, validate input server-side.
+</div>
+
+<script>
+var params = new URLSearchParams(location.search);
+var searchVal = params.get('search') || '';
+
+function renderUnsafe(term) {
+    var results = document.getElementById('results');
+    if (term) {
+        results.innerHTML = '<p>Results for: <strong>' + term + '</strong></p><p>No results found.</p>';
+        document.getElementById('log').innerHTML = term.indexOf('<') !== -1
+            ? '<span class="hit">[!] XSS PAYLOAD REFLECTED UNSANITIZED</span>'
+            : '<span class="ok">[*] Term echoed: ' + term + '</span>';
+    } else {
+        results.innerHTML = '<p style="color:var(--lab-text)">Enter a search query...</p>';
+    }
+}
+
+document.getElementById('searchInput').value = searchVal;
+renderUnsafe(searchVal);
+
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var term = document.getElementById('searchInput').value;
+    history.replaceState(null, '', '?search=' + encodeURIComponent(term));
+    renderUnsafe(term);
+});
+</script>
+</body>
+</html>

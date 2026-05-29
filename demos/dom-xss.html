@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 09 — DOM XSS | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 09 — DOM-Based XSS | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 09 / DOM XSS</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">DOM-BASED XSS</h1>
+    <span class="lab-tag">CLIENT-SIDE · innerHTML SINK</span>
+    <p class="lab-desc">
+        Unsafe sink: URL hash written to innerHTML without sanitization.
+        Payload in fragment executes in victim browser — no server reflection needed.
+    </p>
+
+    <div class="lab-stage" style="padding:24px;">
+        <span class="lab-stage-label">[ OUTPUT SINK ]</span>
+        <p style="color:var(--lab-text);font-size:0.8rem;margin-bottom:12px">Welcome message rendered from URL hash:</p>
+        <div id="output" style="padding:16px;border:1px solid var(--lab-border);min-height:60px;color:var(--lab-primary);"></div>
+    </div>
+
+    <p style="color:var(--lab-text);font-size:0.8rem;margin:16px 0;">Try payload in hash:</p>
+    <input class="lab-input" id="payload" value="#&lt;img src=x onerror=alert('DOM-XSS')&gt;">
+    <button class="lab-btn" id="injectBtn">Inject via hash</button>
+    <button class="lab-btn" id="safeBtn">Safe textContent fix</button>
+    <div class="lab-log" id="log">[*] Page loads hash into innerHTML on init...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Fix:</strong> Use textContent, DOMPurify, avoid innerHTML with user input. CSP script-src blocks inline handlers.
+</div>
+
+<script>
+var output = document.getElementById('output');
+var useSafe = false;
+
+function renderFromHash() {
+    var hash = decodeURIComponent(location.hash.slice(1)) || 'Guest';
+    if (useSafe) {
+        output.textContent = 'Welcome, ' + hash;
+        document.getElementById('log').innerHTML = '<span class="ok">[OK] Safe render via textContent</span>';
+    } else {
+        output.innerHTML = 'Welcome, ' + hash;
+        document.getElementById('log').innerHTML = '<span class="hit">[!] UNSAFE innerHTML sink active</span>\nHash rendered as HTML — XSS if malicious.';
+    }
+}
+
+document.getElementById('injectBtn').addEventListener('click', function() {
+    useSafe = false;
+    location.hash = document.getElementById('payload').value.replace(/^#/, '');
+    renderFromHash();
+});
+document.getElementById('safeBtn').addEventListener('click', function() {
+    useSafe = true;
+    renderFromHash();
+});
+renderFromHash();
+window.addEventListener('hashchange', renderFromHash);
+</script>
+</body>
+</html>

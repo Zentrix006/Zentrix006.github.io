@@ -1,0 +1,191 @@
+:root {
+    --lab-primary: #00ff66;
+    --lab-dark: #010a04;
+    --lab-accent: #ff3366;
+    --lab-warn: #ffaa00;
+    --lab-border: rgba(0, 255, 102, 0.35);
+    --lab-panel: rgba(0, 255, 102, 0.04);
+    --lab-text: #a3ffc2;
+    --lab-white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body.lab-demo {
+    font-family: 'Share Tech Mono', 'Consolas', monospace;
+    background: var(--lab-dark);
+    color: var(--lab-primary);
+    min-height: 100vh;
+}
+
+.lab-warning {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100010;
+    background: #1a0000;
+    color: var(--lab-accent);
+    padding: 10px 16px;
+    font-size: 0.72rem;
+    text-align: center;
+    border-bottom: 2px solid var(--lab-accent);
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.lab-nav {
+    position: fixed;
+    top: 42px; left: 0; right: 0;
+    z-index: 100009;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom: 1px solid var(--lab-border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.lab-nav a {
+    color: var(--lab-primary);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    border: 1px solid var(--lab-border);
+    transition: all 0.2s;
+}
+
+.lab-nav a:hover {
+    background: var(--lab-primary);
+    color: var(--lab-dark);
+}
+
+.lab-nav .demo-id {
+    color: var(--lab-warn);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+}
+
+.lab-body {
+    padding: 100px 20px 120px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.lab-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    color: var(--lab-white);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px var(--lab-primary);
+}
+
+.lab-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    border: 1px solid var(--lab-accent);
+    color: var(--lab-accent);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.lab-desc {
+    color: var(--lab-text);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    padding: 16px;
+    border-left: 3px solid var(--lab-primary);
+    background: var(--lab-panel);
+}
+
+.lab-stage {
+    border: 2px solid var(--lab-border);
+    background: #000;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 0 30px rgba(0, 255, 102, 0.08);
+}
+
+.lab-stage-label {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 0.65rem;
+    color: var(--lab-warn);
+    z-index: 5;
+    letter-spacing: 1px;
+}
+
+.lab-log {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--lab-border);
+    padding: 16px;
+    font-size: 0.78rem;
+    color: var(--lab-text);
+    min-height: 80px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.lab-log .hit { color: var(--lab-accent); }
+.lab-log .ok { color: var(--lab-primary); }
+
+.lab-info {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100008;
+    background: rgba(0, 0, 0, 0.94);
+    border-top: 1px solid var(--lab-border);
+    padding: 12px 20px;
+    font-size: 0.7rem;
+    color: var(--lab-text);
+    line-height: 1.6;
+}
+
+.lab-info strong { color: var(--lab-primary); }
+
+.lab-btn {
+    font-family: inherit;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--lab-primary);
+    color: var(--lab-primary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin: 4px 4px 4px 0;
+    transition: all 0.2s;
+}
+
+.lab-btn:hover {
+    background: var(--lab-primary);
+    color: var(--lab-dark);
+    box-shadow: 0 0 15px var(--lab-primary);
+}
+
+.lab-btn.danger { border-color: var(--lab-accent); color: var(--lab-accent); }
+.lab-btn.danger:hover { background: var(--lab-accent); color: #fff; }
+
+.lab-input {
+    font-family: inherit;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--lab-border);
+    color: var(--lab-primary);
+    font-size: 0.85rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 8px 0;
+}
+
+.lab-input:focus { outline: none; border-color: var(--lab-primary); }
+
+@media (max-width: 600px) {
+    .lab-body { padding-top: 120px; }
+    .lab-title { font-size: 1.1rem; }
+}

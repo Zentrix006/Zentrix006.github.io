@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 14 — Reverse Tabnabbing | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 14 — Reverse Tabnabbing | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 14 / REVERSE TABNABBING</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">REVERSE TABNABBING</h1>
+    <span class="lab-tag">window.opener · TAB HIJACK</span>
+    <p class="lab-desc">
+        Page opened via target="_blank" without rel="noopener" retains window.opener reference.
+        Malicious page redirects original tab to phishing site while user reads new tab.
+    </p>
+
+    <div class="lab-stage" style="padding:30px;text-align:center;">
+        <span class="lab-stage-label">[ OPEN MALICIOUS LINK ]</span>
+        <p style="color:var(--lab-text);margin:20px 0;font-size:0.85rem">
+            Simulates clicking external link from your bank tab:
+        </p>
+        <a href="tabnab-attacker.html" target="_blank" class="lab-btn" id="vulnLink" style="display:inline-block;text-decoration:none">
+            Read Security Article →
+        </a>
+        <p style="color:var(--lab-warn);font-size:0.72rem;margin-top:16px">Link opens WITHOUT rel="noopener" (vulnerable)</p>
+    </div>
+    <div class="lab-log" id="log">[*] After opening link, this tab may be replaced with phishing page...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Fix:</strong> Always use rel="noopener noreferrer" on target="_blank" links. Set Cross-Origin-Opener-Policy.
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 12 — CSRF | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.csrf-stage { padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width:600px){ .csrf-stage { grid-template-columns: 1fr; } }
+.victim-session, .attacker-page {
+    padding: 20px; border: 1px solid var(--lab-border);
+}
+.victim-session { background: rgba(0,255,102,0.05); }
+.attacker-page { background: rgba(255,51,102,0.05); }
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 12 — CSRF Token Missing | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 12 / CSRF</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">CSRF — TOKEN MISSING</h1>
+    <span class="lab-tag">CROSS-SITE REQUEST FORGERY</span>
+    <p class="lab-desc">
+        Victim is logged into bank. Attacker page auto-submits hidden form to transfer funds.
+        Browser sends session cookies — server accepts request without anti-CSRF token validation.
+    </p>
+
+    <div class="lab-stage">
+        <span class="lab-stage-label">[ ATTACKER PAGE vs VICTIM SESSION ]</span>
+        <div class="csrf-stage">
+            <div class="victim-session">
+                <strong style="color:#fff">Victim Session (logged in)</strong>
+                <p style="color:var(--lab-text);font-size:0.8rem;margin:12px 0">Balance: $10,000</p>
+                <p style="color:var(--lab-primary);font-size:0.75rem">Cookie: session=abc123xyz</p>
+            </div>
+            <div class="attacker-page">
+                <strong style="color:var(--lab-accent)">Attacker Page</strong>
+                <p style="color:var(--lab-text);font-size:0.8rem;margin:12px 0">Hidden form targets bank transfer endpoint</p>
+                <button class="lab-btn danger" id="csrfBtn">Launch CSRF Attack</button>
+            </div>
+        </div>
+    </div>
+    <div class="lab-log" id="log">[*] Click "Launch CSRF Attack" to simulate forged request...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Defense:</strong> CSRF tokens, SameSite=Strict cookies, custom headers, re-authentication for sensitive actions.
+</div>
+
+<script>
+document.getElementById('csrfBtn').addEventListener('click', function() {
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] CSRF REQUEST FORGED</span>\n\n' +
+        'POST /transfer HTTP/1.1\n' +
+        'Host: bank.com\n' +
+        'Cookie: session=abc123xyz\n' +
+        'Content-Type: application/x-www-form-urlencoded\n\n' +
+        'to_account=ATTACKER&amount=5000\n\n' +
+        '<span class="ok">Server accepted — no CSRF token required</span>\n' +
+        'Victim balance: $10,000 → $5,000';
+});
+</script>
+</body>
+</html>

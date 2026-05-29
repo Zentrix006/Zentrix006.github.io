@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 06 — Drag-and-Drop Exfiltration | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+<style>
+.drag-stage { display: grid; grid-template-columns: 1fr 1fr; min-height: 360px; }
+@media(max-width:600px){ .drag-stage { grid-template-columns: 1fr; } }
+.source-panel, .drop-panel {
+    padding: 24px; font-size: 0.85rem;
+}
+.source-panel {
+    background: rgba(0,255,102,0.05);
+    border-right: 1px dashed var(--lab-border);
+}
+.drop-panel { background: rgba(255,51,102,0.05); }
+.secret-text {
+    background: rgba(0,0,0,0.5);
+    padding: 16px; margin: 16px 0;
+    border: 1px solid var(--lab-border);
+    cursor: grab; user-select: all;
+    color: var(--lab-warn);
+    font-size: 0.9rem;
+}
+.drop-zone {
+    border: 2px dashed var(--lab-accent);
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--lab-accent);
+    margin-top: 16px;
+    min-height: 120px;
+    transition: background 0.2s;
+}
+.drop-zone.over { background: rgba(255,51,102,0.15); }
+</style>
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 06 — Drag-and-Drop Exfiltration | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 06 / DRAG-DROP EXFIL</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">DRAG-AND-DROP EXFILTRATION</h1>
+    <span class="lab-tag">DRAG API · DATA THEFT</span>
+    <p class="lab-desc">
+        Sensitive data (API keys, PII) rendered as draggable text. Attacker drop zone captures
+        dragged content via drag/drop events — exfiltrating without copy/paste awareness.
+    </p>
+
+    <div class="lab-stage">
+        <span class="lab-stage-label">[ DRAG SECRET → DROP ZONE ]</span>
+        <div class="drag-stage">
+            <div class="source-panel">
+                <strong style="color:#fff">Internal Dashboard</strong>
+                <p style="color:var(--lab-text);margin-top:10px">Your API key (drag to share with team):</p>
+                <div class="secret-text" draggable="true" id="secret">
+                    sk-live-4eC39HqLyjWDarjtT1zdp7dc
+                </div>
+            </div>
+            <div class="drop-panel">
+                <strong style="color:var(--lab-accent)">📁 Team Share Zone</strong>
+                <div class="drop-zone" id="dropZone">Drop file here to share</div>
+            </div>
+        </div>
+    </div>
+    <div class="lab-log" id="log">[*] Drag the API key to the drop zone...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Real attacks:</strong> Used against webmail, admin panels. Defense: disable draggable on sensitive elements, CSP.
+</div>
+
+<script>
+var secret = document.getElementById('secret');
+var dropZone = document.getElementById('dropZone');
+secret.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', secret.textContent.trim());
+});
+dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('over'); });
+dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('over'); });
+dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('over');
+    var data = e.dataTransfer.getData('text/plain');
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] DATA EXFILTRATED</span>\n' +
+        'Captured: ' + data + '\n\n' +
+        '<span class="ok">Would POST to https://attacker.com/collect</span>';
+    dropZone.textContent = '✓ Received (exfiltrated)';
+});
+</script>
+</body>
+</html>

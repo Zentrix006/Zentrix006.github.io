@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 13 — CORS Misconfiguration | ZENTRIX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body class="lab-demo">
+<div class="lab-warning">⚠ DEMO 13 — CORS Misconfiguration | Authorized research only</div>
+<nav class="lab-nav">
+    <a href="index.html">← VULN LAB</a>
+    <span class="demo-id">DEMO 13 / CORS</span>
+    <a href="../index.html">CONSOLE</a>
+</nav>
+
+<div class="lab-body">
+    <h1 class="lab-title">CORS MISCONFIGURATION</h1>
+    <span class="lab-tag">ACCESS-CONTROL-ALLOW-ORIGIN: *</span>
+    <p class="lab-desc">
+        API reflects Origin header or uses wildcard ACAO with credentials allowed.
+        Malicious origin reads authenticated API responses cross-origin.
+    </p>
+
+    <div class="lab-stage" style="padding:24px;">
+        <span class="lab-stage-label">[ SIMULATED API RESPONSE ]</span>
+        <pre id="apiResponse" style="background:rgba(0,0,0,0.6);padding:16px;font-size:0.75rem;color:var(--lab-text);overflow:auto;border:1px solid var(--lab-border);">
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://evil.com
+Access-Control-Allow-Credentials: true
+Content-Type: application/json
+
+{"user":"admin","api_key":"sk-secret-12345","balance":50000}
+        </pre>
+    </div>
+    <button class="lab-btn danger" id="corsBtn">Simulate cross-origin fetch from evil.com</button>
+    <div class="lab-log" id="log">[*] Misconfigured API allows evil.com to read sensitive JSON...</div>
+</div>
+
+<div class="lab-info">
+    <strong>Fix:</strong> Whitelist specific origins, never use * with credentials, validate Origin server-side.
+</div>
+
+<script>
+document.getElementById('corsBtn').addEventListener('click', function() {
+    document.getElementById('log').innerHTML =
+        '<span class="hit">[!] CORS BYPASS SUCCESSFUL</span>\n\n' +
+        'Origin: https://evil.com\n' +
+        'fetch("https://api.bank.com/user", {credentials:"include"})\n\n' +
+        'Response stolen:\n' +
+        '  user: admin\n' +
+        '  api_key: sk-secret-12345\n' +
+        '  balance: 50000\n\n' +
+        '<span class="ok">Data exfiltrated to attacker origin</span>';
+});
+</script>
+</body>
+</html>
