@@ -559,17 +559,38 @@
             justify-content: space-between;
             align-items: center;
             margin: 14px 0;
-            padding-bottom: 8px;
+            padding: 14px 0;
             border-bottom: 1px dashed var(--border-color);
             flex-wrap: wrap;
             gap: 10px;
             transition: all 0.3s ease;
         }
 
+        .project-item.featured {
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--primary-color);
+            padding: 16px;
+            background: linear-gradient(135deg, var(--panel-bg), rgba(0, 0, 0, 0.28));
+            box-shadow: inset 0 0 18px rgba(0, 255, 102, 0.04);
+        }
+
         .project-info {
             font-size: 1.05rem;
             color: var(--text-primary);
             transition: color 0.3s ease;
+        }
+
+        .project-info strong {
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .project-info small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            line-height: 1.5;
         }
 
         .btn-src {
@@ -656,6 +677,11 @@
             text-align: left;
         }
 
+        .project-card.pinned {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 22px rgba(0, 255, 102, 0.16);
+        }
+
         .project-card::before {
             content: '';
             position: absolute;
@@ -705,6 +731,23 @@
             flex-grow: 1;
             line-height: 1.5;
             transition: color 0.3s ease;
+        }
+
+        .project-topic-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .project-topic {
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-secondary);
+            font-size: 0.68rem;
+            padding: 3px 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .project-card-meta {
@@ -758,6 +801,23 @@
             background: var(--primary-color);
             color: var(--primary-dark);
             font-weight: bold;
+        }
+
+        .repo-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0 20px;
+            padding: 10px 12px;
+            border: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            background: rgba(0, 0, 0, 0.22);
+        }
+
+        .repo-status span:first-child {
+            color: var(--primary-color);
         }
 
         .loading {
@@ -2187,8 +2247,8 @@ BIOMETRICS]</pre>
                         </div>
                         <div class="resume-highlight">
                             <span class="bullet">▸</span>
-                            <p>R&amp;D on <strong>JUDY AI </strong> — advanced security defense &amp; threat
-                                intelligence framework ---Working soon---</p>
+                            <p>R&amp;D on <strong>Predictive Cyberdefence</strong> — threat forecasting, risk scoring,
+                                and defense automation</p>
                         </div>
                         <div class="resume-highlight">
                             <span class="bullet">▸</span>
@@ -2220,7 +2280,7 @@ BIOMETRICS]</pre>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-date">PROJECTS</div>
-                            <div class="timeline-role">APK Threat Detection · Side-Key · Aegis</div>
+                            <div class="timeline-role">APK Threat Detection · Zen Control · Predictive Cyberdefence</div>
                             <div class="timeline-org">Open-source security research repositories on GitHub</div>
                         </div>
                         <div class="timeline-item">
@@ -2343,10 +2403,11 @@ BIOMETRICS]</pre>
                         <div class="cert-name">APK THREAT DETECTION</div>
                         <div class="cert-desc">Malware & C2 analysis framework</div>
                     </a>
-                    <a class="cert-card" href="https://github.com/Zentrix006/Aegis" target="_blank" rel="noopener">
-                        <div class="cert-icon">🛡</div>
-                        <div class="cert-name">JUDY AI / AEGIS</div>
-                        <div class="cert-desc">Active defense R&D project</div>
+                    <a class="cert-card" href="https://github.com/Zentrix006/Zen-Control" target="_blank"
+                        rel="noopener">
+                        <div class="cert-icon">⚙</div>
+                        <div class="cert-name">ZEN CONTROL</div>
+                        <div class="cert-desc">Linux thermal and fan control utility</div>
                     </a>
                 </div>
             </div>
@@ -2398,29 +2459,37 @@ BIOMETRICS]</pre>
                 <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
                 <br>
 
-                <div class="project-item">
-                    <span class="project-info">📱 APK Threat Detection &rarr; Malware Analysis & C2
-                        Infrastructure</span>
+                <div class="project-item featured">
+                    <span class="project-info"><strong>📱 APK Threat Detection</strong> &rarr; Malware Analysis & C2
+                        Infrastructure
+                        <small>Static and behavioral triage workflow for suspicious Android packages.</small>
+                    </span>
                     <a class="btn-src" href="https://github.com/Zentrix006/APK-Threat-Detection" target="_blank">[ View
                         Source ]</a>
                 </div>
 
-                <div class="project-item">
-                    <span class="project-info">🔑 Side Key &rarr; Hardware/Cryptographic Interface Testing</span>
-                    <a class="btn-src" href="https://github.com/Zentrix006/Side-Key" target="_blank">[ View Source ]</a>
+                <div class="project-item featured">
+                    <span class="project-info"><strong>⚙ Zen Control</strong> &rarr; Linux Fan & Thermal Control Utility
+                        <small>NitroSense-style controller for Acer Nitro laptop cooling and mode management.</small>
+                    </span>
+                    <a class="btn-src" href="https://github.com/Zentrix006/Zen-Control" target="_blank">[ View Source
+                        ]</a>
                 </div>
 
 
 
                 <br>
                 <p style="color:#00ff66; font-weight: bold; margin-top: 15px;">root@zentrix:~# cat
-                    working_presently_now.txt</p>
+                    active_research_now.txt</p>
                 <br>
 
-                <div class="project-item">
-                    <span class="project-info">🛡️ JUDY AI &rarr; Advanced Security Defense Framework [ACTIVE
-                        R&D]</span>
-                    <a class="btn-src" href="https://github.com/Zentrix006/Aegis" target="_blank">[ View Source ]</a>
+                <div class="project-item featured">
+                    <span class="project-info"><strong>🛡 Predictive Cyberdefence</strong> &rarr; Threat Forecasting &
+                        Defense Automation [ACTIVE R&D]
+                        <small>Research track for anticipating attack patterns and prioritizing defensive action.</small>
+                    </span>
+                    <a class="btn-src" href="https://github.com/Zentrix006?tab=repositories" target="_blank">[ View
+                        Repos ]</a>
                 </div>
 
                 <div id="term-output"></div>
@@ -2460,6 +2529,11 @@ BIOMETRICS]</pre>
                     <button class="filter-btn" data-filter="Shell">SHELL</button>
                     <button class="filter-btn" data-filter="HTML">HTML</button>
                     <button class="filter-btn" data-filter="TypeScript">TYPESCRIPT</button>
+                </div>
+
+                <div class="repo-status" id="repoStatus" aria-live="polite">
+                    <span>LIVE_REPO_SYNC</span>
+                    <span>Awaiting GitHub response...</span>
                 </div>
 
                 <div id="projectsContainer" class="projects-grid">
@@ -2731,23 +2805,111 @@ BIOMETRICS]</pre>
         /* ===== GITHUB PROJECTS FETCHING & DISPLAY ===== */
         let allProjects = [];
         const projectsContainer = document.getElementById('projectsContainer');
+        const repoStatus = document.getElementById('repoStatus');
+        const featuredRepoNames = ['Zen-Control', 'Predictive-Cyberdefence', 'APK-Threat-Detection'];
+        const fallbackProjects = [
+            {
+                name: 'Zen-Control',
+                description: 'Linux cooling controller and NitroSense-style tray interface for Acer Nitro laptops.',
+                language: 'Python',
+                updated_at: new Date().toISOString(),
+                stargazers_count: 0,
+                forks_count: 0,
+                html_url: 'https://github.com/Zentrix006/Zen-Control',
+                topics: ['linux', 'fan-control', 'acer-nitro'],
+                fallback: true
+            },
+            {
+                name: 'Predictive-Cyberdefence',
+                description: 'Active R&D track for threat forecasting, risk scoring, and defense automation.',
+                language: 'Python',
+                updated_at: new Date().toISOString(),
+                stargazers_count: 0,
+                forks_count: 0,
+                html_url: 'https://github.com/Zentrix006?tab=repositories',
+                topics: ['cyberdefence', 'threat-intel', 'prediction'],
+                fallback: true
+            },
+            {
+                name: 'APK-Threat-Detection',
+                description: 'Android malware analysis and C2 infrastructure detection workflow.',
+                language: 'Python',
+                updated_at: new Date().toISOString(),
+                stargazers_count: 0,
+                forks_count: 0,
+                html_url: 'https://github.com/Zentrix006/APK-Threat-Detection',
+                topics: ['android', 'malware-analysis', 'security'],
+                fallback: true
+            }
+        ];
+
+        function setRepoStatus(mode, message) {
+            if (!repoStatus) return;
+            repoStatus.innerHTML = `<span>${escapeHTML(mode)}</span><span>${escapeHTML(message)}</span>`;
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
+
+        function normalizeRepo(repo) {
+            return {
+                name: repo.name || 'untitled-repo',
+                description: repo.description || '[No description provided]',
+                language: repo.language || 'Unknown',
+                updated_at: repo.updated_at || new Date().toISOString(),
+                stargazers_count: Number(repo.stargazers_count || 0),
+                forks_count: Number(repo.forks_count || 0),
+                html_url: repo.html_url || `https://github.com/Zentrix006/${encodeURIComponent(repo.name || '')}`,
+                topics: Array.isArray(repo.topics) ? repo.topics.slice(0, 3) : [],
+                fallback: Boolean(repo.fallback)
+            };
+        }
+
+        function sortProjects(repos) {
+            return repos.sort((a, b) => {
+                const aPinned = featuredRepoNames.includes(a.name) ? 1 : 0;
+                const bPinned = featuredRepoNames.includes(b.name) ? 1 : 0;
+                if (aPinned !== bPinned) return bPinned - aPinned;
+                return new Date(b.updated_at) - new Date(a.updated_at);
+            });
+        }
 
         async function fetchGitHubProjects() {
             try {
-                const response = await fetch('https://api.github.com/users/Zentrix006/repos?per_page=100&sort=updated');
+                setRepoStatus('LIVE_REPO_SYNC', 'Fetching public repositories from GitHub...');
+                const response = await fetch('https://api.github.com/users/Zentrix006/repos?per_page=100&sort=updated', {
+                    headers: { Accept: 'application/vnd.github+json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`GitHub API returned ${response.status}`);
+                }
+
                 const repos = await response.json();
 
                 if (!Array.isArray(repos)) {
                     throw new Error('Failed to fetch repositories');
                 }
 
-                allProjects = repos;
+                allProjects = sortProjects(repos.map(normalizeRepo));
                 updateStats();
                 renderProjects('all');
                 setupFilters();
+                setRepoStatus('LIVE_REPO_SYNC', `Loaded ${allProjects.length} repositories directly from GitHub.`);
             } catch (error) {
                 console.error('Error fetching projects:', error);
-                projectsContainer.innerHTML = '<div class="loading" style="color: #ff3366;">[ERROR] Failed to fetch repositories. Retry later.</div>';
+                allProjects = sortProjects(fallbackProjects.map(normalizeRepo));
+                updateStats();
+                renderProjects('all');
+                setupFilters();
+                setRepoStatus('CACHE_FALLBACK', 'GitHub API is unavailable or rate-limited. Showing highlighted repositories.');
             }
         }
 
@@ -2778,25 +2940,32 @@ BIOMETRICS]</pre>
             }
 
             projectsContainer.innerHTML = filtered.map(repo => {
-                const description = repo.description || '[No description provided]';
-                const language = repo.language || 'Unknown';
+                const name = escapeHTML(repo.name);
+                const description = escapeHTML(repo.description);
+                const language = escapeHTML(repo.language);
+                const url = escapeHTML(repo.html_url);
                 const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                const topicRow = repo.topics.length
+                    ? `<div class="project-topic-row">${repo.topics.map(topic => `<span class="project-topic">${escapeHTML(topic)}</span>`).join('')}</div>`
+                    : '';
+                const pinnedClass = featuredRepoNames.includes(repo.name) ? ' pinned' : '';
 
                 return `
-            <div class="project-card">
-                <div class="project-card-title">${repo.name}</div>
+            <div class="project-card${pinnedClass}">
+                <div class="project-card-title">${name}</div>
                 <div class="project-card-desc">${description}</div>
+                ${topicRow}
                 <div class="project-card-meta">
                     <span class="project-language">${language}</span>
                     <div class="project-stats">
-                        <span>UPDATED: ${updatedDate}</span>
+                        <span>${repo.fallback ? 'HIGHLIGHTED' : 'UPDATED'}: ${updatedDate}</span>
                         <div>
                             ${repo.stargazers_count > 0 ? `<span>⭐ ${repo.stargazers_count}</span>` : ''}
                             ${repo.forks_count > 0 ? `<span style="margin-left: 5px;">🍴 ${repo.forks_count}</span>` : ''}
                         </div>
                     </div>
                 </div>
-                <a href="${repo.html_url}" target="_blank" class="project-card-link">./execute_repo.sh</a>
+                <a href="${url}" target="_blank" rel="noopener" class="project-card-link">./open_repository.sh</a>
             </div>
         `;
             }).join('');
@@ -2864,7 +3033,7 @@ BIOMETRICS]</pre>
                             '▸ APK Threat Detection — Malware & C2 analysis\n' +
                             '▸ 16 Browser Vuln Demos — Clickjacking, XSS, CSRF\n' +
                             '▸ CTF / TryHackMe — Web, OSINT, PrivEsc, IoT\n' +
-                            '▸ JUDY AI / Aegis — Defense R&D\n' +
+                            '▸ Predictive Cyberdefence — Threat forecasting & defense R&D\n' +
                             '▸ Stack: Python, Linux, Burp, Ghidra, Nmap\n\n' +
                             'Scroll to #resume or visit github.com/Zentrix006';
                         break;
