@@ -91,7 +91,12 @@
             font-family: 'Share Tech Mono', monospace;
             color: var(--primary-color);
             position: relative;
-            transition: background 0.3s ease, color 0.3s ease;
+            opacity: 0;
+            transition: background 0.45s ease, color 0.45s ease, opacity 0.8s ease;
+        }
+
+        body.ready {
+            opacity: 1;
         }
 
         /* CRT SCREEN FLICKER EFFECTS */
@@ -134,7 +139,7 @@
             cursor: pointer;
             border-radius: 3px;
             font-size: 0.7rem;
-            transition: all 0.2s ease;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,6 +149,7 @@
             background: var(--primary-color);
             color: var(--primary-dark);
             box-shadow: 0 0 10px var(--primary-color);
+            transform: translateY(-2px);
         }
 
         .theme-btn.active {
@@ -190,6 +196,7 @@
             align-items: center;
             font-size: 1rem;
             padding: 20px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         #boot-text {
@@ -267,7 +274,7 @@
                 inset 0 0 20px rgba(0, 255, 102, 0.05);
             text-align: center;
             position: relative;
-            transition: all 0.3s ease;
+            transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s ease;
         }
 
         body.theme-dark-blue .card {
@@ -467,7 +474,7 @@
             color: var(--primary-color);
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
 
         .btn:hover {
@@ -563,7 +570,7 @@
             border-bottom: 1px dashed var(--border-color);
             flex-wrap: wrap;
             gap: 10px;
-            transition: all 0.3s ease;
+            transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
         }
 
         .project-item.featured {
@@ -601,13 +608,14 @@
             color: var(--primary-color);
             text-decoration: none;
             background: transparent;
-            transition: all 0.2s ease;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
 
         .btn-src:hover {
             background: rgba(0, 255, 102, 0.15);
             box-shadow: 0 0 8px var(--primary-color);
             border-color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
         /* GITHUB PROJECTS GRID */
@@ -670,7 +678,7 @@
             padding: 20px;
             border-left: 3px solid var(--primary-color);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             display: flex;
             flex-direction: column;
             position: relative;
@@ -792,7 +800,7 @@
             color: var(--primary-color);
             text-decoration: none;
             font-size: 0.85rem;
-            transition: all 0.2s ease;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
             text-align: center;
             letter-spacing: 2px;
         }
@@ -801,6 +809,7 @@
             background: var(--primary-color);
             color: var(--primary-dark);
             font-weight: bold;
+            transform: translateY(-2px);
         }
 
         .repo-status {
@@ -1463,8 +1472,8 @@
         }
 
         .avatar-ascii-frame {
-            width: 148px;
-            height: 168px;
+            width: 190px;
+            height: 188px;
             border: 2px solid var(--primary-color);
             border-radius: 6px;
             background: rgba(0, 0, 0, 0.85);
@@ -1474,12 +1483,12 @@
             overflow: hidden;
             position: relative;
             transform-style: preserve-3d;
-            transition: box-shadow 0.3s ease;
+            transition: border-color 0.45s ease, box-shadow 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
 
         .avatar-ascii-frame::before {
-            content: 'ID://ZENTRIX';
+            content: 'SIGNAL://ANON_MASK';
             position: absolute;
             top: 4px;
             left: 6px;
@@ -1502,10 +1511,10 @@
 
         .avatar-ascii {
             margin: 0;
-            padding: 8px 4px 4px;
+            padding: 22px 6px 8px;
             font-family: 'Share Tech Mono', 'Courier New', monospace;
-            font-size: 3.2px;
-            line-height: 1.05;
+            font-size: 9px;
+            line-height: 1.03;
             letter-spacing: 0;
             color: var(--primary-color);
             text-shadow: 0 0 6px var(--primary-color);
@@ -1517,11 +1526,18 @@
             min-height: 100%;
         }
 
-        .avatar-ascii.loading {
-            font-size: 0.65rem;
-            line-height: 1.6;
-            padding-top: 70px;
-            opacity: 0.6;
+        .avatar-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 7px;
+            color: var(--secondary-color);
+            font-size: 0.56rem;
+            letter-spacing: 2px;
+            text-align: center;
+            opacity: 0.78;
+            pointer-events: none;
+            z-index: 2;
         }
 
         @keyframes avatar-pulse {
@@ -1638,8 +1654,9 @@
             width: 100%;
             text-align: left;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: translateY(24px);
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
         }
 
         .section-block.revealed {
@@ -1676,7 +1693,7 @@
             border: 1px solid var(--border-color);
             background: var(--panel-bg);
             padding: 20px;
-            transition: all 0.3s ease;
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .skill-category:hover {
@@ -1742,7 +1759,7 @@
             background: linear-gradient(135deg, var(--panel-bg), rgba(0, 0, 0, 0.3));
             padding: 20px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s ease;
             text-decoration: none;
             color: inherit;
             display: block;
@@ -1852,6 +1869,7 @@
             border-color: var(--primary-color);
             color: var(--primary-color);
             box-shadow: 0 0 12px var(--primary-color);
+            transform: translateY(-2px);
         }
 
         /* ============ FOOTER ============ */
@@ -2077,9 +2095,23 @@
             <div class="profile-hero">
                 <div class="avatar-ascii-wrap">
                     <div class="avatar-ascii-frame" id="avatarFrame">
-                        <pre class="avatar-ascii loading" id="asciiAvatar"
-                            aria-label="Arnoldo Felix R — ASCII portrait">[SCANNING
-BIOMETRICS]</pre>
+                        <pre class="avatar-ascii" id="asciiAvatar" aria-label="Guy Fawkes inspired ASCII mask">        .-""""-.
+      .'  .--.  '.
+     /   /    \   \
+    |   | .--. |   |
+    |   |(    )|   |
+     \   \ '--' /  /
+      '.  '----' .'
+        '-.____.-'
+       _.-/|  |\ -._
+     .'  /_|__|_\  '.
+    /   /  \  /  \   \
+   |   |   /\/\   |   |
+   |   |  /_/\_\  |   |
+    \   \  .--.  /   /
+     '._ '.__.' _.'
+        '--.__.--'</pre>
+                        <span class="avatar-caption">REMEMBER THE SIGNAL</span>
                     </div>
                 </div>
                 <div class="profile-name">ARNOLDO FELIX R</div>
@@ -2711,19 +2743,23 @@ BIOMETRICS]</pre>
         const bootScreen = document.getElementById("boot-screen");
 
         let line = 0;
+        window.addEventListener('load', () => {
+            document.body.classList.add('ready');
+        });
 
         function typeBoot() {
             if (line < bootLines.length) {
-                bootText.innerHTML += bootLines[line] + "\n";
+                bootText.textContent += bootLines[line] + "\n";
                 line++;
                 setTimeout(typeBoot, 300);
             } else {
                 setTimeout(() => {
-                    bootScreen.style.transition = "opacity 0.5s ease";
+                    document.body.classList.add('ready');
                     bootScreen.style.opacity = "0";
+                    bootScreen.style.visibility = "hidden";
                     setTimeout(() => {
                         bootScreen.style.display = "none";
-                    }, 500);
+                    }, 850);
                 }, 800);
             }
         }
