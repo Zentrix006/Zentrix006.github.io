@@ -24,40 +24,40 @@
     <style>
         /* ============ THEME VARIABLES SYSTEM ============ */
         :root {
-            --primary-color: #00ff66;
-            --primary-dark: #010a04;
-            --primary-light: #d1ffdf;
-            --secondary-color: #a3ffc2;
-            --accent-color: #ff3366;
-            --panel-bg: rgba(0, 255, 102, 0.02);
-            --border-color: rgba(0, 255, 102, 0.3);
-            --text-primary: #ffffff;
-            --text-secondary: #a3ffc2;
-            --glow-color: #00ff66;
+            --primary-color: #38d996;
+            --primary-dark: #07100d;
+            --primary-light: #d8f8e9;
+            --secondary-color: #a7b8c5;
+            --accent-color: #f2b84b;
+            --panel-bg: rgba(56, 217, 150, 0.055);
+            --border-color: rgba(56, 217, 150, 0.24);
+            --text-primary: #f4f7fb;
+            --text-secondary: #b8c5cf;
+            --glow-color: #38d996;
         }
 
         /* Dark Blue Theme */
         body.theme-dark-blue {
-            --primary-color: #00d4ff;
-            --primary-dark: #0a0e1a;
-            --primary-light: #b3e5ff;
-            --secondary-color: #81d4ff;
-            --accent-color: #ff1744;
-            --panel-bg: rgba(0, 212, 255, 0.02);
-            --border-color: rgba(0, 212, 255, 0.3);
-            --glow-color: #00d4ff;
+            --primary-color: #6bb7ff;
+            --primary-dark: #09111f;
+            --primary-light: #d7eaff;
+            --secondary-color: #aebfd0;
+            --accent-color: #f59f62;
+            --panel-bg: rgba(107, 183, 255, 0.06);
+            --border-color: rgba(107, 183, 255, 0.25);
+            --glow-color: #6bb7ff;
         }
 
         /* Cyber Purple Theme */
         body.theme-cyber-purple {
-            --primary-color: #d946ef;
-            --primary-dark: #1a0a2e;
-            --primary-light: #f0d9ff;
-            --secondary-color: #e879f9;
-            --accent-color: #00ff99;
-            --panel-bg: rgba(217, 70, 239, 0.02);
-            --border-color: rgba(217, 70, 239, 0.3);
-            --glow-color: #d946ef;
+            --primary-color: #b794f4;
+            --primary-dark: #15101f;
+            --primary-light: #eee6ff;
+            --secondary-color: #c7bbd8;
+            --accent-color: #4fd1c5;
+            --panel-bg: rgba(183, 148, 244, 0.06);
+            --border-color: rgba(183, 148, 244, 0.25);
+            --glow-color: #b794f4;
         }
 
         /* Light Mode Theme */
@@ -189,7 +189,7 @@
             position: fixed;
             inset: 0;
             background: black;
-            color: #00ff66;
+            color: var(--primary-color);
             z-index: 999999;
             display: flex;
             justify-content: center;
@@ -270,8 +270,8 @@
             background: rgba(1, 10, 4, 0.85);
             backdrop-filter: blur(10px);
             box-shadow:
-                0 0 30px rgba(0, 255, 102, 0.1),
-                inset 0 0 20px rgba(0, 255, 102, 0.05);
+                0 0 30px rgba(56, 217, 150, 0.1),
+                inset 0 0 20px rgba(56, 217, 150, 0.05);
             text-align: center;
             position: relative;
             transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s ease;
@@ -446,7 +446,7 @@
             text-align: left;
             font-size: 0.95rem;
             line-height: 1.6;
-            box-shadow: inset 0 0 10px rgba(0, 255, 102, 0.02);
+            box-shadow: inset 0 0 10px rgba(56, 217, 150, 0.04);
             transition: all 0.3s ease;
         }
 
@@ -499,7 +499,7 @@
             background: var(--panel-bg);
             padding: 20px;
             text-align: left;
-            box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.03);
+            box-shadow: inset 0 0 15px rgba(56, 217, 150, 0.04);
             min-height: 250px;
             transition: all 0.3s ease;
         }
@@ -539,7 +539,7 @@
             background: rgba(0, 0, 0, 0.6);
             padding: 15px;
             border: 1px solid rgba(255, 51, 102, 0.4);
-            color: #ff3366;
+            color: var(--accent-color);
             font-family: monospace;
             font-size: 0.85rem;
             margin-top: 8px;
@@ -557,7 +557,7 @@
             border: 1px solid var(--border-color);
             padding: 25px;
             background: var(--panel-bg);
-            box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.03);
+            box-shadow: inset 0 0 15px rgba(56, 217, 150, 0.04);
             transition: all 0.3s ease;
         }
 
@@ -578,7 +578,7 @@
             border-left: 3px solid var(--primary-color);
             padding: 16px;
             background: linear-gradient(135deg, var(--panel-bg), rgba(0, 0, 0, 0.28));
-            box-shadow: inset 0 0 18px rgba(0, 255, 102, 0.04);
+            box-shadow: inset 0 0 18px rgba(56, 217, 150, 0.05);
         }
 
         .project-info {
@@ -612,7 +612,7 @@
         }
 
         .btn-src:hover {
-            background: rgba(0, 255, 102, 0.15);
+            background: rgba(56, 217, 150, 0.14);
             box-shadow: 0 0 8px var(--primary-color);
             border-color: var(--primary-color);
             transform: translateY(-2px);
@@ -666,9 +666,10 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
             gap: 20px;
             margin-top: 20px;
+            align-items: stretch;
         }
 
         /* REDESIGNED PROJECT CARDS */
@@ -683,11 +684,14 @@
             flex-direction: column;
             position: relative;
             text-align: left;
+            width: 100%;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .project-card.pinned {
             border-color: var(--primary-color);
-            box-shadow: 0 0 22px rgba(0, 255, 102, 0.16);
+            box-shadow: 0 0 22px rgba(56, 217, 150, 0.14);
         }
 
         .project-card::before {
@@ -720,9 +724,14 @@
             margin-bottom: 10px;
             font-weight: bold;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 8px;
             transition: color 0.3s ease;
+            line-height: 1.25;
+            min-width: 0;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         .project-card-title::before {
@@ -730,6 +739,7 @@
             color: var(--primary-color);
             font-weight: bold;
             transition: color 0.3s ease;
+            flex: 0 0 auto;
         }
 
         .project-card-desc {
@@ -739,6 +749,14 @@
             flex-grow: 1;
             line-height: 1.5;
             transition: color 0.3s ease;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
         }
 
         .project-topic-row {
@@ -756,6 +774,9 @@
             padding: 3px 6px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         .project-card-meta {
@@ -766,6 +787,9 @@
             padding-top: 15px;
             border-top: 1px dashed var(--border-color);
             transition: border-color 0.3s ease;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-width: 0;
         }
 
         .project-language {
@@ -789,6 +813,9 @@
             color: var(--text-secondary);
             opacity: 0.6;
             transition: all 0.3s ease;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         .project-card-link {
@@ -936,7 +963,7 @@
             border: 1px solid var(--border-color);
             background: linear-gradient(180deg, var(--panel-bg) 0%, rgba(0, 0, 0, 0.5) 100%);
             padding: 24px;
-            box-shadow: inset 0 0 40px rgba(0, 255, 102, 0.03), 0 0 30px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 0 40px rgba(56, 217, 150, 0.04), 0 0 30px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -969,7 +996,7 @@
 
         .soc-metric:hover {
             border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 20px rgba(56, 217, 150, 0.14);
             transform: translateY(-2px);
         }
 
@@ -1448,7 +1475,7 @@
         .nav-link.active {
             color: var(--primary-color);
             border-color: var(--border-color);
-            box-shadow: 0 0 12px rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 12px rgba(56, 217, 150, 0.14);
             text-shadow: 0 0 8px var(--primary-color);
         }
 
@@ -1478,8 +1505,8 @@
             border-radius: 6px;
             background: rgba(0, 0, 0, 0.85);
             box-shadow:
-                0 0 25px rgba(0, 255, 102, 0.2),
-                inset 0 0 30px rgba(0, 255, 102, 0.05);
+                0 0 25px rgba(56, 217, 150, 0.18),
+                inset 0 0 30px rgba(56, 217, 150, 0.05);
             overflow: hidden;
             position: relative;
             transform-style: preserve-3d;
@@ -1544,11 +1571,11 @@
 
             0%,
             100% {
-                box-shadow: 0 0 25px rgba(0, 255, 102, 0.2), inset 0 0 30px rgba(0, 255, 102, 0.05);
+                box-shadow: 0 0 25px rgba(56, 217, 150, 0.18), inset 0 0 30px rgba(56, 217, 150, 0.05);
             }
 
             50% {
-                box-shadow: 0 0 35px var(--primary-color), inset 0 0 20px rgba(0, 255, 102, 0.08);
+                box-shadow: 0 0 35px var(--primary-color), inset 0 0 20px rgba(56, 217, 150, 0.08);
             }
         }
 
@@ -1698,7 +1725,7 @@
 
         .skill-category:hover {
             border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.1);
+            box-shadow: 0 0 20px rgba(56, 217, 150, 0.12);
             transform: translateY(-3px);
         }
 
@@ -1895,7 +1922,7 @@
             text-decoration: none;
             color: inherit;
             transition: all 0.3s;
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.1);
+            box-shadow: 0 0 25px rgba(56, 217, 150, 0.12);
         }
 
         .vuln-hero-link:hover {
@@ -2011,6 +2038,16 @@
 
             .projects-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .project-card-meta,
+            .repo-status {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .project-stats {
+                align-items: flex-start;
             }
 
             .filters-bar {
@@ -2449,7 +2486,7 @@
                 <div class="panel">
                     <div class="panel-header">
                         <span>> INTELLIGENCE_FEED</span>
-                        <span style="color: #00ff66; font-size: 0.8rem;">[LIVE]</span>
+                        <span style="color: var(--primary-color); font-size: 0.8rem;">[LIVE]</span>
                     </div>
                     <div class="news-item">
                         <span class="news-date">SYSTEM_LOG // JUST NOW</span>
@@ -2471,15 +2508,15 @@
                     style="border-color: rgba(255,51,102,0.3); box-shadow: inset 0 0 15px rgba(255,51,102,0.05);">
                     <div class="panel-header" style="border-bottom-color: rgba(255,51,102,0.3);">
                         <span>> REALITY_CHECK</span>
-                        <span style="color: #ff3366; font-size: 0.8rem;">[FINGERPRINTING]</span>
+                        <span style="color: var(--accent-color); font-size: 0.8rem;">[FINGERPRINTING]</span>
                     </div>
                     <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
-                        <span class="news-date" style="color: #ff3366;">ENV_SYNC</span>
+                        <span class="news-date" style="color: var(--accent-color);">ENV_SYNC</span>
                         May 28, 2026<br>
                         Bengaluru, Karnataka, IN
                     </div>
                     <div class="news-item" style="border-left-color: rgba(255,51,102,0.5);">
-                        <span class="news-date" style="color: #ff3366;">TARGET_IDENTIFICATION</span>
+                        <span class="news-date" style="color: var(--accent-color);">TARGET_IDENTIFICATION</span>
                         <pre id="osInfo">[*] INITIATING DEEP SCAN...
 [*] RESOLVING IP & VULNERABILITIES...</pre>
                     </div>
@@ -2488,7 +2525,7 @@
             </div>
 
             <div class="project-terminal" id="terminal">
-                <p style="color:#00ff66; font-weight: bold;">root@zentrix:~# ls projects/</p>
+                <p style="color:var(--primary-color); font-weight: bold;">root@zentrix:~# ls projects/</p>
                 <br>
 
                 <div class="project-item featured">
@@ -2511,7 +2548,7 @@
 
 
                 <br>
-                <p style="color:#00ff66; font-weight: bold; margin-top: 15px;">root@zentrix:~# cat
+                <p style="color:var(--primary-color); font-weight: bold; margin-top: 15px;">root@zentrix:~# cat
                     active_research_now.txt</p>
                 <br>
 
@@ -2830,8 +2867,8 @@
 [!] THREAT_EVAL : ${fingerprint.vulnerability_risk}`;
 
                 osOutput.textContent = formattedScan;
-                osOutput.style.color = "#00ff66"; // Switch text color to green upon completion
-                osOutput.style.borderColor = "rgba(0, 255, 102, 0.4)";
+                osOutput.style.color = getCSSVariable('--primary-color') || "#38d996";
+                osOutput.style.borderColor = "rgba(56, 217, 150, 0.38)";
             }, 1800);
         }
 
@@ -3198,8 +3235,8 @@
             }
 
             function draw() {
-                const primary = getCSSVariable('--primary-color') || '#00ff66';
-                const accent = getCSSVariable('--accent-color') || '#ff3366';
+                const primary = getCSSVariable('--primary-color') || '#38d996';
+                const accent = getCSSVariable('--accent-color') || '#f2b84b';
 
                 const dark = getCSSVariable('--primary-dark') || '#010a04';
                 ctx.fillStyle = dark.startsWith('#') ? dark + '40' : 'rgba(1, 10, 4, 0.25)';
