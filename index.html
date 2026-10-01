@@ -12,7 +12,7 @@
     <meta property="og:description"
         content="Arnoldo Felix R — Cybersecurity Researcher, Penetration Tester, Malware Analyst. SOC dashboard, 16 vuln demos, open to work.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://zentrix006.github.io">
+    <meta property="og:url" content="https://zentrix.qzz.io/">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -124,8 +124,38 @@
             transition: background 0.45s ease, color 0.45s ease, opacity 0.8s ease;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body.ready {
             opacity: 1;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000000;
+            transform: translateY(-150%);
+            background: var(--text-primary);
+            color: var(--background);
+            padding: 10px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
         }
 
         /* CRT SCREEN FLICKER EFFECTS */
@@ -246,6 +276,20 @@
             height: 100%;
             z-index: -3;
             pointer-events: none;
+        }
+
+        #cyberworld-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -4;
+            pointer-events: none;
+            opacity: 0.78;
+        }
+
+        body.webgl-fallback #cyberworld-canvas {
+            display: none;
         }
 
         /* CYBER GRID */
@@ -1860,7 +1904,7 @@
             font-family: var(--font-display);
             font-size: clamp(4.8rem, 15vw, 11.5rem);
             line-height: 0.82;
-            letter-spacing: -0.08em;
+            letter-spacing: 0;
             color: var(--text-primary);
             text-shadow: 0 0 42px rgba(98, 217, 255, 0.18);
             margin: 0 0 24px;
@@ -1870,7 +1914,7 @@
             font-family: var(--font-display);
             font-size: clamp(1.4rem, 3.4vw, 3.6rem);
             line-height: 0.95;
-            letter-spacing: -0.045em;
+            letter-spacing: 0;
             color: var(--text-primary);
             text-transform: uppercase;
             max-width: 620px;
@@ -2126,14 +2170,14 @@
             gap: 20px;
         }
 
-        .skill-category {
+        .capability-card {
             border: 1px solid var(--border-color);
             background: var(--panel-bg);
             padding: 20px;
             transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .skill-category:hover {
+        .capability-card:hover {
             border-color: var(--primary-color);
             box-shadow: 0 0 20px rgba(56, 217, 150, 0.12);
             transform: translateY(-3px);
@@ -2149,39 +2193,33 @@
             gap: 8px;
         }
 
+        .capability-card p {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.65;
+            margin: 0 0 14px;
+        }
+
+        .evidence-list {
+            display: grid;
+            gap: 9px;
+            list-style: none;
+        }
+
+        .evidence-list li {
+            color: var(--text-secondary);
+            border-left: 2px solid var(--border-color);
+            padding-left: 10px;
+            font-size: 0.76rem;
+            line-height: 1.45;
+        }
+
+        .evidence-list strong {
+            color: var(--text-primary);
+        }
+
         .skill-cat-title span.icon {
             color: var(--primary-color);
-        }
-
-        .skill-bar-row {
-            margin-bottom: 14px;
-        }
-
-        .skill-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
-        .skill-track {
-            height: 6px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
-            box-shadow: 0 0 10px var(--primary-color);
-            width: 0;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .skill-category.revealed .skill-fill {
-            width: var(--level);
         }
 
         /* ============ CERT / PLATFORM CARDS ============ */
@@ -2439,8 +2477,8 @@
             }
 
             .hero-title {
-                font-size: clamp(4.2rem, 23vw, 6rem);
-                letter-spacing: -0.09em;
+                font-size: clamp(3.25rem, 18vw, 4.4rem);
+                letter-spacing: 0;
             }
 
             .hero-role {
@@ -2476,7 +2514,16 @@
             }
 
             .card {
-                padding: 30px 15px;
+                padding: 34px 14px 30px;
+            }
+
+            .sys-tag,
+            .sys-spec {
+                position: static;
+                display: block;
+                text-align: center;
+                margin-bottom: 6px;
+                font-size: 0.56rem;
             }
 
             .dashboard-grid {
@@ -2557,14 +2604,22 @@
             }
 
             #cursor-dot,
-            #cursor-ring {
+            #cursor-ring,
+            #cursor-glow,
+            #particle-canvas,
+            .scanline {
                 display: none;
+            }
+
+            html {
+                scroll-behavior: auto;
             }
         }
     </style>
 </head>
 
 <body>
+    <a class="skip-link" href="#home">Skip to portfolio</a>
 
     <div id="cursor-glow"></div>
     <div id="cursor-dot"></div>
@@ -2592,7 +2647,8 @@
         <pre id="boot-text"></pre>
     </div>
 
-    <canvas id="network-canvas"></canvas>
+    <canvas id="cyberworld-canvas" aria-hidden="true"></canvas>
+    <canvas id="network-canvas" aria-hidden="true"></canvas>
     <div class="grid"></div>
     <div class="orb"></div>
     <div class="operator-ghost" id="operatorGhost" aria-hidden="true">
@@ -2859,89 +2915,41 @@
                     <div class="loading">[*] Mapping skill constellation...</div>
                 </div>
                 <div class="skills-grid">
-                    <div class="skill-category">
-                        <div class="skill-cat-title"><span class="icon">⚔</span> OFFENSIVE SECURITY</div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Web Exploitation</span><span>90%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Privilege Escalation</span><span>85%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Network Pentesting</span><span>80%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 80%"></div>
-                            </div>
-                        </div>
+                    <div class="capability-card">
+                        <div class="skill-cat-title"><span class="icon">[01]</span> OFFENSIVE SECURITY</div>
+                        <p>Practical exploitation and lab work focused on web security, privilege escalation, recon, and CTF workflows.</p>
+                        <ul class="evidence-list">
+                            <li><strong>Evidence:</strong> TryHackMe operator profile and live vulnerability demo catalog.</li>
+                            <li><strong>Tools:</strong> Burp Suite, Nmap, Linux, scripting workflows.</li>
+                            <li><strong>Focus:</strong> Web exploitation, recon, browser security, red-team fundamentals.</li>
+                        </ul>
                     </div>
-                    <div class="skill-category">
-                        <div class="skill-cat-title"><span class="icon">🔬</span> ANALYSIS & RESEARCH</div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Malware Analysis</span><span>88%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Reverse Engineering</span><span>75%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 75%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>OSINT / Recon</span><span>92%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 92%"></div>
-                            </div>
-                        </div>
+                    <div class="capability-card">
+                        <div class="skill-cat-title"><span class="icon">[02]</span> MALWARE & REVERSE ENGINEERING</div>
+                        <p>Security analysis workflows for suspicious Android packages, static indicators, behavior review, and C2 clues.</p>
+                        <ul class="evidence-list">
+                            <li><strong>Evidence:</strong> APK Threat Detection repository and mobile security project artifacts.</li>
+                            <li><strong>Tools:</strong> Python, APK analysis, Ghidra-assisted reasoning.</li>
+                            <li><strong>Focus:</strong> Triage, threat intelligence, infrastructure awareness.</li>
+                        </ul>
                     </div>
-                    <div class="skill-category">
-                        <div class="skill-cat-title"><span class="icon">🛠</span> TOOLS & STACK</div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Python / Scripting</span><span>90%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Linux / Kali</span><span>95%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>Burp / Nmap / Ghidra</span><span>85%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 85%"></div>
-                            </div>
-                        </div>
+                    <div class="capability-card">
+                        <div class="skill-cat-title"><span class="icon">[03]</span> LINUX & SECURITY TOOLING</div>
+                        <p>Systems-oriented building across Python utilities, Linux workflows, browser demos, and repo-backed experiments.</p>
+                        <ul class="evidence-list">
+                            <li><strong>Evidence:</strong> Zen Control Linux thermal/fan control utility.</li>
+                            <li><strong>Tools:</strong> Python, shell, JavaScript, HTML, GitHub Actions-ready static delivery.</li>
+                            <li><strong>Focus:</strong> Practical tools, clean demos, maintainable security education pages.</li>
+                        </ul>
                     </div>
-                    <div class="skill-category">
-                        <div class="skill-cat-title"><span class="icon">📡</span> SPECIALIZED DOMAINS</div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>IoT / Embedded</span><span>78%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 78%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>APK / Mobile Security</span><span>82%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 82%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar-row">
-                            <div class="skill-label"><span>CTF Operations</span><span>88%</span></div>
-                            <div class="skill-track">
-                                <div class="skill-fill" style="--level: 88%"></div>
-                            </div>
-                        </div>
+                    <div class="capability-card">
+                        <div class="skill-cat-title"><span class="icon">[04]</span> AI SECURITY R&D</div>
+                        <p>Predictive Cyberdefence is framed as research: telemetry to network state, attack forecast, risk, and containment.</p>
+                        <ul class="evidence-list">
+                            <li><strong>Evidence:</strong> Dedicated project model and research visualization on this site.</li>
+                            <li><strong>Tools:</strong> Python, risk scoring concepts, threat intelligence framing.</li>
+                            <li><strong>Focus:</strong> Explainable security reasoning without overstating production capability.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -2988,13 +2996,13 @@
                         sandbox environment.
                     </div>
                     <div class="news-item">
-                        <span class="news-date">GLOBAL_INTEL // 2 HOURS AGO</span>
-                        Critical zero-day vulnerability reported in enterprise gateway firmware. Monitoring CVSS
-                        telemetry.
+                        <span class="news-date">RESEARCH_QUEUE // ACTIVE</span>
+                        Predictive Cyberdefence model links telemetry, network state, forecast, risk, and response
+                        planning as an explainable research flow.
                     </div>
                     <div class="news-item">
-                        <span class="news-date">OSINT_SCAN // 12 HOURS AGO</span>
-                        Dark web reconnaissance completed. No active compromised credentials detected for target domain.
+                        <span class="news-date">LAB_INDEX // READY</span>
+                        Browser security demonstrations remain isolated in separate pages for safe review and learning.
                     </div>
                 </div>
 
@@ -3336,13 +3344,13 @@
             // 1. Core OS & Browser Check
             if (userAgent.indexOf("win") !== -1) {
                 fingerprint.os = "Windows";
-                fingerprint.vulnerability_risk = "HIGH - Privilege Escalation (CVE-2026-X)";
+                fingerprint.vulnerability_risk = "Illustrative browser surface only";
             } else if (userAgent.indexOf("mac") !== -1) {
                 fingerprint.os = "macOS";
-                fingerprint.vulnerability_risk = "MODERATE - Gatekeeper Bypass Possible";
+                fingerprint.vulnerability_risk = "Illustrative browser surface only";
             } else if (userAgent.indexOf("linux") !== -1) {
                 fingerprint.os = "Linux";
-                fingerprint.vulnerability_risk = "LOW - Kernel Hardened";
+                fingerprint.vulnerability_risk = "Illustrative browser surface only";
             }
 
             if (window.chrome) {
@@ -3847,6 +3855,187 @@
             return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
         }
 
+        /* CYBERWORLD WEBGL BACKGROUND */
+        (function initCyberWorld() {
+            const canvas = document.getElementById('cyberworld-canvas');
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!canvas || reducedMotion) {
+                document.body.classList.add('webgl-fallback');
+                return;
+            }
+
+            const gl = canvas.getContext('webgl', {
+                alpha: true,
+                antialias: true,
+                powerPreference: 'high-performance'
+            });
+
+            if (!gl) {
+                document.body.classList.add('webgl-fallback');
+                return;
+            }
+
+            const vertexSource = `
+                attribute vec3 aPosition;
+                uniform float uTime;
+                uniform vec2 uPointer;
+                uniform float uScroll;
+                uniform float uDpr;
+                varying float vDepth;
+
+                void main() {
+                    vec3 p = aPosition;
+                    float wave = sin(uTime * 0.45 + p.x * 3.0 + p.z * 2.0) * 0.075;
+                    float rot = uTime * 0.035 + uScroll * 1.25 + uPointer.x * 0.08;
+                    mat2 r = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
+                    p.xz = r * p.xz;
+                    p.y += wave + uPointer.y * 0.08;
+                    p.z += sin(uScroll * 3.14159) * 0.16;
+                    vDepth = clamp((p.z + 1.4) / 2.8, 0.0, 1.0);
+                    gl_Position = vec4(p.xy * 0.72, p.z * 0.18, 1.0);
+                    gl_PointSize = (2.0 + vDepth * 3.8) * uDpr;
+                }
+            `;
+
+            const fragmentSource = `
+                precision mediump float;
+                uniform vec3 uAccent;
+                uniform vec3 uSecondary;
+                varying float vDepth;
+
+                void main() {
+                    vec2 uv = gl_PointCoord - 0.5;
+                    float d = length(uv);
+                    float alpha = smoothstep(0.5, 0.08, d) * (0.18 + vDepth * 0.52);
+                    vec3 color = mix(uSecondary, uAccent, vDepth);
+                    gl_FragColor = vec4(color, alpha);
+                }
+            `;
+
+            function compile(type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    throw new Error(gl.getShaderInfoLog(shader));
+                }
+                return shader;
+            }
+
+            function hexToRgb(hex, fallback) {
+                const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+                if (!match) return fallback;
+                return [
+                    parseInt(match[1], 16) / 255,
+                    parseInt(match[2], 16) / 255,
+                    parseInt(match[3], 16) / 255
+                ];
+            }
+
+            let program;
+            try {
+                program = gl.createProgram();
+                gl.attachShader(program, compile(gl.VERTEX_SHADER, vertexSource));
+                gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragmentSource));
+                gl.linkProgram(program);
+                if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                    throw new Error(gl.getProgramInfoLog(program));
+                }
+            } catch (error) {
+                console.warn('CyberWorld fallback:', error);
+                document.body.classList.add('webgl-fallback');
+                return;
+            }
+
+            const mobile = window.innerWidth <= 768;
+            const count = mobile ? 90 : 180;
+            const positions = new Float32Array(count * 3);
+            for (let i = 0; i < count; i++) {
+                const layer = i / count;
+                const angle = i * 2.399963 + Math.random() * 0.3;
+                const radius = 0.15 + Math.sqrt(layer) * 1.55;
+                positions[i * 3] = Math.cos(angle) * radius + (Math.random() - 0.5) * 0.09;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 1.65;
+                positions[i * 3 + 2] = Math.sin(angle) * radius;
+            }
+
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+            const aPosition = gl.getAttribLocation(program, 'aPosition');
+            const uniforms = {
+                time: gl.getUniformLocation(program, 'uTime'),
+                pointer: gl.getUniformLocation(program, 'uPointer'),
+                scroll: gl.getUniformLocation(program, 'uScroll'),
+                dpr: gl.getUniformLocation(program, 'uDpr'),
+                accent: gl.getUniformLocation(program, 'uAccent'),
+                secondary: gl.getUniformLocation(program, 'uSecondary')
+            };
+
+            let pointerX = 0;
+            let pointerY = 0;
+            let scrollProgress = 0;
+            let hidden = false;
+            let start = performance.now();
+            let dpr = 1;
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.2 : 1.7);
+                canvas.width = Math.floor(window.innerWidth * dpr);
+                canvas.height = Math.floor(window.innerHeight * dpr);
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+
+            function updateScroll() {
+                const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                scrollProgress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+            }
+
+            window.addEventListener('resize', resize, { passive: true });
+            window.addEventListener('scroll', updateScroll, { passive: true });
+            window.addEventListener('pointermove', event => {
+                pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
+                pointerY = (event.clientY / window.innerHeight - 0.5) * -2;
+            }, { passive: true });
+            document.addEventListener('visibilitychange', () => {
+                hidden = document.hidden;
+                if (!hidden) {
+                    start = performance.now();
+                    requestAnimationFrame(render);
+                }
+            });
+
+            function render(now) {
+                if (hidden) return;
+                const primary = hexToRgb(getCSSVariable('--accent') || '#62d9ff', [0.38, 0.85, 1]);
+                const secondary = hexToRgb(getCSSVariable('--accent-secondary') || '#9b8cff', [0.61, 0.55, 1]);
+
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+                gl.useProgram(program);
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.enableVertexAttribArray(aPosition);
+                gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+                gl.uniform1f(uniforms.time, (now - start) * 0.001);
+                gl.uniform2f(uniforms.pointer, pointerX, pointerY);
+                gl.uniform1f(uniforms.scroll, scrollProgress);
+                gl.uniform1f(uniforms.dpr, dpr);
+                gl.uniform3f(uniforms.accent, primary[0], primary[1], primary[2]);
+                gl.uniform3f(uniforms.secondary, secondary[0], secondary[1], secondary[2]);
+                gl.drawArrays(gl.POINTS, 0, count);
+                requestAnimationFrame(render);
+            }
+
+            resize();
+            updateScroll();
+            requestAnimationFrame(render);
+        })();
+
         let mouseX = -1000, mouseY = -1000;
         let networkNodeCount = 0;
         let activeConnections = 0;
@@ -4059,7 +4248,7 @@
             }
             animateMouseEffects();
 
-            const hoverTargets = 'a, button, input, .cert-card, .project-card, .contact-item, .hex-badge, .skill-category';
+            const hoverTargets = 'a, button, input, .cert-card, .project-card, .project-artifact, .contact-item, .hex-badge, .capability-card, .skill-node';
             document.addEventListener('mouseover', (e) => {
                 if (e.target.closest(hoverTargets)) {
                     document.body.classList.add('cursor-hover');
@@ -4120,7 +4309,7 @@
 
         /* ============ SCROLL REVEAL & NAV SPY ============ */
         (function () {
-            const sections = document.querySelectorAll('.section-block, .skill-category');
+            const sections = document.querySelectorAll('.section-block, .capability-card');
             const navLinks = document.querySelectorAll('.nav-link');
 
             const revealObserver = new IntersectionObserver((entries) => {
@@ -4133,7 +4322,7 @@
 
             sections.forEach(el => revealObserver.observe(el));
 
-            const sectionIds = ['home', 'dashboard', 'resume', 'skills', 'intel', 'projects', 'terminal', 'vulnlab', 'contact'];
+            const sectionIds = ['home', 'dashboard', 'resume', 'skills', 'intel', 'research', 'projects', 'terminal', 'vulnlab', 'contact'];
             const spyObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
