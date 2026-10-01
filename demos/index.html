@@ -185,6 +185,300 @@ footer {
     opacity: 0.5;
     letter-spacing: 2px;
 }
+
+/* ZENTRIX LAB PHASE UI */
+:root {
+    --primary: #62d9ff;
+    --dark: #05070d;
+    --accent: #ff5c8a;
+    --warn: #f6c76f;
+    --border: rgba(142, 218, 255, 0.22);
+    --panel: rgba(98, 217, 255, 0.055);
+    --surface: rgba(9, 14, 24, 0.78);
+    --surface-strong: rgba(14, 24, 38, 0.92);
+    --text: #f5f8ff;
+    --muted: #9aa8ba;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background:
+        radial-gradient(circle at 18% 8%, rgba(98, 217, 255, 0.12), transparent 34%),
+        radial-gradient(circle at 84% 22%, rgba(155, 140, 255, 0.1), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b12 46%, #05070d 100%);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(98, 217, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 217, 255, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, #000, transparent 82%);
+    opacity: 0.48;
+}
+
+.hero {
+    min-height: 460px;
+    display: grid;
+    align-content: center;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 42%),
+        radial-gradient(circle at 50% 15%, rgba(98, 217, 255, 0.12), transparent 42%);
+    overflow: hidden;
+}
+
+.hero::after {
+    content: 'LAB TOPOLOGY // WEB CLIENT ATTACK SURFACES';
+    position: absolute;
+    right: 24px;
+    bottom: 22px;
+    color: var(--primary);
+    opacity: 0.32;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+}
+
+.hero h1 {
+    color: var(--text);
+    font-size: clamp(2.5rem, 8vw, 6.6rem);
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 48px rgba(98, 217, 255, 0.24);
+}
+
+.hero .subtitle {
+    color: var(--primary);
+    margin-top: 8px;
+}
+
+.hero .count {
+    color: var(--warn);
+}
+
+.back-link {
+    justify-self: center;
+    margin-bottom: 38px;
+    border-color: var(--border);
+    border-radius: 999px;
+    background: rgba(5, 7, 13, 0.68);
+    backdrop-filter: blur(16px);
+}
+
+.container {
+    max-width: 1240px;
+}
+
+.warning,
+.lab-command,
+.lab-map {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(18px);
+}
+
+.warning {
+    color: var(--muted);
+    border-left: 3px solid var(--accent);
+}
+
+.warning strong {
+    color: var(--text);
+}
+
+.lab-command {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 18px;
+    margin: 0 0 34px;
+}
+
+.lab-search {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.32);
+    color: var(--text);
+    padding: 13px 14px;
+    font-family: inherit;
+    letter-spacing: 0.08em;
+}
+
+.lab-search:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.lab-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lab-filter {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    letter-spacing: 0.12em;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.22s ease;
+}
+
+.lab-filter:hover,
+.lab-filter.active {
+    color: var(--dark);
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 24px rgba(98, 217, 255, 0.22);
+}
+
+.lab-map {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 0 44px;
+}
+
+.lab-stat {
+    padding: 18px;
+    border-right: 1px solid var(--border);
+}
+
+.lab-stat:last-child {
+    border-right: 0;
+}
+
+.lab-stat strong {
+    display: block;
+    color: var(--primary);
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    line-height: 1;
+}
+
+.lab-stat span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+}
+
+.category-block {
+    scroll-margin-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.category-header {
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(98, 217, 255, 0.08), transparent);
+    padding: 18px;
+}
+
+.category-icon {
+    border-color: var(--border);
+    color: var(--primary);
+    box-shadow: inset 0 0 24px rgba(98, 217, 255, 0.06);
+}
+
+.category-title {
+    color: var(--text);
+}
+
+.category-desc,
+.demo-card p,
+footer {
+    color: var(--muted);
+}
+
+.demo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.demo-card {
+    min-height: 250px;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(98, 217, 255, 0.1), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,0.035), rgba(0,0,0,0.34));
+    border-color: var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.demo-card.hidden {
+    display: none;
+}
+
+.demo-card:hover {
+    box-shadow: 0 0 36px rgba(98, 217, 255, 0.2);
+    transform: translateY(-4px);
+}
+
+.demo-card-inner {
+    flex: 1;
+}
+
+.demo-tag {
+    border-color: rgba(255, 92, 138, 0.5);
+    color: var(--accent);
+}
+
+.demo-num {
+    color: var(--warn);
+}
+
+.demo-card h2 {
+    overflow-wrap: anywhere;
+}
+
+.demo-launch {
+    margin-top: auto;
+    color: var(--primary);
+    background: rgba(98, 217, 255, 0.065);
+}
+
+.demo-card:hover .demo-launch {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+.empty-state {
+    display: none;
+    margin: 24px 0;
+    padding: 18px;
+    border: 1px dashed var(--border);
+    color: var(--muted);
+    text-align: center;
+}
+
+.empty-state.visible {
+    display: block;
+}
+
+@media (max-width: 800px) {
+    .hero { min-height: 390px; }
+    .hero h1 { font-size: clamp(2.2rem, 13vw, 4.1rem); }
+    .lab-command { grid-template-columns: 1fr; }
+    .lab-map { grid-template-columns: repeat(2, 1fr); }
+    .lab-stat:nth-child(2) { border-right: 0; }
+    .lab-stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+}
+
+@media (max-width: 520px) {
+    .hero h1 { font-size: 2.25rem; }
+    .hero .subtitle { line-height: 1.7; }
+    .category-header { align-items: flex-start; }
+    .lab-map { grid-template-columns: 1fr; }
+    .lab-stat { border-right: 0; border-bottom: 1px solid var(--border); }
+    .lab-stat:last-child { border-bottom: 0; }
+}
 </style>
 </head>
 <body>
@@ -197,12 +491,33 @@ footer {
 
 <div class="container">
     <div class="warning">
-        ⚠ Authorized security research &amp; education only. Each demo runs in isolation on its own page.
+        <strong>Authorized security research &amp; education only.</strong> Each demo runs in isolation on its own page.
         Never deploy against systems or users without explicit permission.
     </div>
 
+    <section class="lab-command" aria-label="Lab controls">
+        <input class="lab-search" id="labSearch" type="search" placeholder="SEARCH DEMOS / XSS / AUTOFILL / CORS..." autocomplete="off">
+        <div class="lab-filters" aria-label="Filter demos by category">
+            <button class="lab-filter active" type="button" data-filter="all">ALL</button>
+            <button class="lab-filter" type="button" data-filter="autofill">AUTOFILL</button>
+            <button class="lab-filter" type="button" data-filter="ui">UI</button>
+            <button class="lab-filter" type="button" data-filter="injection">INJECTION</button>
+            <button class="lab-filter" type="button" data-filter="session">SESSION</button>
+            <button class="lab-filter" type="button" data-filter="recon">RECON</button>
+        </div>
+    </section>
+
+    <section class="lab-map" aria-label="Lab status summary">
+        <div class="lab-stat"><strong>16</strong><span>LIVE DEMOS</span></div>
+        <div class="lab-stat"><strong>05</strong><span>ATTACK GROUPS</span></div>
+        <div class="lab-stat"><strong>00</strong><span>EXTERNAL TARGETS</span></div>
+        <div class="lab-stat"><strong>ISO</strong><span>PAGE ISOLATION</span></div>
+    </section>
+
+    <div class="empty-state" id="emptyState">No demos match the current filter.</div>
+
     <!-- CATEGORY 1 -->
-    <section class="category-block">
+    <section class="category-block" id="autofill" data-category="autofill">
         <div class="category-header">
             <div class="category-icon">🔐</div>
             <div>
@@ -251,7 +566,7 @@ footer {
     </section>
 
     <!-- CATEGORY 2 -->
-    <section class="category-block">
+    <section class="category-block" id="ui-redressing" data-category="ui">
         <div class="category-header">
             <div class="category-icon">🎭</div>
             <div>
@@ -300,7 +615,7 @@ footer {
     </section>
 
     <!-- CATEGORY 3 -->
-    <section class="category-block">
+    <section class="category-block" id="injection" data-category="injection">
         <div class="category-header">
             <div class="category-icon">💉</div>
             <div>
@@ -340,7 +655,7 @@ footer {
     </section>
 
     <!-- CATEGORY 4 -->
-    <section class="category-block">
+    <section class="category-block" id="session" data-category="session">
         <div class="category-header">
             <div class="category-icon">🔄</div>
             <div>
@@ -380,7 +695,7 @@ footer {
     </section>
 
     <!-- CATEGORY 5 -->
-    <section class="category-block">
+    <section class="category-block" id="recon" data-category="recon">
         <div class="category-header">
             <div class="category-icon">🔍</div>
             <div>
@@ -412,5 +727,50 @@ footer {
 
     <footer>ZENTRIX VULN LAB // 16 ISOLATED DEMOS // Arnoldo Felix R</footer>
 </div>
+<script>
+(function () {
+    const search = document.getElementById('labSearch');
+    const filters = Array.from(document.querySelectorAll('.lab-filter'));
+    const cards = Array.from(document.querySelectorAll('.demo-card'));
+    const categories = Array.from(document.querySelectorAll('.category-block'));
+    const empty = document.getElementById('emptyState');
+    let activeFilter = 'all';
+
+    function cardCategory(card) {
+        const section = card.closest('.category-block');
+        return section ? section.dataset.category : 'all';
+    }
+
+    function applyLabFilters() {
+        const query = (search.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const category = cardCategory(card);
+            const visible = (activeFilter === 'all' || category === activeFilter) && (!query || text.includes(query));
+            card.classList.toggle('hidden', !visible);
+            if (visible) visibleCount++;
+        });
+
+        categories.forEach(section => {
+            const visibleCards = section.querySelectorAll('.demo-card:not(.hidden)').length;
+            section.style.display = visibleCards ? '' : 'none';
+        });
+
+        empty.classList.toggle('visible', visibleCount === 0);
+    }
+
+    filters.forEach(button => {
+        button.addEventListener('click', () => {
+            activeFilter = button.dataset.filter;
+            filters.forEach(item => item.classList.toggle('active', item === button));
+            applyLabFilters();
+        });
+    });
+
+    search.addEventListener('input', applyLabFilters);
+})();
+</script>
 </body>
 </html>
