@@ -12,7 +12,7 @@ export function Research() {
   return (
     <section className="section-panel" id="research">
       <div className="section-kicker" data-reveal>
-        PROJECTS & RESEARCH
+        SELECTED WORK & RESEARCH
       </div>
       <div className="research-browser">
         <div className="research-list" role="group" aria-label="Select a project">

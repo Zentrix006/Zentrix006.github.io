@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
 const links = [
-  ['research', 'RESEARCH'],
+  ['research', 'WORK'],
   ['lab', 'LAB'],
   ['about', 'ABOUT'],
   ['terminal', 'TERMINAL'],

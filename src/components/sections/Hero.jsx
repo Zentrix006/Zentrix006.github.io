@@ -14,6 +14,7 @@ export function Hero() {
           <span>Remote OK</span>
         </div>
         <div className="action-row">
+          <a className="primary-action" href="#research">View Work</a>
           <a href={profile.links.lab}>Vulnerability Lab</a>
           <a href={profile.links.github} target="_blank" rel="noreferrer">
             GitHub

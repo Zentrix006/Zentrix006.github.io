@@ -6,9 +6,10 @@ export function Contact() {
       <div className="section-kicker" data-reveal>
         CONTACT
       </div>
+      <p className="contact-intro" data-reveal>For collaboration or opportunities, start a conversation through GitHub.</p>
       <div className="contact-grid" data-reveal>
-        <a href={profile.links.github} target="_blank" rel="noreferrer">
-          <span>GITHUB</span>
+        <a className="contact-primary" href={profile.links.github} target="_blank" rel="noreferrer">
+          <span>CONTACT THROUGH GITHUB</span>
           @Zentrix006
         </a>
         <a href={profile.links.tryhackme} target="_blank" rel="noreferrer">
