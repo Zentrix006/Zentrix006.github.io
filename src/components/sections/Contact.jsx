@@ -15,9 +15,9 @@ export function Contact() {
           <span>TRYHACKME</span>
           thevulnman
         </a>
-        <a href={profile.links.legacy}>
-          <span>LEGACY BUILD</span>
-          Static fallback
+        <a href={profile.links.repositories} target="_blank" rel="noreferrer">
+          <span>PROJECT REPOSITORIES</span>
+          Browse all work
         </a>
       </div>
       <footer>

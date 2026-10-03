@@ -5,7 +5,6 @@ import { CustomCursor } from './components/effects/CustomCursor'
 import { Hero } from './components/sections/Hero'
 import { Lab } from './components/sections/Lab'
 import { Navigation } from './components/navigation/Navigation'
-import { PerformancePanel } from './components/sections/PerformancePanel'
 import { Projects } from './components/sections/Projects'
 import { Research } from './components/sections/Research'
 import { Terminal } from './components/terminal/Terminal'
@@ -65,7 +64,6 @@ export function App() {
         <Terminal />
         <Contact />
       </main>
-      <PerformancePanel />
     </>
   )
 }

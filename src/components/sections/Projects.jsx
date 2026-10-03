@@ -2,6 +2,29 @@ import { useMemo, useState } from 'react'
 import { projects, featuredRepoNames } from '../../data/projects'
 import { useGithubRepos } from '../../hooks/useGithubRepos'
 
+function ProjectDetail({ project, className = '' }) {
+  return (
+    <article className={`project-detail ${className}`}>
+      <span>{project.status}</span>
+      <h2>{project.title}</h2>
+      <p>{project.description}</p>
+      <p><strong>Problem:</strong> {project.problem}</p>
+      <p><strong>Approach:</strong> {project.solution}</p>
+      <div className="tag-row">
+        {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
+      </div>
+      <div className="flow-row">
+        {project.flow.map((step, index) => (
+          <span key={step}>{String(index + 1).padStart(2, '0')} // {step}</span>
+        ))}
+      </div>
+      <a className="primary-action" href={project.github} target="_blank" rel="noreferrer">
+        Open Project Source
+      </a>
+    </article>
+  )
+}
+
 export function Projects({ activeProject, setActiveProject }) {
   const selected = projects.find((project) => project.id === activeProject) || projects[0]
   const { repos, stats, status } = useGithubRepos()
@@ -22,44 +45,22 @@ export function Projects({ activeProject, setActiveProject }) {
       <div className="project-layout">
         <div className="project-objects" data-reveal>
           {projects.map((project) => (
-            <button
-              key={project.id}
-              className={`project-object ${project.id === selected.id ? 'active' : ''}`}
-              type="button"
-              onClick={() => setActiveProject(project.id)}
-            >
-              <span>{project.category}</span>
-              <strong>{project.title}</strong>
-              <small>{project.description}</small>
-            </button>
+            <div className="project-entry" key={project.id}>
+              <button
+                className={`project-object ${project.id === selected.id ? 'active' : ''}`}
+                type="button"
+                aria-expanded={project.id === selected.id}
+                onClick={() => setActiveProject(project.id)}
+              >
+                <span>{project.category}</span>
+                <strong>{project.title}</strong>
+                <small>{project.description}</small>
+              </button>
+              {project.id === selected.id && <ProjectDetail project={project} className="project-detail-mobile" />}
+            </div>
           ))}
         </div>
-        <article className="project-detail" data-reveal>
-          <span>{selected.status}</span>
-          <h2>{selected.title}</h2>
-          <p>{selected.description}</p>
-          <p>
-            <strong>Problem:</strong> {selected.problem}
-          </p>
-          <p>
-            <strong>Approach:</strong> {selected.solution}
-          </p>
-          <div className="tag-row">
-            {selected.technologies.map((tech) => (
-              <span key={tech}>{tech}</span>
-            ))}
-          </div>
-          <div className="flow-row">
-            {selected.flow.map((step, index) => (
-              <span key={step}>
-                {String(index + 1).padStart(2, '0')} // {step}
-              </span>
-            ))}
-          </div>
-          <a className="primary-action" href={selected.github} target="_blank" rel="noreferrer">
-            Open Project Source
-          </a>
-        </article>
+        <ProjectDetail project={selected} className="project-detail-desktop" />
       </div>
 
       <div className="repo-panel" data-reveal>

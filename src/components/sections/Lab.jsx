@@ -35,6 +35,17 @@ export function Lab() {
         </a>
       </div>
       <div className="lab-interaction-grid">
+        <label className="lab-category-select-label" htmlFor="lab-category">Attack surface</label>
+        <select
+          className="lab-category-select"
+          id="lab-category"
+          value={activeCategory}
+          onChange={(event) => setActiveCategory(event.target.value)}
+        >
+          {labCategories.map((category) => (
+            <option key={category.id} value={category.id}>{category.label} ({category.demos.length})</option>
+          ))}
+        </select>
         <div className="lab-radar" data-reveal>
           {labCategories.map((category, index) => (
             <button
@@ -51,7 +62,7 @@ export function Lab() {
           <div className="lab-core">LAB</div>
         </div>
         <div className="lab-detail" data-reveal>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search lab demos..." />
+          <input aria-label="Search lab demonstrations" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search lab demos..." />
           <h3>{active.label}</h3>
           <p>{active.description}</p>
           <div className="demo-link-grid">
@@ -59,7 +70,7 @@ export function Lab() {
               category.demos.map(([label, href]) => (
                 <a key={`${category.id}-${label}`} href={href}>
                   <span>{category.label}</span>
-                  {label}
+                  <strong>{label}</strong>
                 </a>
               )),
             )}

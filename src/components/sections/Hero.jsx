@@ -15,7 +15,7 @@ export function Hero() {
         </div>
         <div className="action-row">
           <a className="primary-action" href="#work">
-            Enter the System
+            View Projects
           </a>
           <a href={profile.links.lab}>Vulnerability Lab</a>
           <a href={profile.links.github} target="_blank" rel="noreferrer">
