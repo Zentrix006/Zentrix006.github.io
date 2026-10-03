@@ -5,7 +5,6 @@ import { CustomCursor } from './components/effects/CustomCursor'
 import { Hero } from './components/sections/Hero'
 import { Lab } from './components/sections/Lab'
 import { Navigation } from './components/navigation/Navigation'
-import { Projects } from './components/sections/Projects'
 import { Research } from './components/sections/Research'
 import { Terminal } from './components/terminal/Terminal'
 import { WebGLErrorBoundary } from './components/3d/WebGLErrorBoundary'
@@ -17,7 +16,7 @@ import { useWebGLSupport } from './hooks/useWebGLSupport'
 
 const CyberWorld = lazy(() => import('./components/3d/CyberWorld').then((module) => ({ default: module.CyberWorld })))
 
-const sectionIds = ['home', 'work', 'research', 'lab', 'about', 'terminal', 'contact']
+const sectionIds = ['home', 'research', 'lab', 'about', 'terminal', 'contact']
 
 export function App() {
   const reducedMotion = useReducedMotion()
@@ -55,7 +54,6 @@ export function App() {
       <Navigation activeSection={activeSection} />
       <main>
         <Hero />
-        <Projects webglSupported={webglSupported} />
         <Research />
         <Lab />
         <About />

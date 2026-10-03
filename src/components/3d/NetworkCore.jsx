@@ -5,14 +5,13 @@ import { Color, Vector3 } from 'three'
 
 const SECTION_POSES = {
   home: { x: 0.55, y: 0.05, z: -0.8, scale: 1, color: '#62d9ff' },
-  work: { x: 1.15, y: 0.05, z: -0.35, scale: 1.5, color: '#62d9ff' },
   research: { x: -1.05, y: 0.12, z: -0.45, scale: 1.28, color: '#a99bff' },
   lab: { x: 0.72, y: -0.12, z: -0.2, scale: 1.12, color: '#f0bd70' },
   about: { x: -0.65, y: 0.05, z: -0.65, scale: 0.96, color: '#7ce6d0' },
   terminal: { x: 0.78, y: 0.18, z: -0.2, scale: 1.08, color: '#a99bff' },
   contact: { x: 0, y: 0.05, z: -0.55, scale: 0.92, color: '#62d9ff' },
 }
-const MOBILE_X = { work: 0, research: -0.36, lab: 0.34, about: -0.3, terminal: 0.3 }
+const MOBILE_X = { research: -0.36, lab: 0.34, about: -0.3, terminal: 0.3 }
 
 export function NetworkCore({ reducedMotion, activeSection }) {
   const group = useRef()

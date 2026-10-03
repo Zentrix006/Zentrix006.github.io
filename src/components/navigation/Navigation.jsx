@@ -21,7 +21,7 @@ export function Navigation({ activeSection }) {
       const mobileClosed = window.matchMedia('(max-width: 860px)').matches && !menuOpen
       const target = mobileClosed
         ? (activeSection === 'home' ? brandRef.current : toggleRef.current)
-        : activeSection === 'home' || activeSection === 'work'
+        : activeSection === 'home'
           ? brandRef.current
           : linkRefs.current[activeSection] || brandRef.current
       const nav = navRef.current
