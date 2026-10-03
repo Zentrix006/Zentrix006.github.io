@@ -49,7 +49,7 @@ export function Projects({ activeProject, setActiveProject }) {
               <button
                 className={`project-object ${project.id === selected.id ? 'active' : ''}`}
                 type="button"
-                aria-expanded={project.id === selected.id}
+                aria-pressed={project.id === selected.id}
                 onClick={() => setActiveProject(project.id)}
               >
                 <span>{project.category}</span>
