@@ -1,19 +1,36 @@
 import { Float, MeshDistortMaterial } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
+import { Vector3 } from 'three'
 
-export function NetworkCore({ reducedMotion }) {
+const REST_POSITION = new Vector3(0.55, 0.05, -0.8)
+
+export function NetworkCore({ reducedMotion, focus }) {
   const group = useRef()
+  const { viewport } = useThree()
+  const focusPosition = useMemo(
+    () => new Vector3(viewport.width < 5 ? 0 : 1.15, 0.05, -0.35),
+    [viewport.width],
+  )
 
   useFrame(({ clock, pointer }) => {
-    if (!group.current || reducedMotion) return
+    if (!group.current) return
+    const targetPosition = focus ? focusPosition : REST_POSITION
+    if (reducedMotion) {
+      group.current.position.copy(targetPosition)
+      group.current.scale.setScalar(focus ? 1.5 : 1)
+      return
+    }
     group.current.rotation.y = clock.elapsedTime * 0.18 + pointer.x * 0.12
     group.current.rotation.x = Math.sin(clock.elapsedTime * 0.22) * 0.12 + pointer.y * 0.08
+    group.current.position.lerp(targetPosition, 0.045)
+    const scale = focus ? 1.5 : 1
+    group.current.scale.setScalar(group.current.scale.x + (scale - group.current.scale.x) * 0.045)
   })
 
   return (
     <Float speed={reducedMotion ? 0 : 1.25} rotationIntensity={0.18} floatIntensity={0.2}>
-      <group ref={group} position={[0.55, 0.05, -0.8]}>
+      <group ref={group} position={REST_POSITION}>
         <mesh>
           <icosahedronGeometry args={[0.72, 2]} />
           <MeshDistortMaterial

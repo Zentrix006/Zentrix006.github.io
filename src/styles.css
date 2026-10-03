@@ -181,6 +181,67 @@ main {
   gap: clamp(36px, 8vw, 120px);
 }
 
+.polymorphism-content {
+  min-height: min(70vh, 720px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+  align-items: center;
+  gap: clamp(24px, 6vw, 96px);
+}
+
+.polymorphism-copy h2 {
+  max-width: none;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  overflow-wrap: normal;
+}
+
+.polymorphism-copy p:not(.eyebrow) {
+  max-width: 460px;
+}
+
+.polymorphism-visual {
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.polymorphism-sphere {
+  width: clamp(240px, 36vw, 460px);
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(98, 217, 255, 0.65);
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 13px, rgba(98, 217, 255, 0.11) 14px, transparent 15px),
+    repeating-linear-gradient(90deg, transparent 0 13px, rgba(98, 217, 255, 0.1) 14px, transparent 15px),
+    radial-gradient(circle at 34% 29%, rgba(155, 140, 255, 0.55), rgba(25, 76, 103, 0.7) 28%, #07111c 68%);
+  box-shadow: inset -28px -14px 55px rgba(0, 0, 0, 0.72), 0 0 70px rgba(98, 217, 255, 0.15);
+  animation: sphere-turn 26s linear infinite;
+}
+
+.polymorphism-sphere::before,
+.polymorphism-sphere::after {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border: 1px solid rgba(98, 217, 255, 0.58);
+  border-radius: 50%;
+}
+
+.polymorphism-sphere::before {
+  transform: rotateY(66deg) rotateZ(24deg);
+}
+
+.polymorphism-sphere::after {
+  transform: rotateX(68deg) rotateZ(-28deg);
+}
+
+@keyframes sphere-turn {
+  to { transform: rotate(360deg); }
+}
+
 .eyebrow,
 .section-kicker {
   color: var(--accent);
@@ -799,6 +860,7 @@ footer {
   .hero-section,
   .split-section,
   .project-layout,
+  .polymorphism-content,
   .lab-interaction-grid {
     grid-template-columns: 1fr;
   }
@@ -814,6 +876,23 @@ footer {
 
   .hero-section {
     gap: 28px;
+  }
+
+  .polymorphism-content {
+    min-height: auto;
+    gap: 12px;
+  }
+
+  .polymorphism-copy h2 {
+    font-size: clamp(2.4rem, 11vw, 4rem);
+  }
+
+  .polymorphism-visual {
+    min-height: 300px;
+  }
+
+  .polymorphism-sphere {
+    width: min(72vw, 300px);
   }
 
   .operator-panel {
@@ -904,5 +983,9 @@ footer {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .polymorphism-sphere {
+    animation: none;
   }
 }

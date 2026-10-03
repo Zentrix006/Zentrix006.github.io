@@ -1,100 +1,18 @@
-import { useMemo, useState } from 'react'
-import { projects, featuredRepoNames } from '../../data/projects'
-import { useGithubRepos } from '../../hooks/useGithubRepos'
-
-function ProjectDetail({ project, className = '' }) {
+export function Projects({ webglSupported }) {
   return (
-    <article className={`project-detail ${className}`}>
-      <span>{project.status}</span>
-      <h2>{project.title}</h2>
-      <p>{project.description}</p>
-      <p><strong>Problem:</strong> {project.problem}</p>
-      <p><strong>Approach:</strong> {project.solution}</p>
-      <div className="tag-row">
-        {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
-      </div>
-      <div className="flow-row">
-        {project.flow.map((step, index) => (
-          <span key={step}>{String(index + 1).padStart(2, '0')} // {step}</span>
-        ))}
-      </div>
-      <a className="primary-action" href={project.github} target="_blank" rel="noreferrer">
-        Open Project Source
-      </a>
-    </article>
-  )
-}
-
-export function Projects({ activeProject, setActiveProject }) {
-  const selected = projects.find((project) => project.id === activeProject) || projects[0]
-  const { repos, stats, status } = useGithubRepos()
-  const [filter, setFilter] = useState('all')
-
-  const filteredRepos = useMemo(() => {
-    if (filter === 'all') return repos
-    return repos.filter((repo) => repo.language === filter)
-  }, [filter, repos])
-
-  const languages = useMemo(() => ['all', ...Array.from(new Set(repos.map((repo) => repo.language).filter(Boolean))).slice(0, 6)], [repos])
-
-  return (
-    <section className="section-panel" id="work">
+    <section className="section-panel polymorphism-section" id="work" aria-labelledby="polymorphism-heading">
       <div className="section-kicker" data-reveal>
-        PROJECTS
+        POLYMORPHISM
       </div>
-      <div className="project-layout">
-        <div className="project-objects" data-reveal>
-          {projects.map((project) => (
-            <div className="project-entry" key={project.id}>
-              <button
-                className={`project-object ${project.id === selected.id ? 'active' : ''}`}
-                type="button"
-                aria-pressed={project.id === selected.id}
-                onClick={() => setActiveProject(project.id)}
-              >
-                <span>{project.category}</span>
-                <strong>{project.title}</strong>
-                <small>{project.description}</small>
-              </button>
-              {project.id === selected.id && <ProjectDetail project={project} className="project-detail-mobile" />}
-            </div>
-          ))}
+      <div className="polymorphism-content">
+        <div className="polymorphism-copy" data-reveal>
+          <p className="eyebrow">ONE SYSTEM // MANY STATES</p>
+          <h2 id="polymorphism-heading">POLYMORPHISM</h2>
+          <p>One evolving sphere anchors the system. Move through the research and security work around it.</p>
+          <a className="primary-action" href="#research">Explore Research</a>
         </div>
-        <ProjectDetail project={selected} className="project-detail-desktop" />
-      </div>
-
-      <div className="repo-panel" data-reveal>
-        <div className="repo-header">
-          <div>
-            <h3>GitHub Repository Scan</h3>
-            <p>{status}</p>
-          </div>
-          <div className="stats-row">
-            <span>{stats.repos} repos</span>
-            <span>{stats.stars} stars</span>
-            <span>{stats.languages} languages</span>
-            <span>{stats.forks} forks</span>
-          </div>
-        </div>
-        <div className="filter-row">
-          {languages.map((language) => (
-            <button key={language} className={filter === language ? 'active' : ''} type="button" onClick={() => setFilter(language)}>
-              {language}
-            </button>
-          ))}
-        </div>
-        <div className="repo-grid">
-          {filteredRepos.slice(0, 12).map((repo) => (
-            <a key={repo.html_url} className="repo-card" href={repo.html_url} target="_blank" rel="noreferrer">
-              <strong>{repo.name}</strong>
-              <p>{repo.description}</p>
-              <div>
-                <span>{repo.language}</span>
-                {featuredRepoNames.includes(repo.name) && <span>featured</span>}
-                {repo.fallback && <span>fallback</span>}
-              </div>
-            </a>
-          ))}
+        <div className="polymorphism-visual" aria-hidden="true">
+          {!webglSupported && <div className="polymorphism-sphere" />}
         </div>
       </div>
     </section>

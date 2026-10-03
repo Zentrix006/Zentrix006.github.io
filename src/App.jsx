@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo } from 'react'
 import { About } from './components/sections/About'
 import { Contact } from './components/sections/Contact'
 import { CustomCursor } from './components/effects/CustomCursor'
@@ -10,7 +10,6 @@ import { Research } from './components/sections/Research'
 import { Terminal } from './components/terminal/Terminal'
 import { WebGLErrorBoundary } from './components/3d/WebGLErrorBoundary'
 import { initScrollReveals, refreshScrollTriggers } from './lib/animations'
-import { projects } from './data/projects'
 import { useLenisScroll } from './hooks/useLenisScroll'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useSectionSpy } from './hooks/useSectionSpy'
@@ -24,7 +23,6 @@ export function App() {
   const reducedMotion = useReducedMotion()
   const webglSupported = useWebGLSupport()
   const activeSection = useSectionSpy(useMemo(() => sectionIds, []))
-  const [activeProject, setActiveProject] = useState(projects[0].id)
 
   useLenisScroll(reducedMotion)
 
@@ -46,7 +44,7 @@ export function App() {
       <WebGLErrorBoundary>
         {webglSupported ? (
           <Suspense fallback={<div className="webgl-fallback" aria-hidden="true" />}>
-            <CyberWorld activeProject={activeProject} setActiveProject={setActiveProject} reducedMotion={reducedMotion} />
+            <CyberWorld activeSection={activeSection} reducedMotion={reducedMotion} />
           </Suspense>
         ) : (
           <div className="webgl-fallback" aria-hidden="true" />
@@ -57,7 +55,7 @@ export function App() {
       <Navigation activeSection={activeSection} />
       <main>
         <Hero />
-        <Projects activeProject={activeProject} setActiveProject={setActiveProject} />
+        <Projects webglSupported={webglSupported} />
         <Research />
         <Lab />
         <About />
