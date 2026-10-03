@@ -6,6 +6,12 @@ export function Lab() {
   const [query, setQuery] = useState('')
 
   const active = labCategories.find((category) => category.id === activeCategory) || labCategories[0]
+  const nodePositions = [
+    { x: 18, y: 18 },
+    { x: 82, y: 18 },
+    { x: 82, y: 82 },
+    { x: 18, y: 82 },
+  ]
   const visibleCategories = useMemo(() => {
     const search = query.trim().toLowerCase()
     if (!search) return labCategories
@@ -46,20 +52,35 @@ export function Lab() {
             <option key={category.id} value={category.id}>{category.label} ({category.demos.length})</option>
           ))}
         </select>
-        <div className="lab-radar" data-reveal>
+        <div className="lab-radar" data-reveal role="group" aria-label="Interactive attack surface topology">
+          <div className="lab-map-meta"><span>ATTACK SURFACE MAP</span><span>4 DOMAINS // {labDemoCount} DEMOS</span></div>
+          <svg className="lab-map-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {labCategories.map((category, index) => {
+              const point = nodePositions[index % nodePositions.length]
+              return (
+                <line
+                  key={category.id}
+                  className={category.id === active.id ? 'active' : ''}
+                  x1="50" y1="50" x2={point.x} y2={point.y}
+                />
+              )
+            })}
+          </svg>
           {labCategories.map((category, index) => (
             <button
               key={category.id}
               className={`lab-node ${category.id === active.id ? 'active' : ''}`}
-              style={{ '--angle': `${index * 90}deg` }}
+              style={{ '--node-x': `${nodePositions[index % nodePositions.length].x}%`, '--node-y': `${nodePositions[index % nodePositions.length].y}%`, '--node-accent': ['#62d9ff', '#a99bff', '#f0bd70', '#7ce6d0'][index % 4] }}
               type="button"
+              aria-pressed={category.id === active.id}
               onClick={() => setActiveCategory(category.id)}
             >
-              <span>{category.demos.length}</span>
-              {category.label}
+              <span className="lab-node-index">NODE 0{index + 1}</span>
+              <strong>{category.label}</strong>
+              <small>{category.demos.length} DEMONSTRATIONS</small>
             </button>
           ))}
-          <div className="lab-core">LAB</div>
+          <div className="lab-core"><span>SECURITY</span><strong>LAB</strong><i>{String(active.demos.length).padStart(2, '0')} VECTORS</i></div>
         </div>
         <div className="lab-detail" data-reveal>
           <input aria-label="Search lab demonstrations" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search lab demos..." />

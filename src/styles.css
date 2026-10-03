@@ -661,9 +661,79 @@ h3 {
 
 .lab-radar {
   position: relative;
-  min-height: 430px;
+  min-height: 470px;
+  overflow: hidden;
   border: 1px solid var(--border);
-  background: radial-gradient(circle, rgba(98, 217, 255, 0.1), transparent 52%);
+  background:
+    linear-gradient(rgba(98, 217, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(98, 217, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at center, rgba(98, 217, 255, 0.09), transparent 54%),
+    rgba(7, 11, 18, 0.66);
+  background-size: 28px 28px, 28px 28px, auto, auto;
+  isolation: isolate;
+}
+
+.lab-radar::before,
+.lab-radar::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 16% 20%;
+  border: 1px solid rgba(98, 217, 255, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lab-radar::after {
+  inset: 29% 34%;
+  border-style: dashed;
+  animation: lab-orbit 50s linear infinite;
+}
+
+.lab-map-meta {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.59rem;
+  letter-spacing: 0.12em;
+}
+
+.lab-map-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.lab-map-links line {
+  stroke: rgba(145, 170, 188, 0.22);
+  stroke-width: 0.25;
+  stroke-dasharray: 1.2 1.4;
+  transition: stroke 300ms ease, stroke-width 300ms ease;
+}
+
+.lab-map-links line.active {
+  stroke: var(--accent);
+  stroke-width: 0.55;
+  stroke-dasharray: 1.5 1.3;
+  animation: lab-signal 2.4s linear infinite;
+}
+
+@keyframes lab-signal {
+  to { stroke-dashoffset: -5.6; }
+}
+
+@keyframes lab-orbit {
+  to { transform: rotate(360deg); }
 }
 
 .lab-category-select-label,
@@ -675,37 +745,90 @@ h3 {
   position: absolute;
   inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);
-  width: 90px;
+  z-index: 1;
+  width: 112px;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  border: 1px solid var(--accent);
+  align-content: center;
+  gap: 3px;
+  border: 1px solid rgba(98, 217, 255, 0.72);
   border-radius: 50%;
-  color: var(--accent);
+  background: radial-gradient(circle at 38% 30%, rgba(98, 217, 255, 0.17), rgba(5, 7, 13, 0.97) 70%);
+  color: var(--text-primary);
   font-family: var(--font-mono);
+  box-shadow: 0 0 34px rgba(98, 217, 255, 0.12), inset 0 0 22px rgba(98, 217, 255, 0.08);
+  text-align: center;
+}
+
+.lab-core span,
+.lab-core i {
+  color: var(--text-muted);
+  font-size: 0.48rem;
+  font-style: normal;
+  letter-spacing: 0.13em;
+}
+
+.lab-core strong {
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
 }
 
 .lab-node {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 145px;
-  min-height: 82px;
-  transform: rotate(var(--angle)) translate(150px) rotate(calc(var(--angle) * -1)) translate(-50%, -50%);
-  border: 1px solid var(--border);
-  background: var(--surface-elevated);
+  top: var(--node-y);
+  left: var(--node-x);
+  transform: translate(-50%, -50%);
+  width: min(176px, 32%);
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(145, 170, 188, 0.24);
+  border-radius: 3px;
+  background: rgba(9, 14, 22, 0.94);
   color: var(--text-primary);
+  text-align: left;
   cursor: pointer;
+  transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease, transform 240ms ease;
 }
 
+.lab-node:hover,
 .lab-node.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 26px var(--glow);
+  border-color: var(--node-accent);
+  background: color-mix(in srgb, var(--node-accent) 9%, rgba(9, 14, 22, 0.96));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--node-accent) 18%, transparent);
+  transform: translate(-50%, -50%) translateY(-2px);
 }
 
-.lab-node span {
-  display: block;
-  color: var(--warning);
+.lab-node:focus-visible {
+  outline: 2px solid var(--node-accent);
+  outline-offset: 3px;
+}
+
+.lab-node-index,
+.lab-node small {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.11em;
+}
+
+.lab-node strong {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 550;
+  line-height: 1.2;
+}
+
+.lab-node.active .lab-node-index,
+.lab-node.active small {
+  color: var(--node-accent);
 }
 
 .lab-detail input {
