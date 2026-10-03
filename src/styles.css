@@ -127,6 +127,28 @@ main,
   border-radius: 999px;
   backdrop-filter: blur(18px);
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+  isolation: isolate;
+  overflow: visible;
+}
+
+.nav-indicator {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  width: var(--indicator-width);
+  height: var(--indicator-height);
+  transform: translate3d(var(--indicator-x), var(--indicator-y), 0);
+  border: 1px solid rgba(98, 217, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(98, 217, 255, 0.08);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), width 360ms cubic-bezier(0.22, 1, 0.36, 1), height 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.main-nav > *:not(.nav-indicator) {
+  position: relative;
+  z-index: 1;
 }
 
 .main-nav a,
@@ -145,8 +167,8 @@ main,
 .main-nav a.active,
 .main-nav a:hover {
   color: var(--accent);
-  border-color: rgba(98, 217, 255, 0.3);
-  background: rgba(98, 217, 255, 0.08);
+  border-color: transparent;
+  background: transparent;
 }
 
 .nav-links {
@@ -846,6 +868,11 @@ footer {
     min-height: 42px;
     display: flex;
     align-items: center;
+    border-radius: 8px;
+  }
+
+  .nav-indicator {
+    border-radius: 8px;
   }
 
   .nav-links .system-pill {

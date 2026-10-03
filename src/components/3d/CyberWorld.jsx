@@ -11,7 +11,7 @@ function Scene({ activeSection, reducedMotion }) {
       <ambientLight intensity={0.24} />
       <pointLight position={[2.4, 2.2, 2.8]} intensity={0.8} color="#62d9ff" />
       <NetworkParticles reducedMotion={reducedMotion} />
-      <NetworkCore reducedMotion={reducedMotion} focus={activeSection === 'work'} />
+      <NetworkCore reducedMotion={reducedMotion} activeSection={activeSection} />
       <Preload all />
     </>
   )

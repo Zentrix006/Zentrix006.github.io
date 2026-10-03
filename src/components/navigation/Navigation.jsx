@@ -1,25 +1,57 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 
 const links = [
-  ['home', 'ZENTRIX'],
-  ['work', 'POLYMORPHISM'],
   ['research', 'RESEARCH'],
   ['lab', 'LAB'],
   ['about', 'ABOUT'],
+  ['terminal', 'TERMINAL'],
   ['contact', 'CONTACT'],
 ]
 
 export function Navigation({ activeSection }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef(null)
+  const brandRef = useRef(null)
+  const toggleRef = useRef(null)
+  const linkRefs = useRef({})
+  const [indicator, setIndicator] = useState(null)
+
+  useLayoutEffect(() => {
+    const updateIndicator = () => {
+      const mobileClosed = window.matchMedia('(max-width: 860px)').matches && !menuOpen
+      const target = mobileClosed
+        ? (activeSection === 'home' ? brandRef.current : toggleRef.current)
+        : activeSection === 'home' || activeSection === 'work'
+          ? brandRef.current
+          : linkRefs.current[activeSection] || brandRef.current
+      const nav = navRef.current
+      if (!target || !nav) return
+      const rect = target.getBoundingClientRect()
+      const navRect = nav.getBoundingClientRect()
+      setIndicator({ x: rect.left - navRect.left, y: rect.top - navRect.top, width: rect.width, height: rect.height })
+    }
+
+    updateIndicator()
+    const observer = new ResizeObserver(updateIndicator)
+    if (navRef.current) observer.observe(navRef.current)
+    window.addEventListener('resize', updateIndicator)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', updateIndicator)
+    }
+  }, [activeSection, menuOpen])
 
   return (
     <nav
+      ref={navRef}
       className={`main-nav ${menuOpen ? 'menu-open' : ''}`}
       aria-label="Primary navigation"
       onKeyDown={(event) => event.key === 'Escape' && setMenuOpen(false)}
     >
-      <a className={`nav-brand ${activeSection === 'home' ? 'active' : ''}`} href="#home">ZENTRIX</a>
+      {indicator && <span className="nav-indicator" aria-hidden="true" style={{ '--indicator-x': `${indicator.x}px`, '--indicator-y': `${indicator.y}px`, '--indicator-width': `${indicator.width}px`, '--indicator-height': `${indicator.height}px` }} />}
+      <a ref={brandRef} className={`nav-brand ${activeSection === 'home' ? 'active' : ''}`} href="#home">ZENTRIX</a>
       <button
+        ref={toggleRef}
         className="nav-menu-toggle"
         type="button"
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -31,9 +63,10 @@ export function Navigation({ activeSection }) {
         <span aria-hidden="true" />
       </button>
       <div className="nav-links" id="primary-links">
-        {links.filter(([id]) => id !== 'home').map(([id, label]) => (
+        {links.map(([id, label]) => (
           <a
             key={id}
+            ref={(element) => { linkRefs.current[id] = element }}
             className={activeSection === id ? 'active' : ''}
             href={`#${id}`}
             onClick={() => setMenuOpen(false)}
