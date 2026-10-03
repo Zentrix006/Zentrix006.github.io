@@ -1,0 +1,43 @@
+export const projects = [
+  {
+    id: 'apk-threat-detection',
+    title: 'APK Threat Detection',
+    category: 'Mobile Security Analysis',
+    description: 'Android malware analysis and C2 infrastructure detection workflow.',
+    problem: 'Suspicious APKs need a fast triage path that connects static indicators with behavior and infrastructure clues.',
+    solution: 'Organizes APK analysis around static inspection, behavior review, and threat intelligence signals.',
+    technologies: ['Python', 'APK Analysis', 'Malware Analysis', 'Threat Intelligence'],
+    github: 'https://github.com/Zentrix006/APK-Threat-Detection',
+    status: 'Open-source project',
+    visualType: 'apk-analysis',
+    flow: ['APK', 'Static Analysis', 'Behavior', 'Threat Intelligence', 'Result'],
+  },
+  {
+    id: 'zen-control',
+    title: 'Zen Control',
+    category: 'Linux System Utility',
+    description: 'Linux cooling controller and NitroSense-style tray interface for Acer Nitro laptops.',
+    problem: 'Linux users on Acer Nitro hardware need practical fan and thermal control outside vendor Windows tooling.',
+    solution: 'Provides a system-control utility focused on laptop cooling and mode management.',
+    technologies: ['Python', 'Linux', 'Hardware Control', 'Tray Utility'],
+    github: 'https://github.com/Zentrix006/Zen-Control',
+    status: 'Open-source project',
+    visualType: 'system-control',
+    flow: ['Thermals', 'Fan State', 'Mode Control', 'System Feedback'],
+  },
+  {
+    id: 'predictive-cyberdefence',
+    title: 'Predictive Cyberdefence',
+    category: 'Security R&D',
+    description: 'Research track for anticipating attack patterns and prioritizing defensive action.',
+    problem: 'Defenders need a way to reason from telemetry toward possible attack paths without presenting guesses as certainty.',
+    solution: 'Frames telemetry, network state, world-model thinking, forecast, risk, and containment as an explainable research flow.',
+    technologies: ['Python', 'Threat Intelligence', 'Risk Scoring', 'Security Research'],
+    github: 'https://github.com/Zentrix006?tab=repositories',
+    status: 'Active R&D concept',
+    visualType: 'prediction-flow',
+    flow: ['Telemetry', 'Network State', 'World Model', 'Attack Forecast', 'Risk', 'Defence'],
+  },
+]
+
+export const featuredRepoNames = ['Zen-Control', 'Predictive-Cyberdefence', 'APK-Threat-Detection']
