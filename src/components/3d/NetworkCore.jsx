@@ -56,6 +56,9 @@ export function NetworkCore({ reducedMotion, activeSection }) {
     target.y, target.z,
   ), [activeSection, target, viewport.width])
   const targetColor = useMemo(() => new Color(target.color), [target.color])
+  // Keep JSX transforms fixed after mounting. Updating these props on a
+  // section change makes R3F snap to the destination before useFrame can ease.
+  const initialTransform = useRef({ position: targetPosition.toArray(), scale: target.scale })
   const coast = useMemo(() => segments(coastlines, RADIUS + 0.006), [])
   const grid = useMemo(() => {
     const lines = []
@@ -77,7 +80,7 @@ export function NetworkCore({ reducedMotion, activeSection }) {
     if (!reducedMotion) globe.current.rotation.y += Math.min(delta, 0.05) * 0.065
   })
 
-  return <group ref={group} position={targetPosition} scale={target.scale}>
+  return <group ref={group} position={initialTransform.current.position} scale={initialTransform.current.scale}>
     <group ref={globe} rotation={[0.12, -0.45, -0.12]}>
       <mesh>
         <sphereGeometry args={[RADIUS, viewport.width < 5 ? 48 : 80, 48]} />
