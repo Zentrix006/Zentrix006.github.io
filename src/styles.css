@@ -35,17 +35,6 @@ body {
   overflow-x: hidden;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  background: linear-gradient(rgba(255, 255, 255, 0.022) 50%, rgba(0, 0, 0, 0.16) 50%);
-  background-size: 100% 3px;
-  opacity: 0.14;
-}
-
 a {
   color: inherit;
 }
@@ -99,9 +88,9 @@ input:focus-visible {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(rgba(98, 217, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(98, 217, 255, 0.03) 1px, transparent 1px);
-  background-size: 46px 46px;
+    linear-gradient(rgba(98, 217, 255, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(98, 217, 255, 0.018) 1px, transparent 1px);
+  background-size: 56px 56px;
   mask-image: linear-gradient(to bottom, #000, transparent 84%);
 }
 
@@ -318,8 +307,7 @@ h3 {
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-  filter: grayscale(1) contrast(1.12) brightness(0.82) drop-shadow(0 0 24px var(--glow));
-  mask-image: radial-gradient(circle, #000 42%, rgba(0, 0, 0, 0.78) 62%, transparent 78%);
+  filter: grayscale(1) contrast(1.02) brightness(0.98);
 }
 
 .operator-panel strong,
@@ -1125,6 +1113,22 @@ footer {
 
   .hero-copy h1 {
     font-size: clamp(3.4rem, 18vw, 5rem);
+  }
+
+  .action-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-row .primary-action {
+    grid-column: 1 / -1;
+  }
+
+  .action-row a {
+    min-width: 0;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 0.68rem;
   }
 
   .section-panel {

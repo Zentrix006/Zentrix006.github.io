@@ -22,7 +22,7 @@ export function Hero() {
         </div>
       </div>
       <aside className="operator-panel" data-reveal data-scrub>
-        <img src="/assets/profile.png" alt="Arnoldo Felix R profile signal" />
+        <img src="/assets/profile-clean.webp" alt="Arnoldo Felix R profile portrait" />
         <div>
           <strong>{profile.name}</strong>
           <span>Offensive Security · Malware Analysis · Research</span>

@@ -8,16 +8,17 @@ export function NetworkParticles({ reducedMotion }) {
   const points = useRef()
   const { viewport } = useThree()
 
-  const count = viewport.width < 6 ? 120 : 260
+  const count = viewport.width < 6 ? 28 : 72
   const geometry = useMemo(() => {
     const positions = []
     const sizes = []
     for (let i = 0; i < count; i += 1) {
-      const layer = i / count
-      const angle = i * 2.399963 + Math.random() * 0.42
-      const radius = 0.28 + Math.sqrt(layer) * 2.4
-      positions.push(Math.cos(angle) * radius, (Math.random() - 0.5) * 2.15, Math.sin(angle) * radius)
-      sizes.push(0.018 + Math.random() * 0.035)
+      const latitude = 1 - 2 * ((i + 0.5) / count)
+      const ring = Math.sqrt(1 - latitude * latitude)
+      const angle = i * 2.399963
+      const radius = 1.25 + (i % 3) * 0.38
+      positions.push(Math.cos(angle) * ring * radius, latitude * radius * 0.62, Math.sin(angle) * ring * radius)
+      sizes.push(0.014 + (i % 3) * 0.002)
     }
 
     const buffer = new Float32Array(positions)
@@ -51,7 +52,7 @@ export function NetworkParticles({ reducedMotion }) {
           uScroll: { value: 0 },
           uPointer: { value: new Vector2(0, 0) },
           uAccent: { value: new Color('#62d9ff') },
-          uSecondary: { value: new Color('#9b8cff') },
+          uSecondary: { value: new Color('#49677a') },
         }}
       />
     </points>

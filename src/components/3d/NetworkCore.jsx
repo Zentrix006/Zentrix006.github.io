@@ -1,7 +1,7 @@
 import { Float, MeshDistortMaterial } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
-import { Color, Vector3 } from 'three'
+import { BufferGeometry, Color, Float32BufferAttribute, Vector3 } from 'three'
 
 const SECTION_POSES = {
   home: { x: 0.55, y: 0.05, z: -0.8, scale: 1, color: '#62d9ff' },
@@ -12,11 +12,20 @@ const SECTION_POSES = {
   contact: { x: 0, y: 0.05, z: -0.55, scale: 0.92, color: '#62d9ff' },
 }
 const MOBILE_X = { research: -0.36, lab: 0.34, about: -0.3, terminal: 0.3 }
+const CORE_NODES = [
+  [0, 0.68, 0.08], [0.47, 0.43, 0.22], [0.66, 0.04, 0.16],
+  [0.47, -0.43, 0.22], [0, -0.68, 0.08], [-0.47, -0.43, 0.22],
+  [-0.66, 0.04, 0.16], [-0.47, 0.43, 0.22], [0, 0.02, 0.68],
+]
+const CORE_LINKS = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0],
+  [0, 8], [2, 8], [4, 8], [6, 8], [1, 7], [3, 5],
+]
 
 export function NetworkCore({ reducedMotion, activeSection }) {
   const group = useRef()
   const coreMaterial = useRef()
-  const shellMaterial = useRef()
+  const linkMaterial = useRef()
   const { viewport } = useThree()
   const target = SECTION_POSES[activeSection] || SECTION_POSES.home
   const targetPosition = useMemo(() => new Vector3(
@@ -25,6 +34,28 @@ export function NetworkCore({ reducedMotion, activeSection }) {
     target.z,
   ), [activeSection, target, viewport.width])
   const targetColor = useMemo(() => new Color(target.color), [target.color])
+  const linkGeometry = useMemo(() => {
+    const positions = []
+    CORE_LINKS.forEach(([from, to]) => {
+      const start = new Vector3(...CORE_NODES[from]).normalize()
+      const end = new Vector3(...CORE_NODES[to]).normalize()
+      const angle = start.angleTo(end)
+      const denominator = Math.sin(angle)
+      const samples = Array.from({ length: 9 }, (_, index) => {
+        const t = index / 8
+        return start.clone()
+          .multiplyScalar(Math.sin((1 - t) * angle) / denominator)
+          .add(end.clone().multiplyScalar(Math.sin(t * angle) / denominator))
+          .multiplyScalar(0.655)
+      })
+      for (let index = 0; index < samples.length - 1; index += 1) {
+        positions.push(...samples[index].toArray(), ...samples[index + 1].toArray())
+      }
+    })
+    const geometry = new BufferGeometry()
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    return geometry
+  }, [])
 
   useFrame(({ clock, pointer }) => {
     if (!group.current) return
@@ -33,39 +64,43 @@ export function NetworkCore({ reducedMotion, activeSection }) {
       group.current.scale.setScalar(target.scale)
       coreMaterial.current?.color.copy(targetColor)
       coreMaterial.current?.emissive.copy(targetColor)
-      shellMaterial.current?.color.copy(targetColor)
+      linkMaterial.current?.color.copy(targetColor)
       return
     }
-    group.current.rotation.y = clock.elapsedTime * 0.18 + pointer.x * 0.12
-    group.current.rotation.x = Math.sin(clock.elapsedTime * 0.22) * 0.12 + pointer.y * 0.08
+    group.current.rotation.y = clock.elapsedTime * 0.09 + pointer.x * 0.07
+    group.current.rotation.x = Math.sin(clock.elapsedTime * 0.14) * 0.055 + pointer.y * 0.045
     group.current.position.lerp(targetPosition, 0.035)
     group.current.scale.setScalar(group.current.scale.x + (target.scale - group.current.scale.x) * 0.035)
     coreMaterial.current?.color.lerp(targetColor, 0.035)
     coreMaterial.current?.emissive.lerp(targetColor, 0.035)
-    shellMaterial.current?.color.lerp(targetColor, 0.035)
+    linkMaterial.current?.color.lerp(targetColor, 0.035)
   })
 
   return (
-    <Float speed={reducedMotion ? 0 : 1.25} rotationIntensity={0.18} floatIntensity={0.2}>
+    <Float speed={reducedMotion ? 0 : 0.7} rotationIntensity={0.08} floatIntensity={0.12}>
       <group ref={group} position={[0.55, 0.05, -0.8]}>
         <mesh>
-          <icosahedronGeometry args={[0.72, 2]} />
+          <sphereGeometry args={[0.62, 36, 28]} />
           <MeshDistortMaterial
             ref={coreMaterial}
-            color="#0b1926"
-            emissive="#62d9ff"
-            emissiveIntensity={0.38}
-            roughness={0.32}
-            metalness={0.1}
-            distort={reducedMotion ? 0 : 0.14}
-            speed={0.5}
-            wireframe
+            color="#091720"
+            emissive="#163744"
+            emissiveIntensity={0.18}
+            roughness={0.42}
+            metalness={0.12}
+            distort={reducedMotion ? 0 : 0.035}
+            speed={0.22}
           />
         </mesh>
-        <mesh scale={1.36}>
-          <icosahedronGeometry args={[0.72, 1]} />
-          <meshBasicMaterial ref={shellMaterial} color="#62d9ff" wireframe transparent opacity={0.12} />
-        </mesh>
+        <lineSegments geometry={linkGeometry}>
+          <lineBasicMaterial ref={linkMaterial} color="#62d9ff" transparent opacity={0.34} depthWrite={false} />
+        </lineSegments>
+        {CORE_NODES.map((position, index) => (
+          <mesh key={index} position={position} scale={index === 8 ? 1.3 : 1}>
+            <sphereGeometry args={[0.024, 12, 10]} />
+            <meshBasicMaterial color={index === 8 ? '#c5f4ff' : '#62d9ff'} toneMapped={false} />
+          </mesh>
+        ))}
       </group>
     </Float>
   )
